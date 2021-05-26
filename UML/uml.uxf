@@ -1,0 +1,95 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>130</x><y>356</y><w>440</w><h>430</h></coordinates><panel_attributes>AccountHolder
+--
+-id : int
+-firstName : String
+-middleName : String
+-lastName : String
+-SSN : int
+-userDetails : UserDetails
+-personalCheckingAccount : PersonalCheckingAccount
+-dbaCheckingAccounts : ArrayList&lt;DBACheckingAccounts&gt;
+-savingsAccount : List&lt;SavingsAccount&gt;
+-cdAccounts : List&lt;CDAccount&gt;
+-iraAccounts : List&lt;IRA Account&gt;
+-iraRothAccount : IRARothAccount
+-iraRolloverAccount : IRARolloverAccount
+-iraRegularAccount : IRARegularAccount 
+--
++getNumberOfCheckingAccounts() : int
++addPersonalCheckingAccount(personalCheckingAccount) : boolean
++addDBACheckingAccount(dbaCheckingAccount) : boolean
++getDBACheckingAccountsCombinedBalance(): double
++addCDAccount(cdAccount) : boolean
++getCDAccountsCombinedBalance() : double
++addSavingsAccount(savingsAccount) : boolean
++addIRARolloverAccount(iraRolloverAccount) : boolean
++addIRARothAccount(iraRothAccount) : boolean
++addIRARegularAccount(iraRegularAccount) : boolean
++getIRAAccountsCombinedBalance() : double
++getCombinedBalanceOfCheckingSavingsCDAccounts() : double 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>180</x><y>106</y><w>350</w><h>150</h></coordinates><panel_attributes>MeritBank
+--
+-accountNumber : long
+-listOfAccountHolders : List&lt;AccountHolder&gt;
+--
++getAccHolderByAccNumber (accNum): long
++deleteAccHolderByAccNumber (accNum): long
++futureValue (term, interestRate, balance) : int, double, double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>630</x><y>116</y><w>210</w><h>80</h></coordinates><panel_attributes>CDOffering
+--
+-interestRate : double
+-term : int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1180</x><y>486</y><w>310</w><h>290</h></coordinates><panel_attributes>BankAccount
+--
+-accountNumber : long
+-balance : double
+-interestRate: double
+-openedOn : Date
+-withdraw : WithdrawTransaction
+-deposit : DepositTransaction
+-transfer : TransferTransaction
+--
++getAccNumber : long
++setAccNumber (accNum) : void
++getBalance() : double
++getInterestRate() : double
++getOpenedOn() : Date
++withdraw(WithdrawTransaction withdraw) : boolean
++deposit(DepositTransaction deposit) : boolean
++transfer(TransferTransaction transfer) : boolean
++closeAccountResponse() : String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>910</x><y>196</y><w>210</w><h>190</h></coordinates><panel_attributes>CDAccount
+--
+-accountHolder : AccountHolder
+-accountNumber : double
+-balance : double
+-dateOpenedOn : Date
+-cdOffering: CDOffering
+--
++getCDOffering() : CDOffering
++withdraw() : boolean
++futureValue() : double
++deposit(amount) : double
++doesSavingsExist() : boolean
++doesCheckingsExist() : boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>740</x><y>596</y><w>270</w><h>80</h></coordinates><panel_attributes>CheckingDBA
+--
+-interestRate : double
+--
++closeAccountResponse() : String &lt;&lt;override&gt;&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>740</x><y>486</y><w>270</w><h>80</h></coordinates><panel_attributes>CheckingPersonal
+--
+-interestRate : double
+--
++closeAccountResponse() : String &lt;&lt;override&gt;&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>740</x><y>716</y><w>270</w><h>80</h></coordinates><panel_attributes>SavingsAccount
+--
+-interestRate : double
+--
++closeAccountResponse() : String &lt;&lt;override&gt;&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1650</x><y>716</y><w>270</w><h>80</h></coordinates><panel_attributes>IRARollover
+--
+-interestRate : double
+--
++closeAccountResponse() : String &lt;&lt;override&gt;&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1650</x><y>596</y><w>270</w><h>80</h></coordinates><panel_attributes>IRARoth
+--
+-interestRate : double
+--
++closeAccountResponse() : String &lt;&lt;override&gt;&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1650</x><y>486</y><w>270</w><h>80</h></coordinates><panel_attributes>IRARegular
+--
+-interestRate : double
+--
++closeAccountResponse() : String &lt;&lt;override&gt;&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1480</x><y>626</y><w>190</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1480</x><y>726</y><w>190</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1480</x><y>526</y><w>190</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1000</x><y>526</y><w>200</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>180;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1000</x><y>626</y><w>200</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>180;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1000</x><y>726</y><w>200</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>180;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>560</x><y>426</y><w>790</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>770;60;770;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>560</x><y>250</y><w>370</w><h>160</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>350;10;250;10;250;140;10;140</additional_attributes></element><element><id>Relation</id><coordinates><x>330</x><y>250</y><w>30</w><h>130</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>520</x><y>150</y><w>130</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>110;10;10;10</additional_attributes></element></diagram>
