@@ -100,4 +100,9 @@ public class AccountHolder {
         return true;
     }
 
+    public boolean addCDAccount(CdAccount cdAccount) {
+        bankAccountList.add(cdAccount);
+        return true;
+    }
+
 }
