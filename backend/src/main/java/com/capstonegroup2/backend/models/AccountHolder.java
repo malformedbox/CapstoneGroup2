@@ -19,7 +19,6 @@ public class AccountHolder {
 
     @NotBlank
     private String firstName;
-    @NotBlank
     private String middleName;
     @NotBlank
     private String lastName;
