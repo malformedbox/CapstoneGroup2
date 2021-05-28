@@ -41,11 +41,18 @@ public class AccountHolder {
 
     /*
     I think we could add a String variable named 'type' to the Bank Account class
-    or an Enum of the different and grab the relative accounts whenever we need them
-    types of Bank Accounts and pull the various different subclasses with that when we
-    need them instead of how I have it implemented below which hypothetically functions
-    by calling this method by creating an instance of the class of the type of account
-    you want and using that empty object to pull the relative class you send it.
+    or an Enum of the different types and grab the relative accounts whenever we
+    need them by that string and pull the various different subclasses with that
+    when we need them by its probably not necessary but would be slightly sleeker
+    than my current implementation as we wouldn't have to use a dummy object
+        'getAccountBalanceByType("CheckingPersonal")'
+
+    The current implementation would be to call it using a dummy object of the BankAccount
+    class you want to call as the type parameter so you create a dummy object of that class
+    and pass it as a parameter
+        BankAccount typeOfAccountYouWant = new CheckingPersonal();
+        getAccountBalanceByType(typeOfAccountYouWant);
+
 
     I'm leaving out methods for now that want the balance of certain combinations of types
     of accounts (for instance if we decide we want to be able to get the balance of all
