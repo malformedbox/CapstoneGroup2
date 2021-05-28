@@ -18,4 +18,6 @@ public class DBAChecking extends BankAccount {
     public DBAChecking(double balance) {
         super(balance, 0.0005);
     }
+
+
 }
