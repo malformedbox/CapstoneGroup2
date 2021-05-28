@@ -26,6 +26,8 @@ public class AccountHolder {
     @NotBlank
     private String ssn;
 
+//    private UserDetails userDetails;
+
     /* Bank Accounts can be called by type using 'variableName.getClass()' */
     private List<BankAccount> bankAccountList;
 
