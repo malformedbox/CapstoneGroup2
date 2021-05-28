@@ -28,7 +28,7 @@ public class AccountHolder {
 
 //    private UserDetails userDetails;
 
-    /* Bank Accounts can be called by type using 'variableName.getClass()' */
+    /* Bank Accounts can be called by type using dummy objects */
     private List<BankAccount> bankAccountList;
 
     public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
