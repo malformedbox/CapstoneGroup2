@@ -89,4 +89,15 @@ public class AccountHolder {
         return numberOfAccounts;
     }
 
+    public boolean addCheckingPersonalAccount(CheckingPersonal checkingPersonal) {
+        for (BankAccount currentAccount : bankAccountList) {
+            if (currentAccount.getClass() == checkingPersonal.getClass()) {
+                System.out.println("Account Holders may only have one Personal Checking Account");
+                return false;
+            }
+        }
+        bankAccountList.add(checkingPersonal);
+        return true;
+    }
+
 }
