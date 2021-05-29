@@ -1,8 +1,14 @@
-//package com.capstonegroup2.backend.repositories;
-//
-//import com.capstonegroup2.backend.models.AccountHolder;
-//import org.springframework.data.jpa.repository.JpaRepository;
-//
-//public interface AccountHolderRepository extends JpaRepository {
-//    AccountHolder findById(Long id);
-//}
+package com.capstonegroup2.backend.repositories;
+
+import com.capstonegroup2.backend.models.AccountHolder;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface AccountHolderRepository extends JpaRepository<AccountHolder, Long> {
+
+    Optional<AccountHolder> findById(Long id);
+    List<AccountHolder> findAll();
+
+}
