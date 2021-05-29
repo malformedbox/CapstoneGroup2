@@ -3,7 +3,7 @@ package com.capstonegroup2.backend.dto;
 import lombok.Data;
 
 @Data
-public class IRARegular {
+public class IRARolloverDTO {
 
     private double balance;
 
