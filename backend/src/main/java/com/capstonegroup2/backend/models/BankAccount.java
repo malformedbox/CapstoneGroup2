@@ -44,6 +44,14 @@ public class BankAccount {
 //        return false;
 //    }
 
+    public static double futureValue(double balance, double interestRate, int years) {
+        if (years == 1) {
+            return balance * (interestRate + 1);
+        } else {
+            return (interestRate + 1) * futureValue(balance, interestRate, years - 1);
+        }
+    }
+
     public String closeAccountResponse() {
         return "Account closed, balance transferred to x account";
     }

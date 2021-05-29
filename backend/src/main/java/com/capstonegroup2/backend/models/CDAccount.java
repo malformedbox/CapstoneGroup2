@@ -27,8 +27,14 @@ public class CDAccount extends BankAccount {
         super(balance, cdOffering.getInterestRate());
     }
 
+    public static double futureValue(double balance, CDOffering cdOffering) {
+        return futureValue(balance, cdOffering.getInterestRate(), cdOffering.getTerm());
+    }
+
     @Override
     public String closeAccountResponse() {
         return super.closeAccountResponse();
     }
+
+
 }
