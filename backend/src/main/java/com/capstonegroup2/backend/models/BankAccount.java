@@ -1,19 +1,23 @@
 package com.capstonegroup2.backend.models;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.MappedSuperclass;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
+@MappedSuperclass
+@NoArgsConstructor
 public class BankAccount {
+
     private long accountNumber;
     private double balance;
     private double interestRate; //Value should be received from subclass passing up through the super constructor
     private long openedOn;
 
-    public BankAccount(){} //Default constructor
     public BankAccount(double balance, double interestRate){
         this.balance = balance;
         this.interestRate = interestRate;

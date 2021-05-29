@@ -3,8 +3,7 @@ package com.capstonegroup2.backend.models;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "ira_roth")
@@ -12,5 +11,15 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class IRARoth extends BankAccount{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_holder_id")
+    private AccountHolder accountHolder;
+
+    public IRARoth(double balance) {
+        super(balance, 0.08);
+    }
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "user_details")
@@ -15,7 +16,9 @@ public class UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "User Name is a required field")
     private String userName;
+    @NotBlank(message = "Password is a required field")
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL)

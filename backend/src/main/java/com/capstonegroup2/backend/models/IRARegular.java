@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "savings_account")
+@Table(name = "ira_regular")
 @Data
 @NoArgsConstructor
-public class SavingsAccount extends BankAccount{
+public class IRARegular extends BankAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +19,7 @@ public class SavingsAccount extends BankAccount{
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-    public SavingsAccount(double balance) {
-        super(balance, 0.01);
+    public IRARegular(double balance) {
+        super(balance, 0.65);
     }
-
 }

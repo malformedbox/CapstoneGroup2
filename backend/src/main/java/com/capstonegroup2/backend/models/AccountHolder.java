@@ -41,10 +41,14 @@ public class AccountHolder {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private IRARoth iraRoth;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
+    private IRARollover iraRollover;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
+    private IRARegular iraRegular;
 
-
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
+    private List<CDAccount> cdAccounts;
 
     public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
         this.firstName = firstName;
@@ -52,7 +56,6 @@ public class AccountHolder {
         this.lastName = lastName;
         this.ssn = ssn;
     }
-
 
 
 
