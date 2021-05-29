@@ -22,4 +22,9 @@ public class IRARoth extends BankAccount{
     public IRARoth(double balance) {
         super(balance, 0.08);
     }
+
+    @Override
+    public String closeAccountResponse() {
+        return super.closeAccountResponse();
+    }
 }

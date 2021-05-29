@@ -24,4 +24,8 @@ public class DBAChecking extends BankAccount {
     }
 
 
+    @Override
+    public String closeAccountResponse() {
+        return super.closeAccountResponse();
+    }
 }

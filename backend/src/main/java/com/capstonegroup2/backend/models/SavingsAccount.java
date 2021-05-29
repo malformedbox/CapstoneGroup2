@@ -23,4 +23,8 @@ public class SavingsAccount extends BankAccount{
         super(balance, 0.01);
     }
 
+    @Override
+    public String closeAccountResponse() {
+        return super.closeAccountResponse();
+    }
 }

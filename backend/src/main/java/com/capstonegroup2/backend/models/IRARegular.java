@@ -22,4 +22,9 @@ public class IRARegular extends BankAccount {
     public IRARegular(double balance) {
         super(balance, 0.65);
     }
+
+    @Override
+    public String closeAccountResponse() {
+        return super.closeAccountResponse();
+    }
 }

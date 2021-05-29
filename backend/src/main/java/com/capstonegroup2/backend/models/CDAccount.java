@@ -26,4 +26,9 @@ public class CDAccount extends BankAccount {
     public CDAccount(double balance, CDOffering cdOffering) {
         super(balance, cdOffering.getInterestRate());
     }
+
+    @Override
+    public String closeAccountResponse() {
+        return super.closeAccountResponse();
+    }
 }

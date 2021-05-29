@@ -22,4 +22,9 @@ public class IRARollover extends BankAccount {
     public IRARollover(double balance) {
         super(balance, 0.08);
     }
+
+    @Override
+    public String closeAccountResponse() {
+        return super.closeAccountResponse();
+    }
 }
