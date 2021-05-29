@@ -23,6 +23,7 @@ public class PersonalChecking extends BankAccount{
         super(balance, 0.0001);
     }
 
+    // TODO Override closeAccountResponse
     @Override
     public String closeAccountResponse() {
         return super.closeAccountResponse();

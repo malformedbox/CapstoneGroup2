@@ -31,10 +31,10 @@ public class CDAccount extends BankAccount {
         return futureValue(balance, cdOffering.getInterestRate(), cdOffering.getTerm());
     }
 
+    // TODO Override closeAccountResponse
     @Override
     public String closeAccountResponse() {
         return super.closeAccountResponse();
     }
-
 
 }
