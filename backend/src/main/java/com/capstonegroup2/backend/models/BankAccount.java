@@ -49,7 +49,7 @@ public class BankAccount {
 //    }
 
     public static double futureValue(double balance, double interestRate, int years) {
-        if (years < 1) throw new IllegalArgumentException();
+        if (years < 1) throw new IllegalArgumentException("To calculate a future value a number of positive years greater than 1 must be entered.");
         if (years == 1) {
             return balance * (interestRate + 1);
         } else {
