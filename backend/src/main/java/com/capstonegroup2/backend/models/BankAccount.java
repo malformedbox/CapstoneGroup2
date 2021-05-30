@@ -13,10 +13,10 @@ import java.util.Date;
 @NoArgsConstructor
 public class BankAccount {
 
-    private long accountNumber;
-    private double balance;
-    private double interestRate; //Value should be received from subclass passing up through the super constructor
-    private long openedOn;
+    protected long accountNumber;
+    protected double balance;
+    protected double interestRate; //Value should be received from subclass passing up through the super constructor
+    protected long openedOn;
 
     public BankAccount(double balance, double interestRate){
         this.balance = balance;
@@ -44,7 +44,12 @@ public class BankAccount {
 //        return false;
 //    }
 
+//    public boolean deposit(DepositTransaction deposit) {
+//        return false;
+//    }
+
     public static double futureValue(double balance, double interestRate, int years) {
+        if (years < 1) throw new IllegalArgumentException();
         if (years == 1) {
             return balance * (interestRate + 1);
         } else {

@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RothIRARepository extends JpaRepository<RothIRA, Long> {
     RothIRA findByAccountHolder(AccountHolder accountHolder);
+    RothIRA findByAccountHolderId(Long id);
 }

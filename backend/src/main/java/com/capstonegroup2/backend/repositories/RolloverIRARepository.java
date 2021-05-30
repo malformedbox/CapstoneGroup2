@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RolloverIRARepository extends JpaRepository<RolloverIRA, Long> {
     RolloverIRA findByAccountHolder(AccountHolder accountHolder);
+    RolloverIRA findByAccountHolderId(Long id);
 }

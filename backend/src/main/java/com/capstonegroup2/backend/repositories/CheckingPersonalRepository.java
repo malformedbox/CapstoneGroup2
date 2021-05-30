@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CheckingPersonalRepository extends JpaRepository<CheckingPersonal, Long> {
     CheckingPersonal findByAccountHolder(AccountHolder accountHolder);
+    CheckingPersonal findByAccountHolderId(Long id);
 }

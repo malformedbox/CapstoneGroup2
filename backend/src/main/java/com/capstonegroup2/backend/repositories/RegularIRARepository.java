@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RegularIRARepository extends JpaRepository<RegularIRA, Long> {
     RegularIRA findByAccountHolder(AccountHolder accountHolder);
+    RegularIRA findByAccountHolderId(Long id);
 }

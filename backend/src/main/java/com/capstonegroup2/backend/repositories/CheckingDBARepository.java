@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CheckingDBARepository extends JpaRepository<CheckingDBA, Long> {
     CheckingDBA findByAccountHolder(AccountHolder accountHolder);
+    CheckingDBA findByAccountHolderId(Long id);
 }
