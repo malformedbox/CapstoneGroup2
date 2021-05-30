@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Table(name = "ira_regular")
 @Data
 @NoArgsConstructor
-public class IRARegular extends BankAccount {
+public class RegularIRA extends BankAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +19,7 @@ public class IRARegular extends BankAccount {
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-    public IRARegular(double balance) {
+    public RegularIRA(double balance) {
         super(balance, 0.65);
     }
 

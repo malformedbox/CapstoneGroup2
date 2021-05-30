@@ -30,22 +30,22 @@ public class AccountHolder {
     private UserDetails userDetails;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private PersonalChecking persdonalChecking;
+    private CheckingPersonal persdonalChecking;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private DBAChecking dbaChecking;
+    private CheckingDBA checkingDBA;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private SavingsAccount savingsAccount;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private IRARoth iraRoth;
+    private RolloverIRA rolloverIRA;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private IRARollover iraRollover;
+    private RegularIRA regularIRA;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private IRARegular iraRegular;
+    private RothIRA rothIRA;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CDAccount> cdAccounts;
@@ -56,7 +56,5 @@ public class AccountHolder {
         this.lastName = lastName;
         this.ssn = ssn;
     }
-
-
-
+    
 }

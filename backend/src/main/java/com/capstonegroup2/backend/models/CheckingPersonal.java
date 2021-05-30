@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ira_rollover")
+@Table(name = "personal_checking")
 @Data
 @NoArgsConstructor
-public class IRARollover extends BankAccount {
+public class CheckingPersonal extends BankAccount{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,8 +19,8 @@ public class IRARollover extends BankAccount {
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-    public IRARollover(double balance) {
-        super(balance, 0.08);
+    public CheckingPersonal(double balance) {
+        super(balance, 0.0001);
     }
 
     // TODO Override closeAccountResponse

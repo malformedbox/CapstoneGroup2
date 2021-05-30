@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ira_roth")
+@Table(name = "personal_checking")
 @Data
 @NoArgsConstructor
-public class IRARoth extends BankAccount{
+public class CheckingDBA extends BankAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +19,10 @@ public class IRARoth extends BankAccount{
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-    public IRARoth(double balance) {
-        super(balance, 0.08);
+    public CheckingDBA(double balance) {
+        super(balance, 0.0005);
     }
+
 
     // TODO Override closeAccountResponse
     @Override
