@@ -1,5 +1,6 @@
 package com.capstonegroup2.backend.models;
 
+import com.capstonegroup2.backend.enums.ActiveStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,14 +27,16 @@ public class AccountHolder {
     @NotBlank(message = "SSN is a required field")
     private String ssn;
 
+    private ActiveStatus activeStatus;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private UserDetails userDetails;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private CheckingPersonal persdonalChecking;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private CheckingDBA checkingDBA;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
+    private List<CheckingDBA> checkingDBAList;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private SavingsAccount savingsAccount;
@@ -47,8 +50,8 @@ public class AccountHolder {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private RothIRA rothIRA;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private List<CDAccount> cdAccounts;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
+    private List<CDAccount> cdAccountsList;
 
     public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
         this.firstName = firstName;

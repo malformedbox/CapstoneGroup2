@@ -3,7 +3,7 @@ package com.capstonegroup2.backend.models;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -11,19 +11,18 @@ import java.util.Date;
 @NoArgsConstructor
 public class Transaction {
 
-    protected BankAccount sourceAccount;
-    protected BankAccount targetAccount;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
+
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    protected BankAccount account;
     protected double amount;
     protected long dateOfTransaction;
 
-    public Transaction(BankAccount sourceAccount, double amount) {
-        this.sourceAccount = sourceAccount;
-        this.amount = amount;
-    }
-
-    public Transaction(BankAccount sourceAccount, BankAccount targetAccount, double amount) {
-        this.sourceAccount = sourceAccount;
-        this.targetAccount = targetAccount;
+    public Transaction(BankAccount account, double amount) {
+//        this.account = account;
         this.amount = amount;
     }
 

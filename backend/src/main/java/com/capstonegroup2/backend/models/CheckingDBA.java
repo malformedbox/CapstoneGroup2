@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "personal_checking")
+@Table(name = "dba_checking")
 @Data
 @NoArgsConstructor
 public class CheckingDBA extends BankAccount {
@@ -15,7 +15,7 @@ public class CheckingDBA extends BankAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 

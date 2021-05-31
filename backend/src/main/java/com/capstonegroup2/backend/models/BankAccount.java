@@ -1,12 +1,12 @@
 package com.capstonegroup2.backend.models;
 
+import com.capstonegroup2.backend.enums.ActiveStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.MappedSuperclass;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @MappedSuperclass
@@ -17,10 +17,17 @@ public class BankAccount {
     protected double balance;
     protected double interestRate; //Value should be received from subclass passing up through the super constructor
     protected long openedOn;
+    protected ActiveStatus activeStatus;
+
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "account")
+//    protected List<DepositTransaction> depositTransactions;
+//    protected List<WithdrawTransaction> withdrawTransactions;
+//    protected List<TransferTransaction> transferTransactions;
 
     public BankAccount(double balance, double interestRate){
         this.balance = balance;
         this.interestRate = interestRate;
+        this.activeStatus = ActiveStatus.OPEN;
     }
 
     public Date getOpenedOnAsDate(){
