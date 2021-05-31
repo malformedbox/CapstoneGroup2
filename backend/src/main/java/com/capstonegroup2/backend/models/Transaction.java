@@ -15,14 +15,12 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    protected BankAccount account;
+    protected BankAccount account;
     protected double amount;
     protected long dateOfTransaction;
 
     public Transaction(BankAccount account, double amount) {
-//        this.account = account;
+        this.account = account;
         this.amount = amount;
     }
 

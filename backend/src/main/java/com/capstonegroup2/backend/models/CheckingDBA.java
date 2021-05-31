@@ -11,9 +11,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class CheckingDBA extends BankAccount {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_holder_id")

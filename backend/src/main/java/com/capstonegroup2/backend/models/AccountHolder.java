@@ -53,11 +53,13 @@ public class AccountHolder {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CDAccount> cdAccountsList;
 
-    public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
+    public AccountHolder(String firstName, String middleName, String lastName, String ssn, UserDetails userDetails) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.ssn = ssn;
+        this.userDetails = userDetails;
+        this.activeStatus = ActiveStatus.OPEN;
     }
-    
+
 }

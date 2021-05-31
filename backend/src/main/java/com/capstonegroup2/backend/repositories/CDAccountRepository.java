@@ -10,5 +10,4 @@ import java.util.List;
 public interface CDAccountRepository extends JpaRepository<CDAccount, Long> {
     List<CDAccount> findAll();
     List<CDAccount> findByAccountHolder(AccountHolder accountHolder);
-    List<CDAccount> findByAccountHolderId(Long id);
 }

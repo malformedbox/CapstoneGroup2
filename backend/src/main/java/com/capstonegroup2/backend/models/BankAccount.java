@@ -9,9 +9,15 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @NoArgsConstructor
 public class BankAccount {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_id")
+    private Long id;
 
     protected long accountNumber;
     protected double balance;
@@ -19,8 +25,9 @@ public class BankAccount {
     protected long openedOn;
     protected ActiveStatus activeStatus;
 
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "account")
-//    protected List<DepositTransaction> depositTransactions;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "checkingPersonal")
+    protected List<DepositTransaction> depositTransactions;
+
 //    protected List<WithdrawTransaction> withdrawTransactions;
 //    protected List<TransferTransaction> transferTransactions;
 

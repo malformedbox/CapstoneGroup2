@@ -11,9 +11,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class RolloverIRA extends BankAccount {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_holder_id")
