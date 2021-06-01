@@ -1,27 +1,58 @@
 package com.capstonegroup2.backend.models;
 
+import com.capstonegroup2.backend.enums.TransactionType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "transactions")
 @Data
-@MappedSuperclass
 @NoArgsConstructor
 public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+    private Long id;
 
-    protected BankAccount account;
-    protected double amount;
-    protected long dateOfTransaction;
+    private double amount;
+    private long dateOfTransaction;
+    private TransactionType transactionType;
 
-    public Transaction(BankAccount account, double amount) {
-        this.account = account;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private CDAccount cdAccount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private PersonalChecking personalChecking;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private DbaChecking dbaChecking;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private IraRegular iraRegular;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private IraRollover iraRollover;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private IraRoth iraRoth;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private SavingsAccount savingsAccount;
+
+    public Transaction(double amount, TransactionType transactionType) {
         this.amount = amount;
+        this.transactionType = transactionType;
     }
 
     public Date getDateofTransactionAsDate(){
@@ -36,5 +67,4 @@ public class Transaction {
         //long epoch = Long.parseLong(epochString);
         return new Date(epoch * 1000);
     }
-
 }

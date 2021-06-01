@@ -26,7 +26,7 @@ public class BankAccount {
     protected ActiveStatus activeStatus;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "personalChecking")
-    protected List<DepositTransaction> depositTransactions;
+    protected List<Transaction> transactions;
 
 //    protected List<WithdrawTransaction> withdrawTransactions;
 //    protected List<TransferTransaction> transferTransactions;

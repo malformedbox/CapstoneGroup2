@@ -1,5 +1,6 @@
 package com.capstonegroup2.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,7 @@ public class CDOffering {
     private double interestRate;
     private int term;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cdOffering")
     private List<CDAccount> cdAccounts;
 
