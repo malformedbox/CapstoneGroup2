@@ -100,4 +100,12 @@ public class AccountHolderService {
         AccountHolder accountHolder = getAccountHolderById(id);
         return checkingDBARepository.findByAccountHolder(accountHolder);
     }
+
+    /* IRA Regular Accounts ========================================================================================= */
+
+    /* IRA Rollover Accounts ======================================================================================== */
+
+    /* IRA Roth Accounts ============================================================================================ */
+
+    /* Savings Accounts ============================================================================================= */
 }

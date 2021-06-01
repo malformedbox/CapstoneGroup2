@@ -57,4 +57,12 @@ public class AccountHolderController {
     public List<CheckingDBA> getCheckingDBA(@PathVariable Long id) {
         return accountHolderService.getCheckingDBA(id);
     }
+
+    /* IRA Regular Accounts ========================================================================================= */
+
+    /* IRA Rollover Accounts ======================================================================================== */
+
+    /* IRA Roth Accounts ============================================================================================ */
+
+    /* Savings Accounts ============================================================================================= */
 }
