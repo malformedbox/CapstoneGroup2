@@ -23,23 +23,23 @@ public class DepositTransaction {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
-    private CheckingPersonal checkingPersonal;
+    private PersonalChecking personalChecking;
 
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
-    private CheckingDBA checkingDBA;
+    private DbaChecking dbaChecking;
 
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
-    private RegularIRA regularIRA;
+    private IraRegular iraRegular;
 
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
-    private RolloverIRA rolloverIRA;
+    private IraRollover iraRollover;
 
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)
-    private RothIRA rothIRA;
+    private IraRoth iraRoth;
 
     @ManyToOne
     @JoinColumn(name = "account_id", insertable = false, updatable = false)

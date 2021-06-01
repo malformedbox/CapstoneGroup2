@@ -8,14 +8,14 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-public class RothIRA extends BankAccount{
+public class IraRollover extends BankAccount {
 
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-    public RothIRA(double balance) {
+    public IraRollover(double balance) {
         super(balance, 0.08);
     }
 

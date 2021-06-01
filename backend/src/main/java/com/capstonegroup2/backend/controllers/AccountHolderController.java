@@ -1,11 +1,7 @@
 package com.capstonegroup2.backend.controllers;
 
-import com.capstonegroup2.backend.dto.CDAccountDTO;
-import com.capstonegroup2.backend.dto.CheckingDBAdto;
-import com.capstonegroup2.backend.dto.CheckingPersonalDTO;
-import com.capstonegroup2.backend.models.CDAccount;
-import com.capstonegroup2.backend.models.CheckingDBA;
-import com.capstonegroup2.backend.models.CheckingPersonal;
+import com.capstonegroup2.backend.dto.*;
+import com.capstonegroup2.backend.models.*;
 import com.capstonegroup2.backend.services.AccountHolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -36,31 +32,49 @@ public class AccountHolderController {
     }
 
     /* Personal Checking Accounts =================================================================================== */
-    @PostMapping("/{id}/CheckingPersonal")
-    public CheckingPersonal addCheckingPersonal(@RequestBody CheckingPersonalDTO checkingPersonalDTO,
+    @PostMapping("/{id}/PersonalChecking")
+    public PersonalChecking addPersonalChecking(@RequestBody PersonalCheckingDTO personalCheckingDTO,
                                                 @PathVariable Long id) {
-        return accountHolderService.addCheckingPersonal(checkingPersonalDTO, id);
+        return accountHolderService.addPersonalChecking(personalCheckingDTO, id);
     }
 
-    @GetMapping("/{id}/CheckingPersonal")
-    public CheckingPersonal getCheckingPersonal(@PathVariable Long id) {
-        return accountHolderService.getCheckingPersonal(id);
+    @GetMapping("/{id}/PersonalChecking")
+    public PersonalChecking getCheckingPersonal(@PathVariable Long id) {
+        return accountHolderService.getPersonalChecking(id);
     }
 
     /* DBA Checking Accounts ======================================================================================== */
-    @PostMapping("/{id}/CheckingDBA")
-    public CheckingDBA addCheckingDBA(@RequestBody CheckingDBAdto checkingDBAdto, @PathVariable Long id) {
-        return accountHolderService.addCheckingDBA(checkingDBAdto, id);
+    @PostMapping("/{id}/DbaChecking")
+    public DbaChecking addDbaChecking(@RequestBody DbaCheckingDTO dbaCheckingDTO, @PathVariable Long id) {
+        return accountHolderService.addDbaChecking(dbaCheckingDTO, id);
     }
 
-    @GetMapping("/{id}/CheckingDBA")
-    public List<CheckingDBA> getCheckingDBA(@PathVariable Long id) {
-        return accountHolderService.getCheckingDBA(id);
+    @GetMapping("/{id}/DbaChecking")
+    public List<DbaChecking> getDbaChecking(@PathVariable Long id) {
+        return accountHolderService.getDbaChecking(id);
     }
 
     /* IRA Regular Accounts ========================================================================================= */
+    @PostMapping("/{id}/IraRegular")
+    public IraRegular addIraRegular(@RequestBody IraRegularDTO iraRegularDTO, @PathVariable Long id) {
+        return accountHolderService.addIraRegular(iraRegularDTO, id);
+    }
+
+    @GetMapping("/{id}/IraRegular")
+    public IraRegular getIraRegular(@PathVariable Long id) {
+        return accountHolderService.getIraRegular(id);
+    }
 
     /* IRA Rollover Accounts ======================================================================================== */
+    @PostMapping("/{id}/IraRollover")
+    public IraRollover addIraRollover(@RequestBody IraRolloverDTO iraRolloverDTO, @PathVariable Long id) {
+        return accountHolderService.addIraRollover(iraRolloverDTO, id);
+    }
+
+    @GetMapping("/{id}/IraRollover")
+    public IraRollover getIraRollover(@PathVariable Long id) {
+        return accountHolderService.getIraRollover(id);
+    }
 
     /* IRA Roth Accounts ============================================================================================ */
 

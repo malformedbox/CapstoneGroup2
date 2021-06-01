@@ -3,7 +3,7 @@ package com.capstonegroup2.backend.dto;
 import lombok.Data;
 
 @Data
-public class CheckingDBAdto {
+public class PersonalCheckingDTO {
 
     private double balance;
 

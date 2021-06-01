@@ -8,17 +8,16 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-public class CheckingDBA extends BankAccount {
+public class IraRoth extends BankAccount{
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-    public CheckingDBA(double balance) {
-        super(balance, 0.0005);
+    public IraRoth(double balance) {
+        super(balance, 0.08);
     }
-
 
     // TODO Override closeAccountResponse
     @Override

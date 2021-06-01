@@ -1,9 +1,6 @@
 package com.capstonegroup2.backend.services;
 
-import com.capstonegroup2.backend.dto.AccountHolderDTO;
-import com.capstonegroup2.backend.dto.CDAccountDTO;
-import com.capstonegroup2.backend.dto.CheckingDBAdto;
-import com.capstonegroup2.backend.dto.CheckingPersonalDTO;
+import com.capstonegroup2.backend.dto.*;
 import com.capstonegroup2.backend.models.*;
 import com.capstonegroup2.backend.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,19 +25,19 @@ public class AccountHolderService {
     CDOfferingRepository cdOfferingRepository;
 
     @Autowired
-    CheckingDBARepository checkingDBARepository;
+    DbaCheckingRepository dbaCheckingRepository;
 
     @Autowired
-    CheckingPersonalRepository checkingPersonalRepository;
+    PersonalCheckingRepository personalCheckingRepository;
 
     @Autowired
-    RegularIRARepository regularIRARepository;
+    IraRegularRepository iraRegularRepository;
 
     @Autowired
-    RolloverIRARepository rolloverIRARepository;
+    IraRolloverRepository iraRolloverRepository;
 
     @Autowired
-    RothIRARepository rothIRARepository;
+    IraRothRepository iraRothRepository;
 
     @Autowired
     SavingsAccountRepository savingsAccountRepository;
@@ -68,6 +65,7 @@ public class AccountHolderService {
     public CDAccount addCDAccount(CDAccountDTO cdAccountDTO, Long id) {
         AccountHolder accountHolder = getAccountHolderById(id);
         CDAccount cdAccount = new CDAccount(cdAccountDTO.getBalance(), cdAccountDTO.getCdOffering());
+        cdAccount.setAccountHolder(accountHolder);
         return cdAccountRepository.save(cdAccount);
     }
 
@@ -79,32 +77,57 @@ public class AccountHolderService {
 
 
     /* Personal Checking Accounts =================================================================================== */
-    public CheckingPersonal addCheckingPersonal(CheckingPersonalDTO checkingPersonalDTO, Long id) {
+    public PersonalChecking addPersonalChecking(PersonalCheckingDTO personalCheckingDTO, Long id) {
         AccountHolder accountHolder = getAccountHolderById(id);
-        CheckingPersonal checkingPersonal = new CheckingPersonal(checkingPersonalDTO.getBalance());
-        return checkingPersonalRepository.save(checkingPersonal);
+        PersonalChecking personalChecking = new PersonalChecking(personalCheckingDTO.getBalance());
+        personalChecking.setAccountHolder(accountHolder);
+        return personalCheckingRepository.save(personalChecking);
     }
 
-    public CheckingPersonal getCheckingPersonal(Long id) {
+    public PersonalChecking getPersonalChecking(Long id) {
         AccountHolder accountHolder = getAccountHolderById(id);
-        return checkingPersonalRepository.findByAccountHolder(accountHolder);
+        return personalCheckingRepository.findByAccountHolder(accountHolder);
     }
 
     /* DBA Checking Accounts ======================================================================================== */
-    public CheckingDBA addCheckingDBA(CheckingDBAdto checkingDBAdto, Long id) {
+    public DbaChecking addDbaChecking(DbaCheckingDTO dbaCheckingDTO, Long id) {
         AccountHolder accountHolder = getAccountHolderById(id);
-        CheckingDBA checkingDBA = new CheckingDBA(checkingDBAdto.getBalance());
-        return checkingDBARepository.save(checkingDBA);
+        DbaChecking dbaChecking = new DbaChecking(dbaCheckingDTO.getBalance());
+        dbaChecking.setAccountHolder(accountHolder);
+        return dbaCheckingRepository.save(dbaChecking);
     }
 
-    public List<CheckingDBA> getCheckingDBA(Long id) {
+    public List<DbaChecking> getDbaChecking(Long id) {
         AccountHolder accountHolder = getAccountHolderById(id);
-        return checkingDBARepository.findByAccountHolder(accountHolder);
+        return dbaCheckingRepository.findByAccountHolder(accountHolder);
     }
 
     /* IRA Regular Accounts ========================================================================================= */
+    public IraRegular addIraRegular(IraRegularDTO iraRegularDTO, Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        IraRegular iraRegular = new IraRegular(iraRegularDTO.getBalance());
+        iraRegular.setAccountHolder(accountHolder);
+        return iraRegularRepository.save(iraRegular);
+    }
+
+    public IraRegular getIraRegular(Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        return  iraRegularRepository.findByAccountHolder(accountHolder);
+    }
+
 
     /* IRA Rollover Accounts ======================================================================================== */
+    public IraRollover addIraRollover(IraRolloverDTO iraRolloverDTO, Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        IraRollover iraRollover = new IraRollover(iraRolloverDTO.getBalance());
+        iraRollover.setAccountHolder(accountHolder);
+        return iraRolloverRepository.save(iraRollover);
+    }
+
+    public IraRollover getIraRollover(Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        return iraRolloverRepository.findByAccountHolder(accountHolder);
+    }
 
     /* IRA Roth Accounts ============================================================================================ */
 

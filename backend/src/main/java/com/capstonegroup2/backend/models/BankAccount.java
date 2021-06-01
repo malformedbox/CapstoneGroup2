@@ -25,7 +25,7 @@ public class BankAccount {
     protected long openedOn;
     protected ActiveStatus activeStatus;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "checkingPersonal")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "personalChecking")
     protected List<DepositTransaction> depositTransactions;
 
 //    protected List<WithdrawTransaction> withdrawTransactions;
