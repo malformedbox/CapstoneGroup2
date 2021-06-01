@@ -1,5 +1,6 @@
 package com.capstonegroup2.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ public class UserDetails {
     @NotBlank(message = "Password is a required field")
     private String password;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;

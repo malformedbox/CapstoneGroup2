@@ -50,7 +50,7 @@ public class AccountHolderService {
         return accountHolderRepository.findAll();
     }
 
-    public AccountHolder addAccount(AccountHolderDTO accountHolderDTO)  {
+    public AccountHolder addAccountHolder(AccountHolderDTO accountHolderDTO)  {
 
         UserDetails user = userDetailsRepository.findById(accountHolderDTO.getId()).orElse(null);
 

@@ -6,6 +6,7 @@ import com.capstonegroup2.backend.services.AccountHolderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,6 +22,10 @@ public class AccountHolderController {
     AccountHolderService accountHolderService;
 
     /* Account Holders ============================================================================================== */
+    @PostMapping
+    public AccountHolder addAccountHolder(@Valid @RequestBody AccountHolderDTO accountHolderDTO) {
+        return accountHolderService.addAccountHolder(accountHolderDTO);
+    }
 
 
     /* CD Accounts ================================================================================================== */

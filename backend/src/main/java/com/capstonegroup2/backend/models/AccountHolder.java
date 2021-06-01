@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class AccountHolder {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +35,7 @@ public class AccountHolder {
     private UserDetails userDetails;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private PersonalChecking persdonalChecking;
+    private PersonalChecking personalChecking;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<DbaChecking> dbaCheckingList;
@@ -60,6 +62,13 @@ public class AccountHolder {
         this.ssn = ssn;
         this.userDetails = userDetails;
         this.activeStatus = ActiveStatus.OPEN;
+        personalChecking = new PersonalChecking();
+        dbaCheckingList = new ArrayList<>();
+        cdAccountsList = new ArrayList<>();
+        savingsAccount = new SavingsAccount();
+        iraRegular = new IraRegular();
+        iraRollover = new IraRollover();
+        iraRoth = new IraRoth();
     }
 
 }
