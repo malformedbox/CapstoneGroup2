@@ -55,6 +55,27 @@ public class AccountHolder {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CDAccount> cdAccountsList;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "personalChecking")
+    protected List<Transaction> personalCheckingTransactions;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cdAccount")
+    private List<Transaction> cdAccountTransactions;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "dbaChecking")
+    private List<Transaction> dbaCheckingTransactions;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "iraRegular")
+    private List<Transaction> iraRegularTransactions;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "iraRollover")
+    private List<Transaction> iraRolloverTransactions;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "iraRoth")
+    private List<Transaction> iraRothTransactions;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "savingsAccount")
+    private List<Transaction> savingsAccountTransactions;
+
     public AccountHolder(String firstName, String middleName, String lastName, String ssn, UserDetails userDetails) {
         this.firstName = firstName;
         this.middleName = middleName;
@@ -69,6 +90,13 @@ public class AccountHolder {
         iraRegular = new IraRegular();
         iraRollover = new IraRollover();
         iraRoth = new IraRoth();
+        personalCheckingTransactions = new ArrayList<>();
+        cdAccountTransactions = new ArrayList<>();
+        dbaCheckingTransactions = new ArrayList<>();
+        iraRegularTransactions = new ArrayList<>();
+        iraRolloverTransactions = new ArrayList<>();
+        iraRothTransactions = new ArrayList<>();
+        savingsAccountTransactions = new ArrayList<>();
     }
 
 }

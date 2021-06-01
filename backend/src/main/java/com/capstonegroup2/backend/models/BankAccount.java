@@ -25,28 +25,6 @@ public class BankAccount {
     protected long openedOn;
     protected ActiveStatus activeStatus;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "personalChecking")
-    protected List<Transaction> personalCheckingTransactions;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cdAccount")
-    private List<Transaction> cdAccountTransactions;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "dbaChecking")
-    private List<Transaction> dbaCheckingTransactions;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "iraRegular")
-    private List<Transaction> iraRegularTransactions;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "iraRollover")
-    private List<Transaction> iraRolloverTransactions;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "iraRoth")
-    private List<Transaction> iraRothTransactions;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "savingsAccount")
-    private List<Transaction> savingsAccountTransactions;
-
-
 
     public BankAccount(double balance, double interestRate){
         this.balance = balance;

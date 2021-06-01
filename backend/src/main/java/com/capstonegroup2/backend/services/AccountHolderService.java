@@ -63,6 +63,9 @@ public class AccountHolderService {
         return accountHolderRepository.findById(id).orElse(null);
     }
 
+    public List<AccountHolder> getAllAccountHolders() {
+        return accountHolderRepository.findAll();
+    }
 
     /* CD Accounts ================================================================================================== */
     public CDAccount addCDAccount(CDAccountDTO cdAccountDTO, Long id) {
@@ -157,4 +160,19 @@ public class AccountHolderService {
         return savingsAccountRepository.findByAccountHolder(accountHolder);
     }
 
+
+    /* Transactions ================================================================================================= */
+    public Transaction addTransaction(TransactionDTO transactionDTO, Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        Transaction transaction = new Transaction(transactionDTO.getAmount(),
+                transactionDTO.getDateOfTransaction(), transactionDTO.getTransactionType());
+        transaction.setAccountHolder(accountHolder);
+        return transactionRepository.save(transaction);
+    }
+
+
+    public List<Transaction> getTransactions(Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        return transactionRepository.findByAccountHolder(accountHolder);
+    }
 }

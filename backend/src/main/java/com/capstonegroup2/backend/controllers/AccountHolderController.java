@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/AccountHolders")
+@RequestMapping("/accountholders")
 public class AccountHolderController {
 
     @GetMapping("/Test")
@@ -27,82 +27,104 @@ public class AccountHolderController {
         return accountHolderService.addAccountHolder(accountHolderDTO);
     }
 
+    @GetMapping
+    public List<AccountHolder> getAllAccountHolders() {
+        return accountHolderService.getAllAccountHolders();
+    }
+
+    @GetMapping("/{id}")
+    public AccountHolder getAccountHolderById(@PathVariable Long id) {
+        return accountHolderService.getAccountHolderById(id);
+    }
+
 
     /* CD Accounts ================================================================================================== */
-    @PostMapping("/{id}/CDAccounts")
+    @PostMapping("/{id}/cdaccounts")
     public CDAccount addCDAccount(@RequestBody CDAccountDTO cdAccountDTO, @PathVariable Long id) {
         return accountHolderService.addCDAccount(cdAccountDTO, id);
     }
 
-    @GetMapping("/{id}/CDAccounts")
+    @GetMapping("/{id}/cdaccounts")
     public List<CDAccount> getCDAccounts(@PathVariable Long id) {
         return accountHolderService.getCDAccounts(id);
     }
 
+
     /* Personal Checking Accounts =================================================================================== */
-    @PostMapping("/{id}/PersonalChecking")
+    @PostMapping("/{id}/personalchecking")
     public PersonalChecking addPersonalChecking(@RequestBody PersonalCheckingDTO personalCheckingDTO,
                                                 @PathVariable Long id) {
         return accountHolderService.addPersonalChecking(personalCheckingDTO, id);
     }
 
-    @GetMapping("/{id}/PersonalChecking")
+    @GetMapping("/{id}/personalchecking")
     public PersonalChecking getCheckingPersonal(@PathVariable Long id) {
         return accountHolderService.getPersonalChecking(id);
     }
 
     /* DBA Checking Accounts ======================================================================================== */
-    @PostMapping("/{id}/DbaChecking")
+    @PostMapping("/{id}/dbachecking")
     public DbaChecking addDbaChecking(@RequestBody DbaCheckingDTO dbaCheckingDTO, @PathVariable Long id) {
         return accountHolderService.addDbaChecking(dbaCheckingDTO, id);
     }
 
-    @GetMapping("/{id}/DbaChecking")
+    @GetMapping("/{id}/dbachecking")
     public List<DbaChecking> getDbaChecking(@PathVariable Long id) {
         return accountHolderService.getDbaChecking(id);
     }
 
     /* IRA Regular Accounts ========================================================================================= */
-    @PostMapping("/{id}/IraRegular")
+    @PostMapping("/{id}/iraregular")
     public IraRegular addIraRegular(@RequestBody IraRegularDTO iraRegularDTO, @PathVariable Long id) {
         return accountHolderService.addIraRegular(iraRegularDTO, id);
     }
 
-    @GetMapping("/{id}/IraRegular")
+    @GetMapping("/{id}/iraregular")
     public IraRegular getIraRegular(@PathVariable Long id) {
         return accountHolderService.getIraRegular(id);
     }
 
     /* IRA Rollover Accounts ======================================================================================== */
-    @PostMapping("/{id}/IraRollover")
+    @PostMapping("/{id}/irarollover")
     public IraRollover addIraRollover(@RequestBody IraRolloverDTO iraRolloverDTO, @PathVariable Long id) {
         return accountHolderService.addIraRollover(iraRolloverDTO, id);
     }
 
-    @GetMapping("/{id}/IraRollover")
+    @GetMapping("/{id}/irarollover")
     public IraRollover getIraRollover(@PathVariable Long id) {
         return accountHolderService.getIraRollover(id);
     }
 
     /* IRA Roth Accounts ============================================================================================ */
-    @PostMapping("/{id}/IraRoth")
+    @PostMapping("/{id}/iraroth")
     public IraRoth addIraRoth(@RequestBody IraRothDTO iraRothDTO, @PathVariable Long id) {
         return accountHolderService.addIraRoth(iraRothDTO, id);
     }
 
-    @GetMapping("/{id}/IraRoth")
+    @GetMapping("/{id}/iraroth")
     public IraRoth getIraRoth(@PathVariable Long id) {
         return accountHolderService.getIraRoth(id);
     }
 
-    /* Savings Account ============================================================================================= */
-    @PostMapping("/{id}/SavingsAccount")
+    /* Savings Account ============================================================================================== */
+    @PostMapping("/{id}/savingsaccount")
     public SavingsAccount addSavingsAccount(@RequestBody SavingsAccountDTO savingsAccountDTO, @PathVariable Long id) {
         return accountHolderService.addSavingsAccount(savingsAccountDTO, id);
     }
 
-    @GetMapping("/{id}/SavingsAccount")
+    @GetMapping("/{id}/savingsaccount")
     public SavingsAccount getSavingsAccount(@PathVariable Long id) {
         return accountHolderService.getSavingsAccount(id);
+    }
+
+    /* Transactions ================================================================================================= */
+    @PostMapping("/{id}/transactions")
+    public Transaction addTransaction(@RequestBody TransactionDTO transactionDTO, @PathVariable Long id) {
+        return accountHolderService.addTransaction(transactionDTO, id);
+    }
+
+    @GetMapping("/{id}/transactions")
+    public List<Transaction> getTransactions(@PathVariable Long id) {
+        return accountHolderService.getTransactions(id);
     }
 }
