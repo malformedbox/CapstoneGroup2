@@ -42,6 +42,9 @@ public class AccountHolderService {
     @Autowired
     SavingsAccountRepository savingsAccountRepository;
 
+    @Autowired
+    TransactionRepository transactionRepository;
+
     /* Account Holders ============================================================================================== */
     public List<AccountHolder> getAllAccounts(){
         return accountHolderRepository.findAll();

@@ -1,6 +1,5 @@
 package com.capstonegroup2.backend.controllers;
 
-import com.capstonegroup2.backend.dto.CDAccountDTO;
 import com.capstonegroup2.backend.dto.CDOfferingDTO;
 import com.capstonegroup2.backend.models.CDOffering;
 import com.capstonegroup2.backend.repositories.CDOfferingRepository;
