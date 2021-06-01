@@ -2,13 +2,14 @@ package com.capstonegroup2.backend.services;
 
 import com.capstonegroup2.backend.dto.AccountHolderDTO;
 import com.capstonegroup2.backend.dto.CDAccountDTO;
+import com.capstonegroup2.backend.dto.CheckingDBAdto;
+import com.capstonegroup2.backend.dto.CheckingPersonalDTO;
 import com.capstonegroup2.backend.models.*;
 import com.capstonegroup2.backend.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AccountHolderService {
@@ -57,21 +58,46 @@ public class AccountHolderService {
         return accountHolderRepository.save(newHolder);
     }
 
-    public AccountHolder getAccountById(Long id) {
+    public AccountHolder getAccountHolderById(Long id) {
         return accountHolderRepository.findById(id).orElse(null);
     }
 
-    //===================================================================================================================
+
+    /* CD Accounts ================================================================================================== */
     public CDAccount addCDAccount(CDAccountDTO cdAccountDTO, Long id) {
-        AccountHolder accountHolder = getAccountById(id);
+        AccountHolder accountHolder = getAccountHolderById(id);
         CDAccount cdAccount = new CDAccount(cdAccountDTO.getBalance(), cdAccountDTO.getCdOffering());
         return cdAccountRepository.save(cdAccount);
     }
 
 
     public List<CDAccount> getCDAccounts(Long id) {
-        AccountHolder accountHolder = getAccountById(id);
-
+        AccountHolder accountHolder = getAccountHolderById(id);
         return cdAccountRepository.findByAccountHolder(accountHolder);
+    }
+
+
+    /* Personal Checking Accounts =================================================================================== */
+    public CheckingPersonal addCheckingPersonal(CheckingPersonalDTO checkingPersonalDTO, Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        CheckingPersonal checkingPersonal = new CheckingPersonal(checkingPersonalDTO.getBalance());
+        return checkingPersonalRepository.save(checkingPersonal);
+    }
+
+    public CheckingPersonal getCheckingPersonal(Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        return checkingPersonalRepository.findByAccountHolder(accountHolder);
+    }
+
+    /* DBA Checking Accounts ======================================================================================== */
+    public CheckingDBA addCheckingDBA(CheckingDBAdto checkingDBAdto, Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        CheckingDBA checkingDBA = new CheckingDBA(checkingDBAdto.getBalance());
+        return checkingDBARepository.save(checkingDBA);
+    }
+
+    public List<CheckingDBA> getCheckingDBA(Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        return checkingDBARepository.findByAccountHolder(accountHolder);
     }
 }
