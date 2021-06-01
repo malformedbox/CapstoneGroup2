@@ -77,6 +77,24 @@ public class AccountHolderController {
     }
 
     /* IRA Roth Accounts ============================================================================================ */
+    @PostMapping("/{id}/IraRoth")
+    public IraRoth addIraRoth(@RequestBody IraRothDTO iraRothDTO, @PathVariable Long id) {
+        return accountHolderService.addIraRoth(iraRothDTO, id);
+    }
 
-    /* Savings Accounts ============================================================================================= */
+    @GetMapping("/{id}/IraRoth")
+    public IraRoth getIraRoth(@PathVariable Long id) {
+        return accountHolderService.getIraRoth(id);
+    }
+
+    /* Savings Account ============================================================================================= */
+    @PostMapping("/{id}/SavingsAccount")
+    public SavingsAccount addSavingsAccount(@RequestBody SavingsAccountDTO savingsAccountDTO, @PathVariable Long id) {
+        return accountHolderService.addSavingsAccount(savingsAccountDTO, id);
+    }
+
+    @GetMapping("/{id}/SavingsAccount")
+    public SavingsAccount getSavingsAccount(@PathVariable Long id) {
+        return accountHolderService.getSavingsAccount(id);
+    }
 }

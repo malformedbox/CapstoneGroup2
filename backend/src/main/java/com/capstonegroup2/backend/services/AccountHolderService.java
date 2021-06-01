@@ -115,7 +115,6 @@ public class AccountHolderService {
         return  iraRegularRepository.findByAccountHolder(accountHolder);
     }
 
-
     /* IRA Rollover Accounts ======================================================================================== */
     public IraRollover addIraRollover(IraRolloverDTO iraRolloverDTO, Long id) {
         AccountHolder accountHolder = getAccountHolderById(id);
@@ -130,6 +129,29 @@ public class AccountHolderService {
     }
 
     /* IRA Roth Accounts ============================================================================================ */
+    public IraRoth addIraRoth(IraRothDTO iraRothDTO, Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        IraRoth iraRoth = new IraRoth(iraRothDTO.getBalance());
+        iraRoth.setAccountHolder(accountHolder);
+        return iraRothRepository.save(iraRoth);
+    }
+
+    public IraRoth getIraRoth(Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        return iraRothRepository.findByAccountHolder(accountHolder);
+    }
 
     /* Savings Accounts ============================================================================================= */
+    public SavingsAccount addSavingsAccount(SavingsAccountDTO savingsAccountDTO, Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        SavingsAccount savingsAccount = new SavingsAccount(savingsAccountDTO.getBalance());
+        savingsAccount.setAccountHolder(accountHolder);
+        return savingsAccountRepository.save(savingsAccount);
+    }
+
+    public SavingsAccount getSavingsAccount(Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        return savingsAccountRepository.findByAccountHolder(accountHolder);
+    }
+
 }
