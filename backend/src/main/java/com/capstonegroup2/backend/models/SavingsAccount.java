@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "savings_account")
 @Data
 @NoArgsConstructor
 public class SavingsAccount extends BankAccount{

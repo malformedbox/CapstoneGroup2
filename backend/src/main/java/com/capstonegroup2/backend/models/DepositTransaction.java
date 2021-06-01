@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "deposits")
@@ -15,19 +16,37 @@ public class DepositTransaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "account_id")
-//    protected BankAccount account;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
-    protected CheckingPersonal checkingPersonal;
-
-
     protected double amount;
 
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private CDAccount cdAccount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private CheckingPersonal checkingPersonal;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private CheckingDBA checkingDBA;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private RegularIRA regularIRA;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private RolloverIRA rolloverIRA;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private RothIRA rothIRA;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id", insertable = false, updatable = false)
+    private SavingsAccount savingsAccount;
+
     public DepositTransaction(double amount) {
-//        this.account = account;
         this.amount = amount;
 
     }

@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cd_accounts")
 @Data
 @NoArgsConstructor
 public class CDAccount extends BankAccount {

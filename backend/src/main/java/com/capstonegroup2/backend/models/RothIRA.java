@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ira_roth")
 @Data
 @NoArgsConstructor
 public class RothIRA extends BankAccount{
