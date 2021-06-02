@@ -16,7 +16,7 @@ public class AccountHolderService {
     AccountHolderRepository accountHolderRepository;
 
     @Autowired
-    UserDetailsRepository userDetailsRepository;
+    UserCredentialsRepository userCredentialsRepository;
 
     @Autowired
     CDAccountRepository cdAccountRepository;
@@ -52,7 +52,7 @@ public class AccountHolderService {
 
     public AccountHolder addAccountHolder(AccountHolderDTO accountHolderDTO)  {
 
-        UserDetails user = userDetailsRepository.findById(accountHolderDTO.getId()).orElse(null);
+        UserCredentials user = userCredentialsRepository.findById(accountHolderDTO.getId()).orElse(null);
 
         AccountHolder newHolder = new AccountHolder(accountHolderDTO.getFirstName(), accountHolderDTO.getMiddleName(),
                 accountHolderDTO.getLastName(), accountHolderDTO.getSsn(), user);
@@ -160,4 +160,19 @@ public class AccountHolderService {
         return savingsAccountRepository.findByAccountHolder(accountHolder);
     }
 
+
+    /* Transactions ================================================================================================= */
+    public Transaction addTransaction(TransactionDTO transactionDTO, Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        Transaction transaction = new Transaction(transactionDTO.getAmount(),
+                transactionDTO.getDateOfTransaction(), transactionDTO.getTransactionType());
+        transaction.setAccountHolder(accountHolder);
+        return transactionRepository.save(transaction);
+    }
+
+
+    public List<Transaction> getTransactions(Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        return transactionRepository.findByAccountHolder(accountHolder);
+    }
 }
