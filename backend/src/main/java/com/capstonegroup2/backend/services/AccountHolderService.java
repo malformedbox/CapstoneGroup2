@@ -63,6 +63,9 @@ public class AccountHolderService {
         return accountHolderRepository.findById(id).orElse(null);
     }
 
+    public List<AccountHolder> getAllAccountHolders() {
+        return accountHolderRepository.findAll();
+    }
 
     /* CD Accounts ================================================================================================== */
     public CDAccount addCDAccount(CDAccountDTO cdAccountDTO, Long id) {

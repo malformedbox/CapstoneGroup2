@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/AccountHolders")
 public class AccountHolderController {
@@ -26,7 +27,10 @@ public class AccountHolderController {
     public AccountHolder addAccountHolder(@Valid @RequestBody AccountHolderDTO accountHolderDTO) {
         return accountHolderService.addAccountHolder(accountHolderDTO);
     }
-
+    @GetMapping
+    public List<AccountHolder> getAllAccountHolders() {
+        return accountHolderService.getAllAccountHolders();
+    }
 
     /* CD Accounts ================================================================================================== */
     @PostMapping("/{id}/CDAccounts")
