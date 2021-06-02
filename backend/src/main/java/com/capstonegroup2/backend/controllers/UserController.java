@@ -9,24 +9,26 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@RequestMapping("/UserDetails")
 public class UserController {
 
     @Autowired
     UserDetailsService userDetailsService;
 
     /* User Details ================================================================================================= */
-    @GetMapping("/UserDetails")
+    @GetMapping
     public List<UserDetails> getAllUserDetails(){
         return userDetailsService.getAllUserDetails();
     }
 
-    @GetMapping("/UserDetails/{id}")
+    @GetMapping("/{id}")
     public UserDetails getAccountHoldersUserDetails(@PathVariable Long id) {
         return userDetailsService.getAccountHoldersUserDetailsById(id);
     }
 
-    @PostMapping("/UserDetails")
+    @PostMapping
     public UserDetails addAccountHoldersContactDetails(@RequestBody UserDetailsDTO userDetailsDTO) {
         return userDetailsService.addAccountHoldersUserDetails(userDetailsDTO);
     }

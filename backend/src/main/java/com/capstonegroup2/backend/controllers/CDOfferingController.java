@@ -8,23 +8,25 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
+@RequestMapping("/CDOfferings")
 public class CDOfferingController {
 
     @Autowired
     CDOfferingService cdOfferingService;
 
-    @PostMapping("/CDOfferings")
+    @PostMapping
     public CDOffering addCDOffering(@RequestBody CDOfferingDTO cdOfferingDTO) {
         return cdOfferingService.addCDOffering(cdOfferingDTO);
     }
 
-    @GetMapping("/CDOfferings/{id}")
+    @GetMapping("/{id}")
     public CDOffering getCDOfferingById(@PathVariable Long id) {
         return cdOfferingService.getCDOfferingById(id);
     }
 
-    @GetMapping("/CDOfferings")
+    @GetMapping
     public List<CDOffering> getCDOfferings() {
         return cdOfferingService.getCDOfferings();
     }
