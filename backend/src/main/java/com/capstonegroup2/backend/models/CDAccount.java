@@ -20,10 +20,13 @@ public class CDAccount extends BankAccount {
     @JoinColumn(name = "cd_offering_id")
     private CDOffering cdOffering;
 
+    private int term;
+
 
 
     public CDAccount(double balance, CDOffering cdOffering) {
         super(balance, cdOffering.getInterestRate());
+        this.term = cdOffering.getTerm();
     }
 
     public static double futureValue(double balance, CDOffering cdOffering) {

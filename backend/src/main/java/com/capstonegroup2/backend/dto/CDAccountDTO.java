@@ -9,5 +9,6 @@ public class CDAccountDTO {
     private Long id;
     private double balance;
     private CDOffering cdOffering;
+    private int term;
 
 }
