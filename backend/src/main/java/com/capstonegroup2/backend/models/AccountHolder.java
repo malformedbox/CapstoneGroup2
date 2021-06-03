@@ -32,7 +32,7 @@ public class AccountHolder {
     private ActiveStatus activeStatus;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private UserDetails userDetails;
+    private UserCredentials userCredentials;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private PersonalChecking personalChecking = new PersonalChecking();
@@ -76,12 +76,12 @@ public class AccountHolder {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "savingsAccount")
     private List<Transaction> savingsAccountTransactions = new ArrayList<>();
 
-    public AccountHolder(String firstName, String middleName, String lastName, String ssn, UserDetails userDetails) {
+    public AccountHolder(String firstName, String middleName, String lastName, String ssn, UserCredentials userCredentials) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.ssn = ssn;
-        this.userDetails = userDetails;
+        this.userCredentials = userCredentials;
         this.activeStatus = ActiveStatus.OPEN;
     }
 

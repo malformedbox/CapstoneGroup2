@@ -1,10 +1,9 @@
 package com.capstonegroup2.backend.services;
 
-import com.capstonegroup2.backend.dto.UserDetailsDTO;
-import com.capstonegroup2.backend.models.AccountHolder;
-import com.capstonegroup2.backend.models.UserDetails;
+import com.capstonegroup2.backend.dto.UserCredentialsDTO;
+import com.capstonegroup2.backend.models.UserCredentials;
 import com.capstonegroup2.backend.repositories.AccountHolderRepository;
-import com.capstonegroup2.backend.repositories.UserDetailsRepository;
+import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,21 +13,21 @@ import java.util.List;
 public class UserDetailsService {
 
     @Autowired
-    UserDetailsRepository userDetailsRepository;
+    UserCredentialsRepository userCredentialsRepository;
 
     @Autowired
     AccountHolderRepository accountHolderRepository;
 
-    public List<UserDetails> getAllUserDetails() {
-        return userDetailsRepository.findAll();
+    public List<UserCredentials> getAllUserDetails() {
+        return userCredentialsRepository.findAll();
     }
 
-    public UserDetails getAccountHoldersUserDetailsById(Long id) {
-        return userDetailsRepository.findById(id).orElse(null);
+    public UserCredentials getAccountHoldersUserDetailsById(Long id) {
+        return userCredentialsRepository.findById(id).orElse(null);
     }
 
-    public UserDetails addAccountHoldersUserDetails(UserDetailsDTO userDetailsDTO) {
-        UserDetails userDetails = new UserDetails(userDetailsDTO.getUserName(), userDetailsDTO.getPassword());
-        return userDetailsRepository.save(userDetails);
+    public UserCredentials addAccountHoldersUserDetails(UserCredentialsDTO userCredentialsDTO) {
+        UserCredentials userCredentials = new UserCredentials(userCredentialsDTO.getUsername(), userCredentialsDTO.getPassword());
+        return userCredentialsRepository.save(userCredentials);
     }
 }

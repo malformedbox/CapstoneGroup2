@@ -16,7 +16,7 @@ public class AccountHolderService {
     AccountHolderRepository accountHolderRepository;
 
     @Autowired
-    UserDetailsRepository userDetailsRepository;
+    UserCredentialsRepository userCredentialsRepository;
 
     @Autowired
     CDAccountRepository cdAccountRepository;
@@ -52,7 +52,7 @@ public class AccountHolderService {
 
     public AccountHolder addAccountHolder(AccountHolderDTO accountHolderDTO)  {
 
-        UserDetails user = userDetailsRepository.findById(accountHolderDTO.getId()).orElse(null);
+        UserCredentials user = userCredentialsRepository.findById(accountHolderDTO.getId()).orElse(null);
 
         AccountHolder newHolder = new AccountHolder(accountHolderDTO.getFirstName(), accountHolderDTO.getMiddleName(),
                 accountHolderDTO.getLastName(), accountHolderDTO.getSsn(), user);
@@ -70,9 +70,14 @@ public class AccountHolderService {
     /* CD Accounts ================================================================================================== */
     public CDAccount addCDAccount(CDAccountDTO cdAccountDTO, Long id) {
         AccountHolder accountHolder = getAccountHolderById(id);
-        CDAccount cdAccount = new CDAccount(cdAccountDTO.getBalance(), cdAccountDTO.getCdOffering());
+        CDOffering cdOffering = getCDOfferingById(cdAccountDTO.getCdOffering().getId());
+        CDAccount cdAccount = new CDAccount(cdAccountDTO.getBalance(), cdOffering);
         cdAccount.setAccountHolder(accountHolder);
         return cdAccountRepository.save(cdAccount);
+    }
+
+    private CDOffering getCDOfferingById(long id) {
+        return cdOfferingRepository.findById(id);
     }
 
 

@@ -11,14 +11,14 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "user_details")
 @Data
 @NoArgsConstructor
-public class UserDetails {
+public class UserCredentials {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "User Name is a required field")
-    private String userName;
+    private String username;
     @NotBlank(message = "Password is a required field")
     private String password;
 
@@ -27,8 +27,8 @@ public class UserDetails {
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-    public UserDetails(String userName, String password) {
-        this.userName = userName;
+    public UserCredentials(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 }
