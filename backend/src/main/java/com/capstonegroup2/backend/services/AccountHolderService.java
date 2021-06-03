@@ -180,4 +180,10 @@ public class AccountHolderService {
         AccountHolder accountHolder = getAccountHolderById(id);
         return transactionRepository.findByAccountHolder(accountHolder);
     }
+
+//    public Transaction addDepositTransaction(TransactionDTO transactionDTO, Long id) {
+//        BankAccount bankAccount = getBankAccountById(id);
+//        double balance = bankAccount.getBalance();
+//        balance += transactionDTO.getAmount();
+//    }
 }

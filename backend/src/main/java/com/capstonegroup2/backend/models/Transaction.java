@@ -21,6 +21,7 @@ public class Transaction {
     private double amount;
     private long dateOfTransaction;
     private TransactionType transactionType;
+    private Long bankAccountId;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -72,5 +73,10 @@ public class Transaction {
         //String epochString = "1622159888";
         //long epoch = Long.parseLong(epochString);
         return new Date(epoch * 1000);
+    }
+
+    public double deposit(double depositAmount) {
+        this.amount += depositAmount;
+        return amount;
     }
 }
