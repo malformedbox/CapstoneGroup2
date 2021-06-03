@@ -10,7 +10,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/CDOfferings")
+@RequestMapping("/cdofferings")
 public class CDOfferingController {
 
     @Autowired
