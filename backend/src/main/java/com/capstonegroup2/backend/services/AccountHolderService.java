@@ -16,7 +16,7 @@ public class AccountHolderService {
     AccountHolderRepository accountHolderRepository;
 
     @Autowired
-    UserDetailsRepository userDetailsRepository;
+    UserCredentialsRepository userCredentialsRepository;
 
     @Autowired
     CDAccountRepository cdAccountRepository;
@@ -52,7 +52,7 @@ public class AccountHolderService {
 
     public AccountHolder addAccountHolder(AccountHolderDTO accountHolderDTO)  {
 
-        UserDetails user = userDetailsRepository.findById(accountHolderDTO.getId()).orElse(null);
+        UserCredentials user = userCredentialsRepository.findById(accountHolderDTO.getId()).orElse(null);
 
         AccountHolder newHolder = new AccountHolder(accountHolderDTO.getFirstName(), accountHolderDTO.getMiddleName(),
                 accountHolderDTO.getLastName(), accountHolderDTO.getSsn(), user);
@@ -63,13 +63,21 @@ public class AccountHolderService {
         return accountHolderRepository.findById(id).orElse(null);
     }
 
+    public List<AccountHolder> getAllAccountHolders() {
+        return accountHolderRepository.findAll();
+    }
 
     /* CD Accounts ================================================================================================== */
     public CDAccount addCDAccount(CDAccountDTO cdAccountDTO, Long id) {
         AccountHolder accountHolder = getAccountHolderById(id);
-        CDAccount cdAccount = new CDAccount(cdAccountDTO.getBalance(), cdAccountDTO.getCdOffering());
+        CDOffering cdOffering = getCDOfferingById(cdAccountDTO.getCdOffering().getId());
+        CDAccount cdAccount = new CDAccount(cdAccountDTO.getBalance(), cdOffering);
         cdAccount.setAccountHolder(accountHolder);
         return cdAccountRepository.save(cdAccount);
+    }
+
+    private CDOffering getCDOfferingById(long id) {
+        return cdOfferingRepository.findById(id);
     }
 
 
@@ -157,4 +165,25 @@ public class AccountHolderService {
         return savingsAccountRepository.findByAccountHolder(accountHolder);
     }
 
+
+    /* Transactions ================================================================================================= */
+    public Transaction addTransaction(TransactionDTO transactionDTO, Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        Transaction transaction = new Transaction(transactionDTO.getAmount(),
+                transactionDTO.getDateOfTransaction(), transactionDTO.getTransactionType());
+        transaction.setAccountHolder(accountHolder);
+        return transactionRepository.save(transaction);
+    }
+
+
+    public List<Transaction> getTransactions(Long id) {
+        AccountHolder accountHolder = getAccountHolderById(id);
+        return transactionRepository.findByAccountHolder(accountHolder);
+    }
+
+//    public Transaction addDepositTransaction(TransactionDTO transactionDTO, Long id) {
+//        BankAccount bankAccount = getBankAccountById(id);
+//        double balance = bankAccount.getBalance();
+//        balance += transactionDTO.getAmount();
+//    }
 }

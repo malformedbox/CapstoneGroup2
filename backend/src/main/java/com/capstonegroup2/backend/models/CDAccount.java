@@ -1,5 +1,6 @@
 package com.capstonegroup2.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class CDAccount extends BankAccount {
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
@@ -18,10 +20,13 @@ public class CDAccount extends BankAccount {
     @JoinColumn(name = "cd_offering_id")
     private CDOffering cdOffering;
 
+    private int term;
+
 
 
     public CDAccount(double balance, CDOffering cdOffering) {
         super(balance, cdOffering.getInterestRate());
+        this.term = cdOffering.getTerm();
     }
 
     public static double futureValue(double balance, CDOffering cdOffering) {
