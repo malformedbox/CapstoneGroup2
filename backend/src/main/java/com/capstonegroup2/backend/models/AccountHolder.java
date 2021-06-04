@@ -55,27 +55,6 @@ public class AccountHolder {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CDAccount> cdAccountsList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "personalChecking")
-    protected List<Transaction> personalCheckingTransactions = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cdAccount")
-    private List<Transaction> cdAccountTransactions = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "dbaChecking")
-    private List<Transaction> dbaCheckingTransactions = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "iraRegular")
-    private List<Transaction> iraRegularTransactions = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "iraRollover")
-    private List<Transaction> iraRolloverTransactions = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "iraRoth")
-    private List<Transaction> iraRothTransactions = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "savingsAccount")
-    private List<Transaction> savingsAccountTransactions = new ArrayList<>();
-
     public AccountHolder(String firstName, String middleName, String lastName, String ssn, UserCredentials userCredentials) {
         this.firstName = firstName;
         this.middleName = middleName;

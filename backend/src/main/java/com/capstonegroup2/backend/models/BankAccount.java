@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,6 +24,9 @@ public class BankAccount {
     protected double interestRate; //Value should be received from subclass passing up through the super constructor
     protected long openedOn;
     protected ActiveStatus activeStatus;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bankAccount")
+    private List<Transaction> transactions;
 
 
     public BankAccount(double balance, double interestRate){

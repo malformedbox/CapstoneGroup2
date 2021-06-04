@@ -45,6 +45,7 @@ public class AccountHolderService {
     @Autowired
     TransactionRepository transactionRepository;
 
+
     /* Account Holders ============================================================================================== */
     public List<AccountHolder> getAllAccounts(){
         return accountHolderRepository.findAll();
@@ -66,6 +67,7 @@ public class AccountHolderService {
     public List<AccountHolder> getAllAccountHolders() {
         return accountHolderRepository.findAll();
     }
+
 
     /* CD Accounts ================================================================================================== */
     public CDAccount addCDAccount(CDAccountDTO cdAccountDTO, Long id) {
@@ -167,18 +169,51 @@ public class AccountHolderService {
 
 
     /* Transactions ================================================================================================= */
+
+    public BankAccount getBankAccountById(Long id) {
+        List<CDAccount> cdAccounts = cdAccountRepository.findAll();
+        for (CDAccount cdAccount : cdAccounts) {
+            if (cdAccount.getId() == id) return cdAccount;
+        }
+        List<PersonalChecking> personalCheckingAccounts = personalCheckingRepository.findAll();
+        for (PersonalChecking personalChecking : personalCheckingAccounts) {
+            if (personalChecking.getId() == id) return personalChecking;
+        }
+        List<DbaChecking> dbaCheckingList = dbaCheckingRepository.findAll();
+        for (DbaChecking dbaChecking : dbaCheckingList) {
+            if (dbaChecking.getId() == id) return dbaChecking;
+        }
+        List<IraRegular> iraRegularList = iraRegularRepository.findAll();
+        for (IraRegular iraRegular : iraRegularList) {
+            if (iraRegular.getId() == id) return iraRegular;
+        }
+        List<IraRollover> iraRolloverList = iraRolloverRepository.findAll();
+        for (IraRollover iraRollover : iraRolloverList) {
+            if (iraRollover.getId() == id) return iraRollover;
+        }
+        List<IraRoth> iraRothList = iraRothRepository.findAll();
+        for (IraRoth iraRoth : iraRothList) {
+            if (iraRoth.getId() == id) return iraRoth;
+        }
+        List<SavingsAccount> savingsAccounts = savingsAccountRepository.findAll();
+        for (SavingsAccount savingsAccount : savingsAccounts) {
+            if (savingsAccount.getId() == id) return savingsAccount;
+        }
+        return null;
+    }
+
     public Transaction addTransaction(TransactionDTO transactionDTO, Long id) {
-        AccountHolder accountHolder = getAccountHolderById(id);
+        BankAccount bankAccount = getBankAccountById(id);
         Transaction transaction = new Transaction(transactionDTO.getAmount(),
                 transactionDTO.getDateOfTransaction(), transactionDTO.getTransactionType());
-        transaction.setAccountHolder(accountHolder);
+        transaction.setBankAccount(bankAccount);
         return transactionRepository.save(transaction);
     }
 
 
     public List<Transaction> getTransactions(Long id) {
-        AccountHolder accountHolder = getAccountHolderById(id);
-        return transactionRepository.findByAccountHolder(accountHolder);
+        BankAccount bankAccount = getBankAccountById(id);
+        return transactionRepository.findByBankAccount(bankAccount);
     }
 
 //    public Transaction addDepositTransaction(TransactionDTO transactionDTO, Long id) {

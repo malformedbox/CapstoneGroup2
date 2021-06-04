@@ -21,40 +21,11 @@ public class Transaction {
     private double amount;
     private long dateOfTransaction;
     private TransactionType transactionType;
-    private Long bankAccountId;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_holder_id")
-    private AccountHolder accountHolder;
 
     @ManyToOne
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private CDAccount cdAccount;
+    @JoinColumn(name = "account_id")
+    private BankAccount bankAccount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private PersonalChecking personalChecking;
-
-    @ManyToOne
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private DbaChecking dbaChecking;
-
-    @ManyToOne
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private IraRegular iraRegular;
-
-    @ManyToOne
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private IraRollover iraRollover;
-
-    @ManyToOne
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private IraRoth iraRoth;
-
-    @ManyToOne
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private SavingsAccount savingsAccount;
 
     public Transaction(double amount, long dateOfTransaction, TransactionType transactionType) {
         this.amount = amount;
