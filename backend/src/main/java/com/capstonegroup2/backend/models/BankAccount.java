@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Data
 @MappedSuperclass
@@ -70,6 +71,17 @@ public class BankAccount {
             return true;
         }
         return false;
+    }
+
+    public static long generateAccountNumber() {
+        StringBuilder stringBuilder = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 10; i++) {
+            int number = random.nextInt(10);
+            stringBuilder.append(number);
+        }
+        long accountNumber = Long.valueOf(stringBuilder.toString());
+        return accountNumber;
     }
 
 
