@@ -22,30 +22,37 @@ public class Transaction {
     private long dateOfTransaction;
     private TransactionType transactionType;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "dba_account_id")
     DbaChecking dbaChecking;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cd_account_id")
     CDAccount cdAccount;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ira_reg_account_id")
     IraRegular iraRegular;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ira_roll_account_id")
     IraRollover iraRollover;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ira_roth_account_id")
     IraRoth iraRoth;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "checking_account_id")
     PersonalChecking personalChecking;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "savings_account_id")
     SavingsAccount savingsAccount;

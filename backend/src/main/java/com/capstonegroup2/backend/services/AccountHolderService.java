@@ -204,6 +204,10 @@ public class AccountHolderService {
         return null;
     }
 
+    // I can no longer call the setBankAccount method and will have to see if I can either
+    // extract the classname and insert it or if each bank account needs their own method
+    // to post transactions
+
 //    public Transaction addTransaction(TransactionDTO transactionDTO, Long id) {
 //        BankAccount bankAccount = getBankAccountById(id);
 //        Transaction transaction = new Transaction(transactionDTO.getAmount(),
