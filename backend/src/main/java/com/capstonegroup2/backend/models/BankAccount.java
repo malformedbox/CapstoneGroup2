@@ -1,10 +1,13 @@
 package com.capstonegroup2.backend.models;
 
 import com.capstonegroup2.backend.enums.ActiveStatus;
+import com.capstonegroup2.backend.enums.TransactionType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -18,9 +21,6 @@ public class BankAccount {
     protected double interestRate; //Value should be received from subclass passing up through the super constructor
     protected long openedOn;
     protected ActiveStatus activeStatus;
-
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bankAccount")
-//    private List<Transaction> transactions;
 
 
     public BankAccount(double balance, double interestRate){
@@ -42,17 +42,48 @@ public class BankAccount {
         return new Date(epoch * 1000);
     }
 
-//    public boolean withdraw(WithdrawTransaction withdraw) {
-//        return false;
-//    }
+    public String formatInterestRate(double interestRate) {
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        numberFormat.setMaximumFractionDigits(4);
+        return numberFormat.format(interestRate);
+    }
 
-//    public boolean transfer(TransferTransaction transfer) {
-//        return false;
-//    }
+    public String formatDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
 
-//    public boolean deposit(DepositTransaction deposit) {
-//        return false;
-//    }
+    // This method is just an idea of how we can process a transaction based on type
+    // It might need to just return the transaction type or be placed in the service
+    // layer to redirect an incoming transaction and route it accordingly to the
+    // correct method based on type
+    public boolean processTransactionType(Transaction transaction) {
+        if (transaction.getTransactionType().equals(TransactionType.WITHDRAWAL)) {
+            withdraw(transaction);
+            return true;
+        } else if (transaction.getTransactionType().equals(TransactionType.DEPOSIT)) {
+            deposit(transaction);
+            return true;
+        } else if (transaction.getTransactionType().equals(TransactionType.TRANSFER)) {
+            transfer(transaction);
+            return true;
+        }
+        return false;
+    }
+
+
+    public boolean withdraw(Transaction withdrawal) {
+        return false;
+    }
+
+    public boolean transfer(Transaction transfer) {
+        return false;
+    }
+
+    public boolean deposit(Transaction deposit) {
+        return false;
+    }
 
     public static double futureValue(double balance, double interestRate, int years) {
         if (years < 1) throw new IllegalArgumentException("To calculate a future value a number of positive years greater than 1 must be entered.");
