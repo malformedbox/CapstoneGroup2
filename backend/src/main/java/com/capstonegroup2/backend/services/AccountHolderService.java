@@ -42,8 +42,8 @@ public class AccountHolderService {
     @Autowired
     SavingsAccountRepository savingsAccountRepository;
 
-//    @Autowired
-//    TransactionRepository transactionRepository;
+    @Autowired
+    TransactionRepository transactionRepository;
 
 
     /* Account Holders ============================================================================================== */

@@ -22,10 +22,33 @@ public class Transaction {
     private long dateOfTransaction;
     private TransactionType transactionType;
 
-//    @ManyToOne
-//    @JoinColumn(name = "account_id")
-//    private BankAccount bankAccount;
+    @ManyToOne
+    @JoinColumn(name = "dba_account_id")
+    DbaChecking dbaChecking;
 
+    @ManyToOne
+    @JoinColumn(name = "cd_account_id")
+    CDAccount cdAccount;
+
+    @ManyToOne
+    @JoinColumn(name = "ira_reg_account_id")
+    IraRegular iraRegular;
+
+    @ManyToOne
+    @JoinColumn(name = "ira_roll_account_id")
+    IraRollover iraRollover;
+
+    @ManyToOne
+    @JoinColumn(name = "ira_roth_account_id")
+    IraRoth iraRoth;
+
+    @ManyToOne
+    @JoinColumn(name = "checking_account_id")
+    PersonalChecking personalChecking;
+
+    @ManyToOne
+    @JoinColumn(name = "savings_account_id")
+    SavingsAccount savingsAccount;
 
     public Transaction(double amount, long dateOfTransaction, TransactionType transactionType) {
         this.amount = amount;

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -13,7 +14,7 @@ public class CDAccount extends BankAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "account_id")
+    @Column(name = "cd_account_id")
     private Long id;
 
     @JsonIgnore
@@ -24,6 +25,10 @@ public class CDAccount extends BankAccount {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cd_offering_id")
     private CDOffering cdOffering;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cdAccount")
+    private List<Transaction> transactions;
+
 
 
     public CDAccount(double balance, CDOffering cdOffering) {
