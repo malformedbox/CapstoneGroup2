@@ -170,6 +170,8 @@ public class AccountHolderService {
 
     /* Transactions ================================================================================================= */
 
+    // I switched the Generation Type for Bank Accounts to AUTO so this should be fine but I'm gonna leave this comment
+    // here until I test it out and am sure it provides no issues
     public BankAccount getBankAccountById(Long id) {
         List<CDAccount> cdAccounts = cdAccountRepository.findAll();
         for (CDAccount cdAccount : cdAccounts) {

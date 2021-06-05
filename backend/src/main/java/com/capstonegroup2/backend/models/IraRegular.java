@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class IraRegular extends BankAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "account_id")
     private Long id;
 
