@@ -74,6 +74,9 @@ public class BankAccount {
         return false;
     }
 
+    // This method will build a string consisting of 10 random numbers generated one at a
+    // time and convert it to a long. The length of the account number  could easily be
+    // modified by changing the length in the for loop
     public static long generateAccountNumber() {
         StringBuilder stringBuilder = new StringBuilder();
         Random random = new Random();
