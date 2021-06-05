@@ -42,8 +42,8 @@ public class AccountHolderService {
     @Autowired
     SavingsAccountRepository savingsAccountRepository;
 
-    @Autowired
-    TransactionRepository transactionRepository;
+//    @Autowired
+//    TransactionRepository transactionRepository;
 
 
     /* Account Holders ============================================================================================== */
@@ -202,19 +202,19 @@ public class AccountHolderService {
         return null;
     }
 
-    public Transaction addTransaction(TransactionDTO transactionDTO, Long id) {
-        BankAccount bankAccount = getBankAccountById(id);
-        Transaction transaction = new Transaction(transactionDTO.getAmount(),
-                transactionDTO.getDateOfTransaction(), transactionDTO.getTransactionType());
-        transaction.setBankAccount(bankAccount);
-        return transactionRepository.save(transaction);
-    }
-
-
-    public List<Transaction> getTransactions(Long id) {
-        BankAccount bankAccount = getBankAccountById(id);
-        return transactionRepository.findByBankAccount(bankAccount);
-    }
+//    public Transaction addTransaction(TransactionDTO transactionDTO, Long id) {
+//        BankAccount bankAccount = getBankAccountById(id);
+//        Transaction transaction = new Transaction(transactionDTO.getAmount(),
+//                transactionDTO.getDateOfTransaction(), transactionDTO.getTransactionType());
+//        transaction.setBankAccount(bankAccount);
+//        return transactionRepository.save(transaction);
+//    }
+//
+//
+//    public List<Transaction> getTransactions(Long id) {
+//        BankAccount bankAccount = getBankAccountById(id);
+//        return transactionRepository.findByBankAccount(bankAccount);
+//    }
 
 //    public Transaction addDepositTransaction(TransactionDTO transactionDTO, Long id) {
 //        BankAccount bankAccount = getBankAccountById(id);

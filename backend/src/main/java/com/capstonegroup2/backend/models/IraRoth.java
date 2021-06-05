@@ -11,6 +11,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class IraRoth extends BankAccount{
 
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_id")
+    private Long id;
+
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_holder_id")

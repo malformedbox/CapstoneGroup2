@@ -22,9 +22,9 @@ public class Transaction {
     private long dateOfTransaction;
     private TransactionType transactionType;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private BankAccount bankAccount;
+//    @ManyToOne
+//    @JoinColumn(name = "account_id")
+//    private BankAccount bankAccount;
 
 
     public Transaction(double amount, long dateOfTransaction, TransactionType transactionType) {

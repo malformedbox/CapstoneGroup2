@@ -11,6 +11,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class DbaChecking extends BankAccount {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_id")
+    private Long id;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
