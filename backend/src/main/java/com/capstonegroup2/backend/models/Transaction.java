@@ -21,6 +21,7 @@ public class Transaction {
     private double amount;
     private long dateOfTransaction;
     private TransactionType transactionType;
+//    private BankAccountType bankAccountType;
 
     @JsonIgnore
     @ManyToOne
