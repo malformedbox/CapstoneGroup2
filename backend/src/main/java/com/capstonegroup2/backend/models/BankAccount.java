@@ -28,6 +28,7 @@ public class BankAccount {
         this.balance = balance;
         this.interestRate = interestRate;
         this.activeStatus = ActiveStatus.OPEN;
+        this.accountNumber = generateAccountNumber();
     }
 
     public Date getOpenedOnAsDate(){
