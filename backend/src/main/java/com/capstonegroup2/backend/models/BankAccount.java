@@ -90,6 +90,10 @@ public class BankAccount {
 
 
     public boolean withdraw(Transaction withdrawal) {
+        if (withdrawal.getAmount() > 0 && withdrawal.getAmount() < balance) {
+            balance -= withdrawal.getAmount();
+            return true;
+        }
         return false;
     }
 
@@ -98,7 +102,11 @@ public class BankAccount {
     }
 
     public boolean deposit(Transaction deposit) {
-        return false;
+       if (deposit.getAmount() > 0) {
+           balance += deposit.getAmount();
+           return true;
+       }
+       return false;
     }
 
     public static double futureValue(double balance, double interestRate, int years) {
