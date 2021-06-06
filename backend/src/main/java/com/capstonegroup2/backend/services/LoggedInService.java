@@ -31,10 +31,11 @@ public class LoggedInService {
     }
 
     /* CD Accounts ================================================================================================== */
-    public CDAccount addLoggedInCDAccount(String token, CDAccountDTO cdAccountDTO) throws AccountHolderNotFoundException {
+    public CDAccount addLoggedInCDAccount(String token, CDAccountDTO cdAccountDTO)
+            throws AccountHolderNotFoundException {
         AccountHolder accountHolder = getLoggedInAccountHolder(token);
         if (accountHolder == null) {
-            throw new AccountHolderNotFoundException("CD Account failed to post : Account Holder could not be located.");
+            throw new AccountHolderNotFoundException("Account Holder could not be located : CD Account failed to post");
         }
         return accountHolderService.addCDAccount(cdAccountDTO, accountHolder.getId());
     }
@@ -46,4 +47,7 @@ public class LoggedInService {
         }
         return accountHolderService.getCDAccounts(accountHolder.getId());
     }
+
+    // I assume this is the class where should do all our business logic validation and that would should create
+    // exceptions to handle them.
 }

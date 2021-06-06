@@ -1,9 +1,11 @@
 package com.capstonegroup2.backend.controllers;
 
 import com.capstonegroup2.backend.dto.CDAccountDTO;
+import com.capstonegroup2.backend.dto.TransactionDTO;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.models.AccountHolder;
 import com.capstonegroup2.backend.models.CDAccount;
+import com.capstonegroup2.backend.models.Transaction;
 import com.capstonegroup2.backend.services.LoggedInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,4 +37,5 @@ public class LoggedInController {
             throws AccountHolderNotFoundException {
         return loggedInService.getLoggedInCDAccounts(token);
     }
+
 }
