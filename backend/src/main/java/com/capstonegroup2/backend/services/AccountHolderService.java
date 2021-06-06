@@ -57,6 +57,7 @@ public class AccountHolderService {
 
         AccountHolder newHolder = new AccountHolder(accountHolderDTO.getFirstName(), accountHolderDTO.getMiddleName(),
                 accountHolderDTO.getLastName(), accountHolderDTO.getSsn(), user);
+        user.setAccountHolder(newHolder);
         return accountHolderRepository.save(newHolder);
     }
 

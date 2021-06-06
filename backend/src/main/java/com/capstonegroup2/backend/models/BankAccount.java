@@ -2,6 +2,7 @@ package com.capstonegroup2.backend.models;
 
 import com.capstonegroup2.backend.enums.ActiveStatus;
 import com.capstonegroup2.backend.enums.TransactionType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.Random;
 @Data
 @MappedSuperclass
 @NoArgsConstructor
+@AllArgsConstructor
 public class BankAccount {
 
     protected long accountNumber;

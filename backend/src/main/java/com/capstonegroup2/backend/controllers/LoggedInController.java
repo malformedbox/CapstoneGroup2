@@ -3,6 +3,7 @@ package com.capstonegroup2.backend.controllers;
 import com.capstonegroup2.backend.dto.CDAccountDTO;
 import com.capstonegroup2.backend.dto.TransactionDTO;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
+import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
 import com.capstonegroup2.backend.models.AccountHolder;
 import com.capstonegroup2.backend.models.CDAccount;
 import com.capstonegroup2.backend.models.Transaction;
@@ -40,7 +41,8 @@ public class LoggedInController {
 
     @PostMapping("/personalchecking/deposit")
     public Transaction depositIntoPersonalChecking(@RequestHeader(name = "Authorization")
-                                                               String token, TransactionDTO transactionDTO) {
+                                                               String token, TransactionDTO transactionDTO)
+            throws AccountNotFoundException, AccountHolderNotFoundException {
         return loggedInService.depositIntoPersonalChecking(token, transactionDTO);
     }
 }
