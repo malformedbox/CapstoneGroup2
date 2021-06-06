@@ -1,6 +1,7 @@
 package com.capstonegroup2.backend.services;
 
 import com.capstonegroup2.backend.dto.CDAccountDTO;
+import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.models.AccountHolder;
 import com.capstonegroup2.backend.models.CDAccount;
 import com.capstonegroup2.backend.models.UserCredentials;
@@ -29,13 +30,20 @@ public class LoggedInService {
         return accountHolderService.getAccountHolderById(userCredentials.getAccountHolder().getId());
     }
 
-    public CDAccount addLoggedInCDAccount(String token, CDAccountDTO cdAccountDTO) {
+    /* CD Accounts ================================================================================================== */
+    public CDAccount addLoggedInCDAccount(String token, CDAccountDTO cdAccountDTO) throws AccountHolderNotFoundException {
         AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        if (accountHolder == null) {
+            throw new AccountHolderNotFoundException("CD Account failed to post : Account Holder could not be located.");
+        }
         return accountHolderService.addCDAccount(cdAccountDTO, accountHolder.getId());
     }
 
-    public List<CDAccount> getLoggedInCDAccounts(String token) {
+    public List<CDAccount> getLoggedInCDAccounts(String token) throws AccountHolderNotFoundException {
         AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        if (accountHolder == null) {
+            throw new AccountHolderNotFoundException();
+        }
         return accountHolderService.getCDAccounts(accountHolder.getId());
     }
 }

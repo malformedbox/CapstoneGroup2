@@ -1,6 +1,7 @@
 package com.capstonegroup2.backend.controllers;
 
 import com.capstonegroup2.backend.dto.CDAccountDTO;
+import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.models.AccountHolder;
 import com.capstonegroup2.backend.models.CDAccount;
 import com.capstonegroup2.backend.services.LoggedInService;
@@ -22,13 +23,16 @@ public class LoggedInController {
         return loggedInService.getLoggedInAccountHolder(token);
     }
 
+    /* CD Accounts ================================================================================================== */
     @PostMapping("/cdaccounts")
-    public CDAccount addLoggedInCDAccount(@RequestHeader(name = "Authorization") String token, CDAccountDTO cdAccountDTO) {
+    public CDAccount addLoggedInCDAccount(@RequestHeader(name = "Authorization") String token, CDAccountDTO cdAccountDTO)
+            throws AccountHolderNotFoundException {
         return loggedInService.addLoggedInCDAccount(token, cdAccountDTO);
     }
 
     @GetMapping("/cdaccounts")
-    public List<CDAccount> getLoggedInCDAccounts(@RequestHeader(name = "Authorization") String token) {
+    public List<CDAccount> getLoggedInCDAccounts(@RequestHeader(name = "Authorization") String token)
+            throws AccountHolderNotFoundException {
         return loggedInService.getLoggedInCDAccounts(token);
     }
 }
