@@ -1,6 +1,7 @@
 package com.capstonegroup2.backend.controllers;
 
 import com.capstonegroup2.backend.dto.UserCredentialsDTO;
+import com.capstonegroup2.backend.models.AccountHolder;
 import com.capstonegroup2.backend.models.UserCredentials;
 import com.capstonegroup2.backend.services.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
