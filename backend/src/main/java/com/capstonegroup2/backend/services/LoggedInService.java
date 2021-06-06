@@ -30,6 +30,7 @@ public class LoggedInService {
     public AccountHolder getLoggedInAccountHolder(String token) {
         token = token.substring(7);
         UserCredentials userCredentials = userCredentialsRepository.findByUsername(jwtTokenCreator.extractUsername(token)).get();
+//        System.out.println(userCredentials.getAccountHolder().getId());
         return accountHolderService.getAccountHolderById(userCredentials.getAccountHolder().getId());
     }
 
