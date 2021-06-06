@@ -1,10 +1,10 @@
 package com.capstonegroup2.backend.services;
 
 import com.capstonegroup2.backend.dto.CDAccountDTO;
+import com.capstonegroup2.backend.dto.TransactionDTO;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
-import com.capstonegroup2.backend.models.AccountHolder;
-import com.capstonegroup2.backend.models.CDAccount;
-import com.capstonegroup2.backend.models.UserCredentials;
+import com.capstonegroup2.backend.models.*;
+import com.capstonegroup2.backend.repositories.TransactionRepository;
 import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
 import com.capstonegroup2.backend.security.JwtTokenCreator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,9 @@ public class LoggedInService {
 
     @Autowired
     AccountHolderService accountHolderService;
+
+    @Autowired
+    TransactionRepository transactionRepository;
 
     @Autowired
     JwtTokenCreator jwtTokenCreator;
@@ -48,6 +51,17 @@ public class LoggedInService {
         return accountHolderService.getCDAccounts(accountHolder.getId());
     }
 
-    // I assume this is the class where should do all our business logic validation and that would should create
-    // exceptions to handle them.
+
+    // So this is tricky to understand what does and does not need to be done. Currently this method I believe will
+    // save over the account related to the deposit that is in the database. We could conceivably use generics or an
+    // enum to have not have to create these methods for each type of account but since some will have different
+    // business logic i'm not sure we would be able to get away with that in the long run anyway
+    public Transaction depositIntoPersonalChecking(String token, TransactionDTO depositDTO) {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        PersonalChecking personalChecking = accountHolder.getPersonalChecking();
+        Transaction depositTransaction = new Transaction(depositDTO.getAmount(), depositDTO.getTransactionType());
+        personalChecking.deposit(depositTransaction);
+        accountHolderService.personalCheckingRepository.save(personalChecking);
+        return transactionRepository.save(depositTransaction);
+    }
 }

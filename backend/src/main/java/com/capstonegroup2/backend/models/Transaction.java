@@ -58,6 +58,11 @@ public class Transaction {
     @JoinColumn(name = "savings_account_id")
     SavingsAccount savingsAccount;
 
+    public Transaction(double amount, TransactionType transactionType) {
+        this.amount = amount;
+        this.transactionType = transactionType;
+    }
+
     public Transaction(double amount, long dateOfTransaction, TransactionType transactionType) {
         this.amount = amount;
         this.dateOfTransaction = dateOfTransaction;

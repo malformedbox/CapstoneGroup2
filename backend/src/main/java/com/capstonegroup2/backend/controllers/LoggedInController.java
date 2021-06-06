@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/loggedin")
+@RequestMapping("/user")
 public class LoggedInController {
 
     @Autowired
@@ -38,4 +38,9 @@ public class LoggedInController {
         return loggedInService.getLoggedInCDAccounts(token);
     }
 
+    @PostMapping("/personalchecking/deposit")
+    public Transaction depositIntoPersonalChecking(@RequestHeader(name = "Authorization")
+                                                               String token, TransactionDTO transactionDTO) {
+        return loggedInService.depositIntoPersonalChecking(token, transactionDTO);
+    }
 }
