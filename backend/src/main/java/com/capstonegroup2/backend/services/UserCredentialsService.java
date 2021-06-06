@@ -1,18 +1,15 @@
 package com.capstonegroup2.backend.services;
 
 import com.capstonegroup2.backend.dto.UserCredentialsDTO;
-import com.capstonegroup2.backend.models.AccountHolder;
 import com.capstonegroup2.backend.models.UserCredentials;
-import com.capstonegroup2.backend.repositories.AccountHolderRepository;
 import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
-import com.capstonegroup2.backend.security.JwtTokenCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserDetailsService {
+public class UserCredentialsService {
 
     @Autowired
     UserCredentialsRepository userCredentialsRepository;

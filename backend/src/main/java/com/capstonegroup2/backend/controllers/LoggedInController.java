@@ -4,9 +4,10 @@ import com.capstonegroup2.backend.dto.CDAccountDTO;
 import com.capstonegroup2.backend.models.AccountHolder;
 import com.capstonegroup2.backend.models.CDAccount;
 import com.capstonegroup2.backend.services.LoggedInService;
-import com.capstonegroup2.backend.services.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -22,8 +23,12 @@ public class LoggedInController {
     }
 
     @PostMapping("/cdaccounts")
-    public CDAccount postCDAccount(@RequestHeader(name = "Authroization") String token, CDAccountDTO cdAccountDTO) {
-        return loggedInService.postCDAccount(token, cdAccountDTO);
+    public CDAccount addLoggedInCDAccount(@RequestHeader(name = "Authorization") String token, CDAccountDTO cdAccountDTO) {
+        return loggedInService.addLoggedInCDAccount(token, cdAccountDTO);
     }
 
+    @GetMapping("/cdaccounts")
+    public List<CDAccount> getLoggedInCDAccounts(@RequestHeader(name = "Authorization") String token) {
+        return loggedInService.getLoggedInCDAccounts(token);
+    }
 }
