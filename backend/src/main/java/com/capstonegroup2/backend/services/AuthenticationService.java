@@ -64,16 +64,19 @@ public class AuthenticationService {
 //        newUserCredentials.setId(newAccountHolder.getId());
 ////        accountHolderService.addAccountHolder(newAccountHolderDTO);
 //        accountHolderController.addAccountHolder(newAccountHolderDTO);
+        newUserCredentials.setAccountHolder(userCreationDTO.getAccountHolder());
 
         AccountHolderDTO newAccountHolderDTO = new AccountHolderDTO();
-        newAccountHolderDTO.setFirstName(userCreationDTO.getAccountHolderDTO().getFirstName());
-        newAccountHolderDTO.setMiddleName(userCreationDTO.getAccountHolderDTO().getMiddleName());
-        newAccountHolderDTO.setLastName(userCreationDTO.getAccountHolderDTO().getLastName());
-        newAccountHolderDTO.setId(userCreationDTO.getAccountHolderDTO().getId());
+        newAccountHolderDTO.setFirstName(userCreationDTO.getAccountHolder().getFirstName());
+        newAccountHolderDTO.setMiddleName(userCreationDTO.getAccountHolder().getMiddleName());
+        newAccountHolderDTO.setLastName(userCreationDTO.getAccountHolder().getLastName());
+        newAccountHolderDTO.setId(userCreationDTO.getAccountHolder().getId());
 
         // So this works as long as I do not use the line below. So the problem is this given id must no be null that
         // should be getting auto generated at creation but is not.
         accountHolderService.addAccountHolder(newAccountHolderDTO);
+
+
 
         userCredentialsRepository.save(newUserCredentials);
         return new ResponseEntity<>(newUserCredentials, HttpStatus.CREATED);
