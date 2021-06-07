@@ -43,6 +43,12 @@ public class AuthenticationService {
     @Autowired
     AccountHolderController accountHolderController;
 
+    // So this create user is a pretty important method we need to figure out. Its currently an issue with the ids. I
+    // think we could possibly simplify it by just only having account holder or user create the id and then setting the
+    // other essentially meaning that the same id number will reference both the account holder and the user.
+
+
+
     //Service method to create a new user, should be assigned an id# upon creation
     public ResponseEntity<?> createUser(UserCreationDTO userCreationDTO) {
         //Checks if this username already exists in the UserCredentialsRepository
