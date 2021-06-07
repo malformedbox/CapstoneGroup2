@@ -1,7 +1,9 @@
 package com.capstonegroup2.backend.services;
 
+import com.capstonegroup2.backend.dto.AccountHolderDTO;
 import com.capstonegroup2.backend.dto.AuthenticationDTO;
 import com.capstonegroup2.backend.dto.UserCredentialsDTO;
+import com.capstonegroup2.backend.models.AccountHolder;
 import com.capstonegroup2.backend.models.UserCredentials;
 import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
 import com.capstonegroup2.backend.security.JwtTokenCreator;
@@ -33,6 +35,9 @@ public class AuthenticationService {
     @Autowired
     private UserCredentialsServiceImplementation userCredentialsServiceImplementation;
 
+    @Autowired
+    AccountHolderService accountHolderService;
+
     //Service method to create a new user, should be assigned an id# upon creation
     public ResponseEntity<?> createUser(UserCredentialsDTO userCredentialsDTO) {
         //Checks if this username already exists in the UserCredentialsRepository
@@ -42,6 +47,16 @@ public class AuthenticationService {
                     .body(String.format("Username %s already exists", userCredentialsDTO.getUsername()));
         }
         UserCredentials newUserCredentials = new UserCredentials(userCredentialsDTO.getUsername(), passwordEncoder.encode(userCredentialsDTO.getPassword()));
+        // I believe this would be the point at which when creating a user on the frontend you would need to fill out a
+        // form giving the account holder parameters we set in the constructor
+        AccountHolder newAccountHolder = new AccountHolder("Bob", "Sam", "Fishman", "345678901", newUserCredentials);
+
+        AccountHolderDTO newAccountHolderDTO = new AccountHolderDTO();
+        newAccountHolderDTO.setFirstName(newAccountHolder.getFirstName());
+        newAccountHolderDTO.setMiddleName(newAccountHolder.getMiddleName());
+        newAccountHolderDTO.setLastName(newAccountHolder.getLastName());
+        newAccountHolderDTO.setId(newUserCredentials.getId());
+        accountHolderService.addAccountHolder(newAccountHolderDTO);
 
         userCredentialsRepository.save(newUserCredentials);
         return new ResponseEntity<>(newUserCredentials, HttpStatus.CREATED);
