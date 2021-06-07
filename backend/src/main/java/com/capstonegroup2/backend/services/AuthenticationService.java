@@ -1,5 +1,6 @@
 package com.capstonegroup2.backend.services;
 
+import com.capstonegroup2.backend.controllers.AccountHolderController;
 import com.capstonegroup2.backend.dto.AccountHolderDTO;
 import com.capstonegroup2.backend.dto.AuthenticationDTO;
 import com.capstonegroup2.backend.dto.UserCredentialsDTO;
@@ -38,6 +39,9 @@ public class AuthenticationService {
     @Autowired
     AccountHolderService accountHolderService;
 
+    @Autowired
+    AccountHolderController accountHolderController;
+
     //Service method to create a new user, should be assigned an id# upon creation
     public ResponseEntity<?> createUser(UserCredentialsDTO userCredentialsDTO) {
         //Checks if this username already exists in the UserCredentialsRepository
@@ -55,8 +59,10 @@ public class AuthenticationService {
         newAccountHolderDTO.setFirstName(newAccountHolder.getFirstName());
         newAccountHolderDTO.setMiddleName(newAccountHolder.getMiddleName());
         newAccountHolderDTO.setLastName(newAccountHolder.getLastName());
-        newAccountHolderDTO.setId(newUserCredentials.getId());
+//        newAccountHolderDTO.setId(newUserCredentials.getId());
+        newUserCredentials.setId(newAccountHolder.getId());
         accountHolderService.addAccountHolder(newAccountHolderDTO);
+
 
         userCredentialsRepository.save(newUserCredentials);
         return new ResponseEntity<>(newUserCredentials, HttpStatus.CREATED);
