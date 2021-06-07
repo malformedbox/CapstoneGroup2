@@ -61,8 +61,8 @@ public class AuthenticationService {
         newAccountHolderDTO.setLastName(newAccountHolder.getLastName());
 //        newAccountHolderDTO.setId(newUserCredentials.getId());
         newUserCredentials.setId(newAccountHolder.getId());
-        accountHolderService.addAccountHolder(newAccountHolderDTO);
-
+//        accountHolderService.addAccountHolder(newAccountHolderDTO);
+        accountHolderController.addAccountHolder(newAccountHolderDTO);
 
         userCredentialsRepository.save(newUserCredentials);
         return new ResponseEntity<>(newUserCredentials, HttpStatus.CREATED);
