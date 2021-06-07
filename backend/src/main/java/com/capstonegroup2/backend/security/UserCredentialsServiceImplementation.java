@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserCredentialsServiceImplementation implements UserDetailsService {
     @Autowired
-    UserCredentialsRepository userCredentialsRepositoryRepository;
+    UserCredentialsRepository userCredentialsRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserCredentials userCredentials = userCredentialsRepositoryRepository.findByUsername(username)
+        UserCredentials userCredentials = userCredentialsRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
         return UserCredentialsImplementation.build(userCredentials);

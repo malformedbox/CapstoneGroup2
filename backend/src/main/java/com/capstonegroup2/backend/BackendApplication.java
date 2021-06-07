@@ -2,25 +2,26 @@ package com.capstonegroup2.backend;
 
 // Stupid Comment
 
+import com.capstonegroup2.backend.models.UserCredentials;
+import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class BackendApplication {
 
-//	private static UserDetailsRepository userDetailsRepository;
-//  UserDetailsRepository userDetailsRepository = new UserDetailsRepository();
-//  UserDetailsRepository userDetailsRepository1 = null;
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
-
-
-
-//		UserDetails user1 = new UserDetails("bobfisherman", "fisharecool");
-//		userDetailsRepository.save(user1);
-		
-		
 	}
 
+	@Bean
+	public CommandLineRunner addAdmin(UserCredentialsRepository repository) {
+		return (args) -> {
+			repository.save(new UserCredentials("admin", "password"));
+		};
+	}
 }

@@ -1,11 +1,14 @@
 package com.capstonegroup2.backend.controllers;
 
+import com.capstonegroup2.backend.dto.AccountHolderDTO;
 import com.capstonegroup2.backend.dto.CDAccountDTO;
+import com.capstonegroup2.backend.dto.PersonalCheckingDTO;
 import com.capstonegroup2.backend.dto.TransactionDTO;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
 import com.capstonegroup2.backend.models.AccountHolder;
 import com.capstonegroup2.backend.models.CDAccount;
+import com.capstonegroup2.backend.models.PersonalChecking;
 import com.capstonegroup2.backend.models.Transaction;
 import com.capstonegroup2.backend.services.LoggedInService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +24,16 @@ public class LoggedInController {
     @Autowired
     LoggedInService loggedInService;
 
+    /* Account Holder ============================================================================================== */
     @GetMapping
     public AccountHolder getLoggedInAccountHolder(@RequestHeader(name = "Authorization") String token) {
         return loggedInService.getLoggedInAccountHolder(token);
+    }
+
+    @PostMapping("/createaccountholder")
+    public AccountHolder createLoggedInAccountHolder(@RequestHeader(name = "Authorization") String token,
+                                                     AccountHolderDTO accountHolderDTO) {
+        return loggedInService.createLoggedInAccountHolder(token, accountHolderDTO);
     }
 
     /* CD Accounts ================================================================================================== */
@@ -37,6 +47,20 @@ public class LoggedInController {
     public List<CDAccount> getLoggedInCDAccounts(@RequestHeader(name = "Authorization") String token)
             throws AccountHolderNotFoundException {
         return loggedInService.getLoggedInCDAccounts(token);
+    }
+
+    /* Personal Checking Accounts =================================================================================== */
+    @PostMapping("/personalchecking")
+    public PersonalChecking addLoggedInPersonalChecking(@RequestHeader(name = "Authorization") String token,
+                                                        PersonalCheckingDTO personalCheckingDTO)
+            throws AccountHolderNotFoundException {
+        return loggedInService.addLoggedInPersonalChecking(token, personalCheckingDTO);
+    }
+
+    @GetMapping("/personalchecking")
+    public PersonalChecking getLoggedInPersonalChecking(@RequestHeader(name = "Authorization") String token)
+            throws AccountHolderNotFoundException {
+        return loggedInService.getLoggedInPersonalChecking(token);
     }
 
     @PostMapping("/personalchecking/deposit")

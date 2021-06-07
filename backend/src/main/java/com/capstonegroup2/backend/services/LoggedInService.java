@@ -1,6 +1,8 @@
 package com.capstonegroup2.backend.services;
 
+import com.capstonegroup2.backend.dto.AccountHolderDTO;
 import com.capstonegroup2.backend.dto.CDAccountDTO;
+import com.capstonegroup2.backend.dto.PersonalCheckingDTO;
 import com.capstonegroup2.backend.dto.TransactionDTO;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
@@ -30,11 +32,15 @@ public class LoggedInService {
     @Autowired
     JwtTokenCreator jwtTokenCreator;
 
+    /* Account Holder ============================================================================================== */
     public AccountHolder getLoggedInAccountHolder(String token) {
         token = token.substring(7);
         UserCredentials userCredentials = userCredentialsRepository.findByUsername(jwtTokenCreator.extractUsername(token)).get();
-//        System.out.println(userCredentials.getAccountHolder().getId());
         return accountHolderService.getAccountHolderById(userCredentials.getAccountHolder().getId());
+    }
+
+    public AccountHolder createLoggedInAccountHolder(String token, AccountHolderDTO accountHolderDTO) {
+        return accountHolderService.addAccountHolder(accountHolderDTO);
     }
 
     /* CD Accounts ================================================================================================== */
@@ -53,6 +59,22 @@ public class LoggedInService {
         return accountHolderService.getCDAccounts(accountHolder.getId());
     }
 
+    /* Personal Checking Accounts =================================================================================== */
+    public PersonalChecking addLoggedInPersonalChecking(String token, PersonalCheckingDTO personalCheckingDTO) throws AccountHolderNotFoundException {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
+        return  accountHolderService.addPersonalChecking(personalCheckingDTO, accountHolder.getId());
+    }
+
+    public PersonalChecking getLoggedInPersonalChecking(String token) throws AccountHolderNotFoundException {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        if (accountHolder ==  null) throw new AccountHolderNotFoundException();
+        return accountHolderService.getPersonalChecking(accountHolder.getId());
+    }
+
+
+    // Ignore below, this can be refactored to be a general deposit method that hits whatever
+    // bank account we target
 
     // So this is tricky to understand what does and does not need to be done. Currently this method I believe will
     // save over the account related to the deposit that is in the database. We could conceivably use generics or an
@@ -77,4 +99,5 @@ public class LoggedInService {
         // save and return the transaction
         return transactionRepository.save(depositTransaction);
     }
+
 }
