@@ -58,33 +58,9 @@ public class AuthenticationService {
                     .body(String.format("Username %s already exists", userCreationDTO.getUsername()));
         }
         UserCredentials newUserCredentials = new UserCredentials(userCreationDTO.getUsername(), passwordEncoder.encode(userCreationDTO.getPassword()));
-        // I believe this would be the point at which when creating a user on the frontend you would need to fill out a
-        // form giving the account holder parameters we set in the constructor
-//        AccountHolder newAccountHolder = new AccountHolder("Bob", "Sam", "Fishman", "345678901", newUserCredentials);
-//
-//        AccountHolderDTO newAccountHolderDTO = new AccountHolderDTO();
-//        newAccountHolderDTO.setFirstName(newAccountHolder.getFirstName());
-//        newAccountHolderDTO.setMiddleName(newAccountHolder.getMiddleName());
-//        newAccountHolderDTO.setLastName(newAccountHolder.getLastName());
-////        newAccountHolderDTO.setId(newUserCredentials.getId());
-//        newUserCredentials.setId(newAccountHolder.getId());
-////        accountHolderService.addAccountHolder(newAccountHolderDTO);
-//        accountHolderController.addAccountHolder(newAccountHolderDTO);
         newUserCredentials.setAccountHolder(userCreationDTO.getAccountHolder());
-
-        AccountHolderDTO newAccountHolderDTO = new AccountHolderDTO();
-        newAccountHolderDTO.setFirstName(userCreationDTO.getAccountHolder().getFirstName());
-        newAccountHolderDTO.setMiddleName(userCreationDTO.getAccountHolder().getMiddleName());
-        newAccountHolderDTO.setLastName(userCreationDTO.getAccountHolder().getLastName());
-        newAccountHolderDTO.setId(userCreationDTO.getAccountHolder().getId());
-
-        // So this works as long as I do not use the line below. So the problem is this given id must no be null that
-        // should be getting auto generated at creation but is not.
-        accountHolderService.addAccountHolder(newAccountHolderDTO);
-
-
-
         userCredentialsRepository.save(newUserCredentials);
+
         return new ResponseEntity<>(newUserCredentials, HttpStatus.CREATED);
     }
 
