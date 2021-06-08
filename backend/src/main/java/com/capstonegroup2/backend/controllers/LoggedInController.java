@@ -1,15 +1,9 @@
 package com.capstonegroup2.backend.controllers;
 
-import com.capstonegroup2.backend.dto.AccountHolderDTO;
-import com.capstonegroup2.backend.dto.CDAccountDTO;
-import com.capstonegroup2.backend.dto.PersonalCheckingDTO;
-import com.capstonegroup2.backend.dto.TransactionDTO;
+import com.capstonegroup2.backend.dto.*;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
-import com.capstonegroup2.backend.models.AccountHolder;
-import com.capstonegroup2.backend.models.CDAccount;
-import com.capstonegroup2.backend.models.PersonalChecking;
-import com.capstonegroup2.backend.models.Transaction;
+import com.capstonegroup2.backend.models.*;
 import com.capstonegroup2.backend.services.LoggedInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -68,5 +62,10 @@ public class LoggedInController {
                                                                String token, TransactionDTO transactionDTO)
             throws AccountNotFoundException, AccountHolderNotFoundException {
         return loggedInService.depositIntoPersonalChecking(token, transactionDTO);
+    }
+
+    @PostMapping("/dbachecking")
+    public DbaChecking addDbaChecking(@RequestHeader(name = "Authorization") String token, DbaCheckingDTO dbaCheckingDTO) {
+        return loggedInService.addDbaChecking(token, dbaCheckingDTO);
     }
 }

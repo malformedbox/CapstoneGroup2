@@ -1,12 +1,11 @@
 package com.capstonegroup2.backend.services;
 
-import com.capstonegroup2.backend.dto.AccountHolderDTO;
-import com.capstonegroup2.backend.dto.CDAccountDTO;
-import com.capstonegroup2.backend.dto.PersonalCheckingDTO;
-import com.capstonegroup2.backend.dto.TransactionDTO;
+import com.capstonegroup2.backend.dto.*;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
 import com.capstonegroup2.backend.models.*;
+import com.capstonegroup2.backend.repositories.DbaCheckingRepository;
+import com.capstonegroup2.backend.repositories.PersonalCheckingRepository;
 import com.capstonegroup2.backend.repositories.TransactionRepository;
 import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
 import com.capstonegroup2.backend.security.JwtTokenCreator;
@@ -25,6 +24,12 @@ public class LoggedInService {
 
     @Autowired
     AccountHolderService accountHolderService;
+
+    @Autowired
+    PersonalCheckingRepository personalCheckingRepository;
+
+    @Autowired
+    DbaCheckingRepository dbaCheckingRepository;
 
     @Autowired
     TransactionRepository transactionRepository;
@@ -63,13 +68,23 @@ public class LoggedInService {
     public PersonalChecking addLoggedInPersonalChecking(String token, PersonalCheckingDTO personalCheckingDTO) throws AccountHolderNotFoundException {
         AccountHolder accountHolder = getLoggedInAccountHolder(token);
         if (accountHolder == null) throw new AccountHolderNotFoundException();
-        return  accountHolderService.addPersonalChecking(personalCheckingDTO, accountHolder.getId());
+//        return  accountHolderService.addPersonalChecking(personalCheckingDTO, accountHolder.getId());
+        PersonalChecking personalChecking = new PersonalChecking(personalCheckingDTO.getBalance());
+        personalChecking.setAccountHolder(accountHolder);
+        return personalCheckingRepository.save(personalChecking);
     }
 
     public PersonalChecking getLoggedInPersonalChecking(String token) throws AccountHolderNotFoundException {
         AccountHolder accountHolder = getLoggedInAccountHolder(token);
         if (accountHolder ==  null) throw new AccountHolderNotFoundException();
         return accountHolderService.getPersonalChecking(accountHolder.getId());
+    }
+
+    public DbaChecking addDbaChecking(String token, DbaCheckingDTO dbaCheckingDTO) {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        DbaChecking dbaChecking = new DbaChecking(dbaCheckingDTO.getBalance());
+        dbaChecking.setAccountHolder(accountHolder);
+        return dbaCheckingRepository.save(dbaChecking);
     }
 
 
@@ -99,5 +114,6 @@ public class LoggedInService {
         // save and return the transaction
         return transactionRepository.save(depositTransaction);
     }
+
 
 }
