@@ -1,5 +1,6 @@
 package com.capstonegroup2.backend.models;
 
+import com.capstonegroup2.backend.enums.Roles;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,9 @@ public class UserCredentials {
     @NotBlank(message = "Password is a required field")
     private String password;
 
+//    private Roles role;
+    private String role;
+
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_holder_id")
@@ -30,5 +34,7 @@ public class UserCredentials {
     public UserCredentials(String username, String password) {
         this.username = username;
         this.password = password;
+//        this.role = Roles.USER;
+        this.role = "USER";
     }
 }

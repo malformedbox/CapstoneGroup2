@@ -6,6 +6,7 @@ import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
 import com.capstonegroup2.backend.models.*;
 import com.capstonegroup2.backend.services.LoggedInService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +46,7 @@ public class LoggedInController {
 
     /* Personal Checking Accounts =================================================================================== */
     @PostMapping("/personalchecking")
+    @PreAuthorize("hasRole('USER')")
     public PersonalChecking addLoggedInPersonalChecking(@RequestHeader(name = "Authorization") String token,
                                                         @RequestBody PersonalCheckingDTO personalCheckingDTO)
             throws AccountHolderNotFoundException {

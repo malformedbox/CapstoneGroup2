@@ -1,5 +1,6 @@
 package com.capstonegroup2.backend.security;
 
+import com.capstonegroup2.backend.enums.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,7 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-        //return NoOpPasswordEncoder.getInstance();
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception{
@@ -51,10 +51,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
 //                .antMatchers("/user").authenticated()
+                .antMatchers("/user/**").hasRole("USER")
 //                .antMatchers("/accountholders/**").authenticated()
                 .antMatchers("/**").permitAll()
-                .anyRequest()
-                .authenticated();
+                .anyRequest().authenticated();
 
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
 

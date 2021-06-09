@@ -1,11 +1,9 @@
 package com.capstonegroup2.backend.services;
 
 import com.capstonegroup2.backend.controllers.AccountHolderController;
-import com.capstonegroup2.backend.dto.AccountHolderDTO;
 import com.capstonegroup2.backend.dto.AuthenticationDTO;
 import com.capstonegroup2.backend.dto.UserCreationDTO;
 import com.capstonegroup2.backend.dto.UserCredentialsDTO;
-import com.capstonegroup2.backend.models.AccountHolder;
 import com.capstonegroup2.backend.models.UserCredentials;
 import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
 import com.capstonegroup2.backend.security.JwtTokenCreator;

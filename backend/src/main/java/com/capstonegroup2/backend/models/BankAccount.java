@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Random;
 
@@ -21,35 +23,53 @@ public class BankAccount {
     protected long accountNumber;
     protected double balance;
     protected double interestRate; //Value should be received from subclass passing up through the super constructor
-    protected long openedOn;
+    protected String interestRateFormatted;
+    protected LocalDateTime openedOn;
+    protected String opendOnDate;
     protected ActiveStatus activeStatus;
 
 
     public BankAccount(double balance, double interestRate){
         this.balance = balance;
         this.interestRate = interestRate;
+        this.interestRateFormatted = formatInterestRate(interestRate);
         this.activeStatus = ActiveStatus.OPEN;
+        this.openedOn = LocalDateTime.now();
+        this.opendOnDate = formatDate(openedOn);
         this.accountNumber = generateAccountNumber();
     }
 
-    public Date getOpenedOnAsDate(){
-        return new Date(this.openedOn * 1000);
+    public String formatDate(LocalDateTime date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = date.format(formatter);
+        return formattedDate;
     }
 
-    public Date returnLongAsDate(long epoch){
-        //This method takes an epoch as a long and converts to Date format in local time zone
-        //Written as Thu May 27 18:58:08 CDT 2021
-        //Alternatively, the method can be rewritten to receive a string and parse.
-        //String epochString = "1622159888";
-        //long epoch = Long.parseLong(epochString);
-        return new Date(epoch * 1000);
-    }
+//    public Date getOpenedOnAsDate(){
+//        return new Date(this.openedOn * 1000);
+//    }
+//
+//    public Date returnLongAsDate(long epoch){
+//        //This method takes an epoch as a long and converts to Date format in local time zone
+//        //Written as Thu May 27 18:58:08 CDT 2021
+//        //Alternatively, the method can be rewritten to receive a string and parse.
+//        //String epochString = "1622159888";
+//        //long epoch = Long.parseLong(epochString);
+//        return new Date(epoch * 1000);
+//    }
 
     public String formatInterestRate(double interestRate) {
         NumberFormat numberFormat = NumberFormat.getInstance();
         numberFormat.setMaximumFractionDigits(4);
         return numberFormat.format(interestRate);
     }
+
+//    public Double formatInterestRate(double interestRate) {
+//        DecimalFormat formatter = new DecimalFormat("#.####");
+//        Double formattedInterestRate = Double.parseDouble(formatter.format(interestRate));
+//        return formattedInterestRate;
+//
+//    }
 
     public String formatDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
@@ -121,5 +141,10 @@ public class BankAccount {
 
     public String closeAccountResponse() {
         return "Account closed, balance transferred to x account";
+    }
+
+    public Boolean closeAccount(BankAccount account) {
+        account.activeStatus = ActiveStatus.CLOSED;
+        return true;
     }
 }
