@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,11 +24,11 @@ public class IraRegular extends BankAccount {
     private AccountHolder accountHolder;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "iraRegular")
-    private List<Transaction> transactions;
+    private List<Transaction> transactions = new ArrayList<>();
 
 
-    public IraRegular(double balance) {
-        super(balance, 0.65);
+    public IraRegular(String balance) {
+        super(balance, "0.65");
     }
 
     // TODO Override closeAccountResponse

@@ -20,14 +20,14 @@ public class CDOffering {
     @Column(name = "cdAccounts_id")
     private Long id;
 
-    private double interestRate;
+    private String interestRate;
     private int term;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cdOffering")
     private List<CDAccount> cdAccounts;
 
-    public CDOffering(int term, double interestRate) {
+    public CDOffering(int term, String interestRate) {
         this.interestRate = interestRate;
         this.term = term;
     }

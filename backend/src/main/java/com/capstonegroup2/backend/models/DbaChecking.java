@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,10 +24,10 @@ public class DbaChecking extends BankAccount {
     private AccountHolder accountHolder;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "dbaChecking")
-    private List<Transaction> transactions;
+    private List<Transaction> transactions = new ArrayList<>();
 
-    public DbaChecking(double balance) {
-        super(balance, 0.0005);
+    public DbaChecking(String balance) {
+        super(balance, "0.0005");
     }
 
 

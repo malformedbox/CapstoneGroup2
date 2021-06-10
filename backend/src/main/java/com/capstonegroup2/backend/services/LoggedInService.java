@@ -74,6 +74,7 @@ public class LoggedInService {
         return personalCheckingRepository.save(personalChecking);
     }
 
+    /* DBA Checking Accounts ======================================================================================== */
     public PersonalChecking getLoggedInPersonalChecking(String token) throws AccountHolderNotFoundException {
         AccountHolder accountHolder = getLoggedInAccountHolder(token);
         if (accountHolder ==  null) throw new AccountHolderNotFoundException();
@@ -95,25 +96,25 @@ public class LoggedInService {
     // save over the account related to the deposit that is in the database. We could conceivably use generics or an
     // enum to have not have to create these methods for each type of account but since some will have different
     // business logic i'm not sure we would be able to get away with that in the long run anyway
-    public Transaction depositIntoPersonalChecking(String token, TransactionDTO depositDTO)
-            throws AccountHolderNotFoundException, AccountNotFoundException {
-        // Grab the Account Holder
-        AccountHolder accountHolder = getLoggedInAccountHolder(token);
-        if (accountHolder == null) throw new AccountHolderNotFoundException();
-
-        // Grab the targeted account
-        PersonalChecking personalChecking = accountHolder.getPersonalChecking();
-        if (personalChecking == null) throw new AccountNotFoundException();
-        if (depositDTO.getAmount() < 0) throw new IllegalArgumentException("A deposit must contain an amount greater than 0.");
-
-        // Create the transaction, modify the balance of the account and save the account
-        Transaction depositTransaction = new Transaction(depositDTO.getAmount(), depositDTO.getTransactionType());
-        personalChecking.deposit(depositTransaction);
-//        accountHolderService.personalCheckingRepository.save(personalChecking);
-
-        // save and return the transaction
-        return transactionRepository.save(depositTransaction);
-    }
+//    public Transaction depositIntoPersonalChecking(String token, TransactionDTO depositDTO)
+//            throws AccountHolderNotFoundException, AccountNotFoundException {
+//        // Grab the Account Holder
+//        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+//        if (accountHolder == null) throw new AccountHolderNotFoundException();
+//
+//        // Grab the targeted account
+//        PersonalChecking personalChecking = accountHolder.getPersonalChecking();
+//        if (personalChecking == null) throw new AccountNotFoundException();
+//        if (depositDTO.getAmount() < 0) throw new IllegalArgumentException("A deposit must contain an amount greater than 0.");
+//
+//        // Create the transaction, modify the balance of the account and save the account
+//        Transaction depositTransaction = new Transaction(depositDTO.getAmount(), depositDTO.getTransactionType());
+//        personalChecking.deposit(depositTransaction);
+////        accountHolderService.personalCheckingRepository.save(personalChecking);
+//
+//        // save and return the transaction
+//        return transactionRepository.save(depositTransaction);
+//    }
 
 
 }

@@ -23,8 +23,8 @@ public class UserCredentials {
     @NotBlank(message = "Password is a required field")
     private String password;
 
-//    private Roles role;
-    private String role;
+    private Roles role;
+//    private String role;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
@@ -34,7 +34,7 @@ public class UserCredentials {
     public UserCredentials(String username, String password) {
         this.username = username;
         this.password = password;
-//        this.role = Roles.USER;
-        this.role = "USER";
+        this.role = Roles.USER;
+//        this.role = "USER";
     }
 }

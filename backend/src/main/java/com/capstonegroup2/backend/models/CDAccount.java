@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,18 +28,18 @@ public class CDAccount extends BankAccount {
     private CDOffering cdOffering;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cdAccount")
-    private List<Transaction> transactions;
+    private List<Transaction> transactions = new ArrayList<>();
 
 
 
-    public CDAccount(double balance, CDOffering cdOffering) {
+    public CDAccount(String balance, CDOffering cdOffering) {
         super(balance, cdOffering.getInterestRate());
         this.cdOffering = cdOffering;
     }
 
-    public static double futureValue(double balance, CDOffering cdOffering) {
-        return futureValue(balance, cdOffering.getInterestRate(), cdOffering.getTerm());
-    }
+//    public static double futureValue(double balance, CDOffering cdOffering) {
+//        return futureValue(balance, cdOffering.getInterestRate(), cdOffering.getTerm());
+//    }
 
     // TODO Override closeAccountResponse
     @Override

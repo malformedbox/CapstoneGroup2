@@ -27,7 +27,7 @@ public class LoggedInController {
 
     @PostMapping("/createaccountholder")
     public AccountHolder createLoggedInAccountHolder(@RequestHeader(name = "Authorization") String token,
-                                                     AccountHolderDTO accountHolderDTO) {
+                                                     @RequestBody AccountHolderDTO accountHolderDTO) {
         return loggedInService.createLoggedInAccountHolder(token, accountHolderDTO);
     }
 
@@ -46,7 +46,7 @@ public class LoggedInController {
 
     /* Personal Checking Accounts =================================================================================== */
     @PostMapping("/personalchecking")
-    @PreAuthorize("hasRole('USER')")
+//    @PreAuthorize("hasRole('USER')")
     public PersonalChecking addLoggedInPersonalChecking(@RequestHeader(name = "Authorization") String token,
                                                         @RequestBody PersonalCheckingDTO personalCheckingDTO)
             throws AccountHolderNotFoundException {
@@ -59,13 +59,14 @@ public class LoggedInController {
         return loggedInService.getLoggedInPersonalChecking(token);
     }
 
-    @PostMapping("/personalchecking/deposit")
-    public Transaction depositIntoPersonalChecking(@RequestHeader(name = "Authorization")
-                                                               String token, @RequestBody TransactionDTO transactionDTO)
-            throws AccountNotFoundException, AccountHolderNotFoundException {
-        return loggedInService.depositIntoPersonalChecking(token, transactionDTO);
-    }
+//    @PostMapping("/personalchecking/deposit")
+//    public Transaction depositIntoPersonalChecking(@RequestHeader(name = "Authorization")
+//                                                               String token, @RequestBody TransactionDTO transactionDTO)
+//            throws AccountNotFoundException, AccountHolderNotFoundException {
+//        return loggedInService.depositIntoPersonalChecking(token, transactionDTO);
+//    }
 
+    /* DBA Checking Accounts ======================================================================================== */
     @PostMapping("/dbachecking")
     public DbaChecking addDbaChecking(@RequestHeader(name = "Authorization") String token,
                                       @RequestBody DbaCheckingDTO dbaCheckingDTO) {

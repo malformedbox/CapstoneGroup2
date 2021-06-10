@@ -7,7 +7,7 @@ import lombok.Data;
 public class CDAccountDTO {
 
     private Long id;
-    private double balance;
+    private String balance;
     private CDOffering cdOffering;
     private int term;
 
