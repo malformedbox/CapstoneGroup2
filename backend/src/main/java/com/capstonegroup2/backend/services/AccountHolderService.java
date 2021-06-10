@@ -51,17 +51,6 @@ public class AccountHolderService {
         return accountHolderRepository.findAll();
     }
 
-    public AccountHolder addAccountHolder(AccountHolderDTO accountHolderDTO)  {
-
-        UserCredentials user = userCredentialsRepository.findById(accountHolderDTO.getId()).orElse(null);
-
-        AccountHolder newHolder = new AccountHolder(accountHolderDTO.getFirstName(), accountHolderDTO.getMiddleName(),
-                accountHolderDTO.getLastName(), accountHolderDTO.getSsn(), user);
-        user.setAccountHolder(newHolder);
-
-        return accountHolderRepository.save(newHolder);
-    }
-
     public AccountHolder getAccountHolderById(Long id) {
         return accountHolderRepository.findById(id).orElse(null);
     }

@@ -4,9 +4,9 @@ import com.capstonegroup2.backend.dto.*;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
 import com.capstonegroup2.backend.models.*;
+import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
 import com.capstonegroup2.backend.services.LoggedInService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,44 +19,47 @@ public class LoggedInController {
     @Autowired
     LoggedInService loggedInService;
 
+    @Autowired
+    UserCredentialsRepository userCredentialsRepository;
+
     /* Account Holder ============================================================================================== */
     @GetMapping
     public AccountHolder getLoggedInAccountHolder(@RequestHeader(name = "Authorization") String token) {
         return loggedInService.getLoggedInAccountHolder(token);
     }
 
-    @PostMapping("/createaccountholder")
-    public AccountHolder createLoggedInAccountHolder(@RequestHeader(name = "Authorization") String token,
-                                                     @RequestBody AccountHolderDTO accountHolderDTO) {
-        return loggedInService.createLoggedInAccountHolder(token, accountHolderDTO);
-    }
-
     /* CD Accounts ================================================================================================== */
     @PostMapping("/cdaccounts")
-    public CDAccount addLoggedInCDAccount(@RequestHeader(name = "Authorization") String token,
-                                          @RequestBody CDAccountDTO cdAccountDTO) throws AccountHolderNotFoundException {
-        return loggedInService.addLoggedInCDAccount(token, cdAccountDTO);
+    public CDAccount addCDAccount(@RequestHeader(name = "Authorization") String token,
+                                  @RequestBody CDAccountDTO cdAccountDTO) throws AccountHolderNotFoundException {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        CDAccount cdAccount = new CDAccount(cdAccountDTO.getBalance(), cdAccountDTO.getCdOffering());
+        return loggedInService.addCDAccount(accountHolder, cdAccount);
     }
 
     @GetMapping("/cdaccounts")
-    public List<CDAccount> getLoggedInCDAccounts(@RequestHeader(name = "Authorization") String token)
+    public List<CDAccount> getCDAccounts(@RequestHeader(name = "Authorization") String token)
             throws AccountHolderNotFoundException {
-        return loggedInService.getLoggedInCDAccounts(token);
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        return loggedInService.getCDAccounts(accountHolder);
     }
 
     /* Personal Checking Accounts =================================================================================== */
     @PostMapping("/personalchecking")
 //    @PreAuthorize("hasRole('USER')")
-    public PersonalChecking addLoggedInPersonalChecking(@RequestHeader(name = "Authorization") String token,
-                                                        @RequestBody PersonalCheckingDTO personalCheckingDTO)
+    public PersonalChecking addPersonalChecking(@RequestHeader(name = "Authorization") String token,
+                                                @RequestBody PersonalCheckingDTO personalCheckingDTO)
             throws AccountHolderNotFoundException {
-        return loggedInService.addLoggedInPersonalChecking(token, personalCheckingDTO);
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        PersonalChecking personalChecking = new PersonalChecking(personalCheckingDTO.getBalance());
+        return loggedInService.addPersonalChecking(accountHolder, personalChecking);
     }
 
     @GetMapping("/personalchecking")
-    public PersonalChecking getLoggedInPersonalChecking(@RequestHeader(name = "Authorization") String token)
-            throws AccountHolderNotFoundException {
-        return loggedInService.getLoggedInPersonalChecking(token);
+    public PersonalChecking getPersonalChecking(@RequestHeader(name = "Authorization") String token)
+            throws AccountHolderNotFoundException, AccountNotFoundException {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        return loggedInService.getPersonalChecking(accountHolder);
     }
 
 //    @PostMapping("/personalchecking/deposit")
@@ -69,13 +72,16 @@ public class LoggedInController {
     /* DBA Checking Accounts ======================================================================================== */
     @PostMapping("/dbachecking")
     public DbaChecking addDbaChecking(@RequestHeader(name = "Authorization") String token,
-                                      @RequestBody DbaCheckingDTO dbaCheckingDTO) {
-        return loggedInService.addDbaChecking(token, dbaCheckingDTO);
+                                      @RequestBody DbaCheckingDTO dbaCheckingDTO) throws AccountHolderNotFoundException {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        DbaChecking dbaChecking = new DbaChecking(dbaCheckingDTO.getBalance());
+        return loggedInService.addDbaChecking(accountHolder, dbaChecking);
     }
 
     @GetMapping("/dbachecking")
     public List<DbaChecking> getDbaChecking(@RequestHeader(name = "Authorization") String token) throws AccountHolderNotFoundException {
-        return loggedInService.getDbaChecking(token);
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        return loggedInService.getDbaChecking(accountHolder);
     }
 
     /* IRA Regular Accounts ========================================================================================= */

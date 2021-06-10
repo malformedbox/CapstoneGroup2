@@ -28,12 +28,8 @@ public class BankAccount {
     // as BigDecimals in constructors or method calls using the new keyword
 
     protected long accountNumber;
-//    protected double balance;
-//    protected double interestRate; //Value should be received from subclass passing up through the super constructor
-//    protected String interestRateFormatted;
     protected BigDecimal balance;
     protected BigDecimal interestRate;
-//    protected LocalDateTime openedOn;
     protected String opendOn;
     protected ActiveStatus activeStatus;
 
@@ -52,32 +48,6 @@ public class BankAccount {
         String formattedDate = date.format(formatter);
         return formattedDate;
     }
-
-//    public Date getOpenedOnAsDate(){
-//        return new Date(this.openedOn * 1000);
-//    }
-//
-//    public Date returnLongAsDate(long epoch){
-//        //This method takes an epoch as a long and converts to Date format in local time zone
-//        //Written as Thu May 27 18:58:08 CDT 2021
-//        //Alternatively, the method can be rewritten to receive a string and parse.
-//        //String epochString = "1622159888";
-//        //long epoch = Long.parseLong(epochString);
-//        return new Date(epoch * 1000);
-//    }
-
-//    public String formatInterestRate(double interestRate) {
-//        NumberFormat numberFormat = NumberFormat.getInstance();
-//        numberFormat.setMaximumFractionDigits(4);
-//        return numberFormat.format(interestRate);
-//    }
-
-//    public Double formatInterestRate(double interestRate) {
-//        DecimalFormat formatter = new DecimalFormat("#.####");
-//        Double formattedInterestRate = Double.parseDouble(formatter.format(interestRate));
-//        return formattedInterestRate;
-//
-//    }
 
     public String formatDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");

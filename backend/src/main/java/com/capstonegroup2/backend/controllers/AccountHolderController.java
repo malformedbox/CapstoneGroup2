@@ -19,11 +19,6 @@ public class AccountHolderController {
     AccountHolderService accountHolderService;
 
     /* Account Holders ============================================================================================== */
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public AccountHolder addAccountHolder(@Valid @RequestBody AccountHolderDTO accountHolderDTO) {
-        return accountHolderService.addAccountHolder(accountHolderDTO);
-    }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

@@ -1,6 +1,5 @@
 package com.capstonegroup2.backend.services;
 
-import com.capstonegroup2.backend.dto.*;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
 import com.capstonegroup2.backend.models.*;
@@ -23,6 +22,9 @@ public class LoggedInService {
     AccountHolderService accountHolderService;
 
     @Autowired
+    CDAccountRepository cdAccountRepository;
+
+    @Autowired
     PersonalCheckingRepository personalCheckingRepository;
 
     @Autowired
@@ -40,64 +42,57 @@ public class LoggedInService {
     /* Account Holder ============================================================================================== */
     public AccountHolder getLoggedInAccountHolder(String token) {
         token = token.substring(7);
-        UserCredentials userCredentials = userCredentialsRepository.findByUsername(jwtTokenCreator.extractUsername(token)).get();
-        return accountHolderService.getAccountHolderById(userCredentials.getAccountHolder().getId());
-    }
-
-    public AccountHolder createLoggedInAccountHolder(String token, AccountHolderDTO accountHolderDTO) {
-        return accountHolderService.addAccountHolder(accountHolderDTO);
+        UserCredentials user = userCredentialsRepository.findByUsername(jwtTokenCreator.extractUsername(token)).get();
+        return accountHolderService.getAccountHolderById(user.getAccountHolder().getId());
     }
 
     /* CD Accounts ================================================================================================== */
-    public CDAccount addLoggedInCDAccount(String token, CDAccountDTO cdAccountDTO)
+    public CDAccount addCDAccount(AccountHolder accountHolder, CDAccount cdAccount)
             throws AccountHolderNotFoundException {
-        AccountHolder accountHolder = getLoggedInAccountHolder(token);
         if (accountHolder == null) {
             throw new AccountHolderNotFoundException("Account Holder could not be located : CD Account failed to post");
         }
-        return accountHolderService.addCDAccount(cdAccountDTO, accountHolder.getId());
+        cdAccount.setAccountHolder(accountHolder);
+        return cdAccountRepository.save(cdAccount);
     }
 
-    public List<CDAccount> getLoggedInCDAccounts(String token) throws AccountHolderNotFoundException {
-        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+    public List<CDAccount> getCDAccounts(AccountHolder accountHolder) throws AccountHolderNotFoundException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
-        return accountHolderService.getCDAccounts(accountHolder.getId());
+        return cdAccountRepository.findByAccountHolder(accountHolder);
     }
 
     /* Personal Checking Accounts =================================================================================== */
-    public PersonalChecking addLoggedInPersonalChecking(String token, PersonalCheckingDTO personalCheckingDTO) throws AccountHolderNotFoundException {
-        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+    public PersonalChecking addPersonalChecking(AccountHolder accountHolder, PersonalChecking personalChecking)
+            throws AccountHolderNotFoundException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
-//        return  accountHolderService.addPersonalChecking(personalCheckingDTO, accountHolder.getId());
-        PersonalChecking personalChecking = new PersonalChecking(personalCheckingDTO.getBalance());
         personalChecking.setAccountHolder(accountHolder);
         return personalCheckingRepository.save(personalChecking);
     }
 
-    public PersonalChecking getLoggedInPersonalChecking(String token) throws AccountHolderNotFoundException {
-        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+    public PersonalChecking getPersonalChecking(AccountHolder accountHolder)
+            throws AccountHolderNotFoundException, AccountNotFoundException {
         if (accountHolder ==  null) throw new AccountHolderNotFoundException();
-        return accountHolderService.getPersonalChecking(accountHolder.getId());
+        PersonalChecking personalChecking = personalCheckingRepository.findByAccountHolder(accountHolder);
+        if (personalChecking == null) throw new AccountNotFoundException();
+        return personalChecking;
     }
+
     /* DBA Checking Accounts ======================================================================================== */
-    public DbaChecking addDbaChecking(String token, DbaCheckingDTO dbaCheckingDTO) {
-        AccountHolder accountHolder = getLoggedInAccountHolder(token);
-        DbaChecking dbaChecking = new DbaChecking(dbaCheckingDTO.getBalance());
+    public DbaChecking addDbaChecking(AccountHolder accountHolder, DbaChecking dbaChecking)
+            throws AccountHolderNotFoundException {
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
         dbaChecking.setAccountHolder(accountHolder);
         return dbaCheckingRepository.save(dbaChecking);
     }
 
-    public List<DbaChecking> getDbaChecking(String token) throws AccountHolderNotFoundException {
-        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+    public List<DbaChecking> getDbaChecking(AccountHolder accountHolder) throws AccountHolderNotFoundException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
         return accountHolderService.getDbaChecking(accountHolder.getId());
     }
 
-    // If below this point works correctly, I will probably refactor all the other accounts to work like
-    // this and we can decide if we want to turn accountHolderService into an admin service
-
     /* IRA Regular Accounts ========================================================================================= */
-    public IraRegular addIraRegular(AccountHolder accountHolder, IraRegular iraRegular) throws AccountHolderNotFoundException {
+    public IraRegular addIraRegular(AccountHolder accountHolder, IraRegular iraRegular)
+            throws AccountHolderNotFoundException {
         if (accountHolder ==  null) throw new AccountHolderNotFoundException();
         iraRegular.setAccountHolder(accountHolder);
         return iraRegularRepository.save(iraRegular);
