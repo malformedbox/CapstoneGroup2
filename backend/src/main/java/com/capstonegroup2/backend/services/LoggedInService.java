@@ -4,10 +4,7 @@ import com.capstonegroup2.backend.dto.*;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
 import com.capstonegroup2.backend.models.*;
-import com.capstonegroup2.backend.repositories.DbaCheckingRepository;
-import com.capstonegroup2.backend.repositories.PersonalCheckingRepository;
-import com.capstonegroup2.backend.repositories.TransactionRepository;
-import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
+import com.capstonegroup2.backend.repositories.*;
 import com.capstonegroup2.backend.security.JwtTokenCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +27,9 @@ public class LoggedInService {
 
     @Autowired
     DbaCheckingRepository dbaCheckingRepository;
+
+    @Autowired
+    IraRegularRepository iraRegularRepository;
 
     @Autowired
     TransactionRepository transactionRepository;
@@ -74,18 +74,37 @@ public class LoggedInService {
         return personalCheckingRepository.save(personalChecking);
     }
 
-    /* DBA Checking Accounts ======================================================================================== */
     public PersonalChecking getLoggedInPersonalChecking(String token) throws AccountHolderNotFoundException {
         AccountHolder accountHolder = getLoggedInAccountHolder(token);
         if (accountHolder ==  null) throw new AccountHolderNotFoundException();
         return accountHolderService.getPersonalChecking(accountHolder.getId());
     }
-
+    /* DBA Checking Accounts ======================================================================================== */
     public DbaChecking addDbaChecking(String token, DbaCheckingDTO dbaCheckingDTO) {
         AccountHolder accountHolder = getLoggedInAccountHolder(token);
         DbaChecking dbaChecking = new DbaChecking(dbaCheckingDTO.getBalance());
         dbaChecking.setAccountHolder(accountHolder);
         return dbaCheckingRepository.save(dbaChecking);
+    }
+
+    public List<DbaChecking> getDbaChecking(String token) throws AccountHolderNotFoundException {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
+        return accountHolderService.getDbaChecking(accountHolder.getId());
+    }
+
+    // If below this point works correctly, I will probably refactor all the other accounts to work like
+    // this and we can decide if we want to turn accountHolderService into an admin service
+
+    /* IRA Regular Accounts ========================================================================================= */
+    public IraRegular addIraRegular(AccountHolder accountHolder, IraRegular iraRegular) throws AccountHolderNotFoundException {
+        if (accountHolder ==  null) throw new AccountHolderNotFoundException();
+        iraRegular.setAccountHolder(accountHolder);
+        return iraRegularRepository.save(iraRegular);
+    }
+
+    public IraRegular getIraRegular(AccountHolder accountHolder) {
+        return iraRegularRepository.findByAccountHolder(accountHolder);
     }
 
 

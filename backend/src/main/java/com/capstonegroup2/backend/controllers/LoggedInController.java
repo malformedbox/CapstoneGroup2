@@ -72,4 +72,24 @@ public class LoggedInController {
                                       @RequestBody DbaCheckingDTO dbaCheckingDTO) {
         return loggedInService.addDbaChecking(token, dbaCheckingDTO);
     }
+
+    @GetMapping("/dbachecking")
+    public List<DbaChecking> getDbaChecking(@RequestHeader(name = "Authorization") String token) throws AccountHolderNotFoundException {
+        return loggedInService.getDbaChecking(token);
+    }
+
+    /* IRA Regular Accounts ========================================================================================= */
+    @PostMapping("/iraregular")
+    public IraRegular addIraRegular(@RequestHeader(name = "Authorization") String token,
+                                    @RequestBody IraRegularDTO iraRegularDTO) throws AccountHolderNotFoundException {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        IraRegular iraRegular = new IraRegular(iraRegularDTO.getBalance());
+        return loggedInService.addIraRegular(accountHolder, iraRegular);
+    }
+
+    @GetMapping("/iraregular")
+    public IraRegular getIraRegular(@RequestHeader(name = "Authorization") String token) {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        return loggedInService.getIraRegular(accountHolder);
+    }
 }
