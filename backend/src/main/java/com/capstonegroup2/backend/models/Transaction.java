@@ -4,8 +4,12 @@ import com.capstonegroup2.backend.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Entity
@@ -18,10 +22,11 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double amount;
-    private long dateOfTransaction;
+    private BigDecimal amount;
+    private String dateOfTransaction;
     private TransactionType transactionType;
-//    private BankAccountType bankAccountType;
+//    private BankAccount sourceAccount;
+//    private BankAccount targetAccount;
 
     @JsonIgnore
     @ManyToOne
@@ -58,32 +63,27 @@ public class Transaction {
     @JoinColumn(name = "savings_account_id")
     SavingsAccount savingsAccount;
 
-    public Transaction(double amount, TransactionType transactionType) {
-        this.amount = amount;
+    public Transaction(String amount, TransactionType transactionType) {
+        this.amount = new BigDecimal(amount);
         this.transactionType = transactionType;
+        LocalDateTime date = LocalDateTime.now();
+        this.dateOfTransaction = formatDate(date);
     }
 
-    public Transaction(double amount, long dateOfTransaction, TransactionType transactionType) {
-        this.amount = amount;
-        this.dateOfTransaction = dateOfTransaction;
-        this.transactionType = transactionType;
+    private String formatDate(LocalDateTime date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = date.format(formatter);
+        return formattedDate;
     }
 
-    public Date getDateofTransactionAsDate(){
-        return new Date(this.dateOfTransaction * 1000);
-    }
+//    public boolean deposit(String depositAmount) {
+//        BigDecimal deposit = new BigDecimal(depositAmount);
+//        BigDecimal balance = this.targetAccount.getBalance();
+//        BigDecimal newBalance = deposit.add(balance);
+//
+//        this.targetAccount.setBalance(newBalance);
+//
+//        return true;
+//    }
 
-    public Date returnLongAsDate(long epoch){
-        //This method takes an epoch as a long and converts to Date format in local time zone
-        //Written as Thu May 27 18:58:08 CDT 2021
-        //Alternatively, the method can be rewritten to receive a string and parse.
-        //String epochString = "1622159888";
-        //long epoch = Long.parseLong(epochString);
-        return new Date(epoch * 1000);
-    }
-
-    public double deposit(double depositAmount) {
-        this.amount += depositAmount;
-        return amount;
-    }
 }

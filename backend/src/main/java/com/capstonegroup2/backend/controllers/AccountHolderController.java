@@ -19,7 +19,6 @@ public class AccountHolderController {
     AccountHolderService accountHolderService;
 
     /* Account Holders ============================================================================================== */
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<AccountHolder> getAllAccountHolders() {

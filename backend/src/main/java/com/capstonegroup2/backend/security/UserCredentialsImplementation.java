@@ -3,16 +3,14 @@ package com.capstonegroup2.backend.security;
 import com.capstonegroup2.backend.models.UserCredentials;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-/*
-    Please note that implmenting UserDetails class requires override of method
-    String getUsername() which has a lowercase n. In our UserCredentials class, we use capital N on userName.
- */
 public class UserCredentialsImplementation implements UserDetails {
 
     private Long id;
@@ -20,24 +18,31 @@ public class UserCredentialsImplementation implements UserDetails {
     private String username;
     @JsonIgnore
     private String password;
-    private List<GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities;
 
     public UserCredentialsImplementation() {}
-    public UserCredentialsImplementation(Long id, String username,String password) {
+    public UserCredentialsImplementation(Long id, String username,String password,
+                                         Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.authorities = authorities;
     }
-    public UserCredentialsImplementation(UserCredentials userCredentials) {
-        this.username = userCredentials.getUsername();
-        this.password = userCredentials.getPassword();
-    }
+//    public UserCredentialsImplementation(UserCredentials userCredentials) {
+//        this.username = userCredentials.getUsername();
+//        this.password = userCredentials.getPassword();
+//    }
 
-    public static UserCredentialsImplementation build(UserCredentials userCredentials) {
+    public static UserCredentialsImplementation build(UserCredentials user) {
+        List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
+                new SimpleGrantedAuthority(role.getName().name())
+        ).collect(Collectors.toList());
+
         return new UserCredentialsImplementation(
-                userCredentials.getId(),
-                userCredentials.getUsername(),
-                userCredentials.getPassword()
+                user.getId(),
+                user.getUsername(),
+                user.getPassword(),
+                authorities
         );
     }
 

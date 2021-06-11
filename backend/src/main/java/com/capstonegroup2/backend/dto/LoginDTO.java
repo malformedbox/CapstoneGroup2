@@ -3,7 +3,7 @@ package com.capstonegroup2.backend.dto;
 import lombok.Data;
 
 @Data
-public class UserCredentialsDTO {
+public class LoginDTO {
 
     private String username;
     private String password;

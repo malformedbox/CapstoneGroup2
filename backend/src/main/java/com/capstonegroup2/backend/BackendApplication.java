@@ -2,7 +2,10 @@ package com.capstonegroup2.backend;
 
 // Stupid Comment
 
+import com.capstonegroup2.backend.models.Role;
+import com.capstonegroup2.backend.models.RoleName;
 import com.capstonegroup2.backend.models.UserCredentials;
+import com.capstonegroup2.backend.repositories.RoleRepository;
 import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,6 +25,14 @@ public class BackendApplication {
 	public CommandLineRunner addAdmin(UserCredentialsRepository repository) {
 		return (args) -> {
 			repository.save(new UserCredentials("admin", "password"));
+		};
+	}
+
+	@Bean
+	public CommandLineRunner addRoles(RoleRepository repository) {
+		return (args) -> {
+			repository.save(new Role(RoleName.ROLE_USER));
+			repository.save(new Role(RoleName.ROLE_ADMIN));
 		};
 	}
 }

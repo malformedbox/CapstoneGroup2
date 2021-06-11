@@ -1,14 +1,12 @@
 package com.capstonegroup2.backend.models;
 
 import com.capstonegroup2.backend.enums.ActiveStatus;
-import com.capstonegroup2.backend.enums.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -87,7 +85,7 @@ public class BankAccount {
         return accountNumber;
     }
 
-//
+
 //    public boolean withdraw(Transaction withdrawal) {
 //        if (withdrawal.getAmount() > 0 && withdrawal.getAmount() < balance) {
 //            balance -= withdrawal.getAmount();
