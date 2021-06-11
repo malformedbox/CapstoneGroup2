@@ -94,8 +94,54 @@ public class LoggedInController {
     }
 
     @GetMapping("/iraregular")
-    public IraRegular getIraRegular(@RequestHeader(name = "Authorization") String token) {
+    public IraRegular getIraRegular(@RequestHeader(name = "Authorization") String token) throws AccountHolderNotFoundException {
         AccountHolder accountHolder = getLoggedInAccountHolder(token);
         return loggedInService.getIraRegular(accountHolder);
     }
+
+    /* IRA Rollover Accounts ======================================================================================== */
+    @PostMapping("/irarollover")
+    public IraRollover addIraRollover(@RequestHeader(name = "Authorization") String token,
+                                      @RequestBody IraRegularDTO iraRegularDTO) throws AccountHolderNotFoundException {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        IraRollover iraRollover = new IraRollover(iraRegularDTO.getBalance());
+        return loggedInService.addIraRollover(accountHolder, iraRollover);
+    }
+
+    @GetMapping("/irarollover")
+    public IraRollover getIraRollover(@RequestHeader(name = "Authorization") String token) throws AccountHolderNotFoundException {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        return loggedInService.getIraRollover(accountHolder);
+    }
+
+    /* IRA Roth Accounts ============================================================================================ */
+    @PostMapping("/iraroth")
+    public IraRoth addIraRoth(@RequestHeader(name = "Authorization") String token,
+                              @RequestBody IraRothDTO iraRothDTO) throws AccountHolderNotFoundException {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        IraRoth iraRoth = new IraRoth(iraRothDTO.getBalance());
+        return loggedInService.addIraRoth(accountHolder, iraRoth);
+    }
+
+    @GetMapping("/iraroth")
+    public IraRoth getIraRoth(@RequestHeader(name = "Authorization") String token) throws AccountHolderNotFoundException {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        return loggedInService.getIraRoth(accountHolder);
+    }
+
+    /* Savings Accounts ============================================================================================= */
+    @PostMapping("/savings")
+    public SavingsAccount addSavingsAccount(@RequestHeader(name = "Authorization") String token,
+                                            @RequestBody SavingsAccountDTO savingsAccountDTO) throws AccountHolderNotFoundException {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        SavingsAccount savingsAccount = new SavingsAccount(savingsAccountDTO.getBalance());
+        return loggedInService.addSavingsAccount(accountHolder, savingsAccount);
+    }
+
+    @GetMapping("/savings")
+    public SavingsAccount getSavingsAccount(@RequestHeader(name = "Authorization") String token) throws AccountHolderNotFoundException {
+        AccountHolder accountHolder = getLoggedInAccountHolder(token);
+        return loggedInService.getSavingsAccount(accountHolder);
+    }
+
 }

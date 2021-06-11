@@ -34,6 +34,15 @@ public class LoggedInService {
     IraRegularRepository iraRegularRepository;
 
     @Autowired
+    IraRolloverRepository iraRolloverRepository;
+
+    @Autowired
+    IraRothRepository iraRothRepository;
+
+    @Autowired
+    SavingsAccountRepository savingsAccountRepository;
+
+    @Autowired
     TransactionRepository transactionRepository;
 
     @Autowired
@@ -98,8 +107,46 @@ public class LoggedInService {
         return iraRegularRepository.save(iraRegular);
     }
 
-    public IraRegular getIraRegular(AccountHolder accountHolder) {
+    public IraRegular getIraRegular(AccountHolder accountHolder) throws AccountHolderNotFoundException {
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
         return iraRegularRepository.findByAccountHolder(accountHolder);
+    }
+
+    /* IRA Rollover Accounts ======================================================================================== */
+    public IraRollover addIraRollover(AccountHolder accountHolder, IraRollover iraRollover)
+            throws AccountHolderNotFoundException {
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
+        iraRollover.setAccountHolder(accountHolder);
+        return iraRolloverRepository.save(iraRollover);
+    }
+
+    public IraRollover getIraRollover(AccountHolder accountHolder) throws AccountHolderNotFoundException {
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
+        return iraRolloverRepository.findByAccountHolder(accountHolder);
+    }
+
+    /* IRA Roth Accounts ============================================================================================ */
+    public IraRoth addIraRoth(AccountHolder accountHolder, IraRoth iraRoth) throws AccountHolderNotFoundException {
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
+        iraRoth.setAccountHolder(accountHolder);
+        return iraRothRepository.save(iraRoth);
+    }
+
+    public IraRoth getIraRoth(AccountHolder accountHolder) throws AccountHolderNotFoundException {
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
+        return iraRothRepository.findByAccountHolder(accountHolder);
+    }
+
+    /* Savings Accounts ============================================================================================= */
+    public SavingsAccount addSavingsAccount(AccountHolder accountHolder, SavingsAccount savingsAccount) throws AccountHolderNotFoundException {
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
+        savingsAccount.setAccountHolder(accountHolder);
+        return savingsAccountRepository.save(savingsAccount);
+    }
+
+    public SavingsAccount getSavingsAccount(AccountHolder accountHolder) throws AccountHolderNotFoundException {
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
+        return savingsAccountRepository.findByAccountHolder(accountHolder);
     }
 
 
