@@ -21,6 +21,7 @@ class UserComponent extends React.Component {
     render (){
         return (
             <div>
+                <h1 className="account-holder-name">Welcome back, ACCOUNTHOLDERNAME</h1>
                 <h1 className="text-center"> Account Holders List</h1>
                 <table className="table table-striped">
                     <thead>

@@ -6,9 +6,8 @@
 }
 
 .home,
-.services,
 .aboutus,
-.login {
+.myaccount {
   display: flex;
   height: 90vh;
   align-items: center;
@@ -22,15 +21,6 @@
   font-size: 20px;
 }
 
-.services {
-  background-image: linear-gradient(rgb(16, 0, 105), rgb(112, 112, 119));
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  color: #000;
-  font-size: 100px;
-}
-
 .aboutus {
   background-image: linear-gradient(rgb(105, 0, 0), rgb(112, 112, 119));
   background-position: center;
@@ -40,8 +30,8 @@
   font-size: 100px;
 }
 
-.login {
-  background-image: linear-gradient(rgb(0, 105, 23), rgb(112, 112, 119));
+.myaccount {
+  background-image: linear-gradient(rgb(105, 0, 0), rgb(112, 112, 119));
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;

@@ -117,7 +117,8 @@
   justify-content: space-between;
   align-items: center;
   width: 240px;
-  background: red;
+  background-color: #242424;
+  ;
 }
 
 .social-logo {
