@@ -15,9 +15,9 @@ import java.util.List;
 @Transactional
 public class LoggedInService {
 
-    @Autowired UserCredentialsRepository userCredentialsRepository;
-
     @Autowired AccountHolderService accountHolderService;
+
+    @Autowired UserCredentialsRepository userCredentialsRepository;
 
     @Autowired CDAccountRepository cdAccountRepository;
 
