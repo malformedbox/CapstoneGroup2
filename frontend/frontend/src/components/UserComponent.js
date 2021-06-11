@@ -21,14 +21,15 @@ class UserComponent extends React.Component {
     render (){
         return (
             <div>
-                <h1 className="text-center"> Users List</h1>
+                <h1 className="account-holder-name">Welcome back, ACCOUNTHOLDERNAME</h1>
+                <h1 className="text-center"> Account Holders List</h1>
                 <table className="table table-striped">
                     <thead>
                         <tr>
-                            <td> User Id</td>
-                            <td> User First Name</td>
-                            <td> User Last Name</td>
-                            <td> User Email Id</td>
+                            <td> Account Holders Id</td>
+                            <td> Account Holders First Name</td>
+                            <td> Account Holders Middle Name</td>
+                            <td> Account Holders Last Name</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,14 +39,39 @@ class UserComponent extends React.Component {
                                 <tr key = {user.id}>
                                     <td> {user.id}</td>
                                     <td> {user.firstName}</td>
+                                    <td> {user.middleName}</td>
                                     <td> {user.lastName}</td>
-                                    <td> {user.emailId}</td>
+                                </tr>
+                            )
+                        }
+                    </tbody>
+                </table>
+                <h1 className="text-center"> Recent Transactions List</h1>
+                <table className="table table-striped">
+                    <thead>
+                        <tr>
+                            <td> Account Holders Id</td>
+                            <td> Account Holders First Name</td>
+                            <td> Account Holders Middle Name</td>
+                            <td> Account Holders Last Name</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            this.state.users.map(
+                                user =>
+                                <tr key = {user.id}>
+                                    <td> {user.id}</td>
+                                    <td> {user.firstName}</td>
+                                    <td> {user.middleName}</td>
+                                    <td> {user.lastName}</td>
                                 </tr>
                             )
                         }
                     </tbody>
                 </table>
             </div>
+            
         )
     }
 }

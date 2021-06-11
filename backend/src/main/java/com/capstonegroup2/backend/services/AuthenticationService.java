@@ -5,6 +5,7 @@ import com.capstonegroup2.backend.dto.LoginDTO;
 import com.capstonegroup2.backend.dto.RegisterDTO;
 import com.capstonegroup2.backend.dto.ResponseMessage;
 
+import com.capstonegroup2.backend.models.AccountHolder;
 import com.capstonegroup2.backend.models.RoleName;
 import com.capstonegroup2.backend.models.Role;
 import com.capstonegroup2.backend.models.UserCredentials;
@@ -95,10 +96,13 @@ public class AuthenticationService {
         }
 
         user.setRoles(roles);
-        user.setAccountHolder(registerDTO.getAccountHolder());
+        AccountHolder accountHolder = new AccountHolder(registerDTO.getFirstName(), registerDTO.getMiddleName(), registerDTO.getLastName(),
+                registerDTO.getSsn(), user);
+        user.setAccountHolder(accountHolder);
+//        user.setAccountHolder(registerDTO.getAccountHolder());
         userCredentialsRepository.save(user);
 
-        return new ResponseEntity<>(new ResponseMessage("Account for "+ registerDTO.getAccountHolder().getFirstName() + ", is registered successfully!"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage("Account for "+ registerDTO.getFirstName() + ", is registered successfully!"), HttpStatus.OK);
     }
 
     //Service method that should take user's credentials (username + password in body)

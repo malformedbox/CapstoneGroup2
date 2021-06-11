@@ -19,6 +19,10 @@ public class RegisterDTO {
     private String password;
 
     private Set<String> role;
-    private AccountHolder accountHolder;
+//    private AccountHolder accountHolder;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String ssn;
 
 }
