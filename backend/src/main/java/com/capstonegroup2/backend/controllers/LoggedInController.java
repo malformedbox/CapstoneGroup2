@@ -16,11 +16,9 @@ import java.util.List;
 @RequestMapping("/user")
 public class LoggedInController {
 
-    @Autowired
-    LoggedInService loggedInService;
+    @Autowired LoggedInService loggedInService;
 
-    @Autowired
-    UserCredentialsRepository userCredentialsRepository;
+    @Autowired UserCredentialsRepository userCredentialsRepository;
 
     /* Account Holder ============================================================================================== */
     @GetMapping

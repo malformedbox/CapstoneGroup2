@@ -15,38 +15,28 @@ import java.util.List;
 @Transactional
 public class LoggedInService {
 
-    @Autowired
-    UserCredentialsRepository userCredentialsRepository;
+    @Autowired UserCredentialsRepository userCredentialsRepository;
 
-    @Autowired
-    AccountHolderService accountHolderService;
+    @Autowired AccountHolderService accountHolderService;
 
-    @Autowired
-    CDAccountRepository cdAccountRepository;
+    @Autowired CDAccountRepository cdAccountRepository;
 
-    @Autowired
-    PersonalCheckingRepository personalCheckingRepository;
+    @Autowired PersonalCheckingRepository personalCheckingRepository;
 
-    @Autowired
-    DbaCheckingRepository dbaCheckingRepository;
+    @Autowired DbaCheckingRepository dbaCheckingRepository;
 
-    @Autowired
-    IraRegularRepository iraRegularRepository;
+    @Autowired IraRegularRepository iraRegularRepository;
 
-    @Autowired
-    IraRolloverRepository iraRolloverRepository;
+    @Autowired IraRolloverRepository iraRolloverRepository;
 
-    @Autowired
-    IraRothRepository iraRothRepository;
+    @Autowired IraRothRepository iraRothRepository;
 
-    @Autowired
-    SavingsAccountRepository savingsAccountRepository;
+    @Autowired SavingsAccountRepository savingsAccountRepository;
 
-    @Autowired
-    TransactionRepository transactionRepository;
+    @Autowired TransactionRepository transactionRepository;
 
-    @Autowired
-    JwtTokenCreator jwtTokenCreator;
+    @Autowired JwtTokenCreator jwtTokenCreator;
+
 
     /* Account Holder ============================================================================================== */
     public AccountHolder getLoggedInAccountHolder(String token) {

@@ -14,8 +14,7 @@ import javax.validation.Valid;
 @RestController
 public class AuthenticationController {
 
-    @Autowired
-    AuthenticationService authenticationService;
+    @Autowired AuthenticationService authenticationService;
 
     //Controller method to create a new user, should be assigned an id# upon creation,
     //should not display password in response body

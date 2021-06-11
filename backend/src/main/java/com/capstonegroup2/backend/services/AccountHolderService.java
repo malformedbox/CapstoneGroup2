@@ -11,39 +11,27 @@ import java.util.List;
 @Service
 public class AccountHolderService {
 
+    @Autowired AccountHolderRepository accountHolderRepository;
 
-    @Autowired
-    AccountHolderRepository accountHolderRepository;
+    @Autowired UserCredentialsRepository userCredentialsRepository;
 
-    @Autowired
-    UserCredentialsRepository userCredentialsRepository;
+    @Autowired CDAccountRepository cdAccountRepository;
 
-    @Autowired
-    CDAccountRepository cdAccountRepository;
+    @Autowired CDOfferingRepository cdOfferingRepository;
 
-    @Autowired
-    CDOfferingRepository cdOfferingRepository;
+    @Autowired DbaCheckingRepository dbaCheckingRepository;
 
-    @Autowired
-    DbaCheckingRepository dbaCheckingRepository;
+    @Autowired PersonalCheckingRepository personalCheckingRepository;
 
-    @Autowired
-    PersonalCheckingRepository personalCheckingRepository;
+    @Autowired IraRegularRepository iraRegularRepository;
 
-    @Autowired
-    IraRegularRepository iraRegularRepository;
+    @Autowired IraRolloverRepository iraRolloverRepository;
 
-    @Autowired
-    IraRolloverRepository iraRolloverRepository;
+    @Autowired IraRothRepository iraRothRepository;
 
-    @Autowired
-    IraRothRepository iraRothRepository;
+    @Autowired SavingsAccountRepository savingsAccountRepository;
 
-    @Autowired
-    SavingsAccountRepository savingsAccountRepository;
-
-    @Autowired
-    TransactionRepository transactionRepository;
+    @Autowired TransactionRepository transactionRepository;
 
 
     /* Account Holders ============================================================================================== */
