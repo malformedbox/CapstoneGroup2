@@ -45,6 +45,7 @@ public class AccountHolderService {
     @Autowired
     TransactionRepository transactionRepository;
 
+
     /* Account Holders ============================================================================================== */
     public List<AccountHolder> getAllAccounts(){
         return accountHolderRepository.findAll();
@@ -56,6 +57,8 @@ public class AccountHolderService {
 
         AccountHolder newHolder = new AccountHolder(accountHolderDTO.getFirstName(), accountHolderDTO.getMiddleName(),
                 accountHolderDTO.getLastName(), accountHolderDTO.getSsn(), user);
+        user.setAccountHolder(newHolder);
+
         return accountHolderRepository.save(newHolder);
     }
 
@@ -67,12 +70,18 @@ public class AccountHolderService {
         return accountHolderRepository.findAll();
     }
 
+
     /* CD Accounts ================================================================================================== */
     public CDAccount addCDAccount(CDAccountDTO cdAccountDTO, Long id) {
         AccountHolder accountHolder = getAccountHolderById(id);
-        CDAccount cdAccount = new CDAccount(cdAccountDTO.getBalance(), cdAccountDTO.getCdOffering());
+        CDOffering cdOffering = getCDOfferingById(cdAccountDTO.getCdOffering().getId());
+        CDAccount cdAccount = new CDAccount(cdAccountDTO.getBalance(), cdOffering);
         cdAccount.setAccountHolder(accountHolder);
         return cdAccountRepository.save(cdAccount);
+    }
+
+    private CDOffering getCDOfferingById(long id) {
+        return cdOfferingRepository.findById(id);
     }
 
 
@@ -162,17 +171,62 @@ public class AccountHolderService {
 
 
     /* Transactions ================================================================================================= */
-    public Transaction addTransaction(TransactionDTO transactionDTO, Long id) {
-        AccountHolder accountHolder = getAccountHolderById(id);
-        Transaction transaction = new Transaction(transactionDTO.getAmount(),
-                transactionDTO.getDateOfTransaction(), transactionDTO.getTransactionType());
-        transaction.setAccountHolder(accountHolder);
-        return transactionRepository.save(transaction);
+
+    // I switched the Generation Type for Bank Accounts to AUTO so this should be fine but I'm gonna leave this comment
+    // here until I test it out and am sure it provides no issues
+    public BankAccount getBankAccountById(Long id) {
+        List<CDAccount> cdAccounts = cdAccountRepository.findAll();
+        for (CDAccount cdAccount : cdAccounts) {
+            if (cdAccount.getId() == id) return cdAccount;
+        }
+        List<PersonalChecking> personalCheckingAccounts = personalCheckingRepository.findAll();
+        for (PersonalChecking personalChecking : personalCheckingAccounts) {
+            if (personalChecking.getId() == id) return personalChecking;
+        }
+        List<DbaChecking> dbaCheckingList = dbaCheckingRepository.findAll();
+        for (DbaChecking dbaChecking : dbaCheckingList) {
+            if (dbaChecking.getId() == id) return dbaChecking;
+        }
+        List<IraRegular> iraRegularList = iraRegularRepository.findAll();
+        for (IraRegular iraRegular : iraRegularList) {
+            if (iraRegular.getId() == id) return iraRegular;
+        }
+        List<IraRollover> iraRolloverList = iraRolloverRepository.findAll();
+        for (IraRollover iraRollover : iraRolloverList) {
+            if (iraRollover.getId() == id) return iraRollover;
+        }
+        List<IraRoth> iraRothList = iraRothRepository.findAll();
+        for (IraRoth iraRoth : iraRothList) {
+            if (iraRoth.getId() == id) return iraRoth;
+        }
+        List<SavingsAccount> savingsAccounts = savingsAccountRepository.findAll();
+        for (SavingsAccount savingsAccount : savingsAccounts) {
+            if (savingsAccount.getId() == id) return savingsAccount;
+        }
+        return null;
     }
 
+    // I can no longer call the setBankAccount method and will have to see if I can either
+    // extract the classname and insert it or if each bank account needs their own method
+    // to post transactions
 
-    public List<Transaction> getTransactions(Long id) {
-        AccountHolder accountHolder = getAccountHolderById(id);
-        return transactionRepository.findByAccountHolder(accountHolder);
-    }
+//    public Transaction addTransaction(TransactionDTO transactionDTO, Long id) {
+//        BankAccount bankAccount = getBankAccountById(id);
+//        Transaction transaction = new Transaction(transactionDTO.getAmount(),
+//                transactionDTO.getDateOfTransaction(), transactionDTO.getTransactionType());
+//        transaction.setBankAccount(bankAccount);
+//        return transactionRepository.save(transaction);
+//    }
+//
+//
+//    public List<Transaction> getTransactions(Long id) {
+//        BankAccount bankAccount = getBankAccountById(id);
+//        return transactionRepository.findByBankAccount(bankAccount);
+//    }
+
+//    public Transaction addDepositTransaction(TransactionDTO transactionDTO, Long id) {
+//        BankAccount bankAccount = getBankAccountById(id);
+//        double balance = bankAccount.getBalance();
+//        balance += transactionDTO.getAmount();
+//    }
 }

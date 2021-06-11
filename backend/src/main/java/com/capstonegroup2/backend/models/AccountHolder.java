@@ -35,25 +35,25 @@ public class AccountHolder {
     private UserCredentials userCredentials;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private PersonalChecking personalChecking;
+    private PersonalChecking personalChecking = new PersonalChecking();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private List<DbaChecking> dbaCheckingList;
+    private List<DbaChecking> dbaCheckingList = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private SavingsAccount savingsAccount;
+    private SavingsAccount savingsAccount = new SavingsAccount();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private IraRollover iraRollover;
+    private IraRollover iraRollover = new IraRollover();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private IraRegular iraRegular;
+    private IraRegular iraRegular = new IraRegular();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private IraRoth iraRoth;
+    private IraRoth iraRoth = new IraRoth();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
-    private List<CDAccount> cdAccountsList;
+    private List<CDAccount> cdAccountsList = new ArrayList<>();
 
     public AccountHolder(String firstName, String middleName, String lastName, String ssn, UserCredentials userCredentials) {
         this.firstName = firstName;
@@ -62,13 +62,6 @@ public class AccountHolder {
         this.ssn = ssn;
         this.userCredentials = userCredentials;
         this.activeStatus = ActiveStatus.OPEN;
-        personalChecking = new PersonalChecking();
-        dbaCheckingList = new ArrayList<>();
-        cdAccountsList = new ArrayList<>();
-        savingsAccount = new SavingsAccount();
-        iraRegular = new IraRegular();
-        iraRollover = new IraRollover();
-        iraRoth = new IraRoth();
     }
 
 }

@@ -2,7 +2,6 @@ package com.capstonegroup2.backend.services;
 
 import com.capstonegroup2.backend.dto.UserCredentialsDTO;
 import com.capstonegroup2.backend.models.UserCredentials;
-import com.capstonegroup2.backend.repositories.AccountHolderRepository;
 import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,13 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserDetailsService {
+public class UserCredentialsService {
 
     @Autowired
     UserCredentialsRepository userCredentialsRepository;
-
-    @Autowired
-    AccountHolderRepository accountHolderRepository;
 
     public List<UserCredentials> getAllUserDetails() {
         return userCredentialsRepository.findAll();
@@ -30,4 +26,6 @@ public class UserDetailsService {
         UserCredentials userCredentials = new UserCredentials(userCredentialsDTO.getUsername(), userCredentialsDTO.getPassword());
         return userCredentialsRepository.save(userCredentials);
     }
+
+
 }

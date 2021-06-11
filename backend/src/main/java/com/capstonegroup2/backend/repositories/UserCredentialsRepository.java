@@ -12,8 +12,6 @@ public interface UserCredentialsRepository extends JpaRepository<UserCredentials
     UserCredentials findByAccountHolderId(Long id);
     Optional<UserCredentials> findById(Long id);
     List<UserCredentials> findAll();
-
     Optional<UserCredentials> findByUsername(String username);
-
     Boolean existsByUsername(String username);
 }
