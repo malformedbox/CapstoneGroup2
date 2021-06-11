@@ -23,15 +23,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     UserCredentialsServiceImplementation userCredentialsServiceImplementation;
 
     @Autowired
-    private JwtTokenFilter jwtTokenFilter;
+    private JwtAuthenticationEntryPoint unauthorizedHandler;
+
+    @Bean
+    public JwtTokenFilter jwtTokenFilter() {
+        return new JwtTokenFilter();
+    }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userCredentialsServiceImplementation).passwordEncoder(passwordEncoder());
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password("admin")
-                .roles("ADMIN");
     }
 
     @Bean
@@ -43,19 +44,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-        //return NoOpPasswordEncoder.getInstance();
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http.cors().and().csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .anyRequest()
-                .authenticated();
+                .antMatchers("/user/**").authenticated()
+                .antMatchers("/createuser").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
+                // .antMatchers("/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-
+        http.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.headers().frameOptions().disable();
     }

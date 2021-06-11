@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user_details")
@@ -26,6 +28,12 @@ public class UserCredentials {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public UserCredentials(String username, String password) {
         this.username = username;

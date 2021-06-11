@@ -4,8 +4,12 @@ import com.capstonegroup2.backend.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Entity
@@ -18,65 +22,68 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double amount;
-    private long dateOfTransaction;
+    private BigDecimal amount;
+    private String dateOfTransaction;
     private TransactionType transactionType;
-    private Long bankAccountId;
+//    private BankAccount sourceAccount;
+//    private BankAccount targetAccount;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_holder_id")
-    private AccountHolder accountHolder;
-
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private CDAccount cdAccount;
+    @JoinColumn(name = "dba_account_id")
+    DbaChecking dbaChecking;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private PersonalChecking personalChecking;
-
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private DbaChecking dbaChecking;
+    @JoinColumn(name = "cd_account_id")
+    CDAccount cdAccount;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private IraRegular iraRegular;
+    @JoinColumn(name = "ira_reg_account_id")
+    IraRegular iraRegular;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private IraRollover iraRollover;
+    @JoinColumn(name = "ira_roll_account_id")
+    IraRollover iraRollover;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private IraRoth iraRoth;
+    @JoinColumn(name = "ira_roth_account_id")
+    IraRoth iraRoth;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "account_holder_id", insertable = false, updatable = false)
-    private SavingsAccount savingsAccount;
+    @JoinColumn(name = "checking_account_id")
+    PersonalChecking personalChecking;
 
-    public Transaction(double amount, long dateOfTransaction, TransactionType transactionType) {
-        this.amount = amount;
-        this.dateOfTransaction = dateOfTransaction;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "savings_account_id")
+    SavingsAccount savingsAccount;
+
+    public Transaction(String amount, TransactionType transactionType) {
+        this.amount = new BigDecimal(amount);
         this.transactionType = transactionType;
+        LocalDateTime date = LocalDateTime.now();
+        this.dateOfTransaction = formatDate(date);
     }
 
-    public Date getDateofTransactionAsDate(){
-        return new Date(this.dateOfTransaction * 1000);
+    private String formatDate(LocalDateTime date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = date.format(formatter);
+        return formattedDate;
     }
 
-    public Date returnLongAsDate(long epoch){
-        //This method takes an epoch as a long and converts to Date format in local time zone
-        //Written as Thu May 27 18:58:08 CDT 2021
-        //Alternatively, the method can be rewritten to receive a string and parse.
-        //String epochString = "1622159888";
-        //long epoch = Long.parseLong(epochString);
-        return new Date(epoch * 1000);
-    }
+//    public boolean deposit(String depositAmount) {
+//        BigDecimal deposit = new BigDecimal(depositAmount);
+//        BigDecimal balance = this.targetAccount.getBalance();
+//        BigDecimal newBalance = deposit.add(balance);
+//
+//        this.targetAccount.setBalance(newBalance);
+//
+//        return true;
+//    }
 
-    public double deposit(double depositAmount) {
-        this.amount += depositAmount;
-        return amount;
-    }
 }

@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import './Navbar.css';
+import '../css/Navbar.css';
 import meritBankLogo from '../assets/images/meritBankLogo.png';
-import { Button } from './Button';
 
 function Navbar() {
     const [click, setClick] = useState(false);
@@ -37,7 +36,7 @@ function Navbar() {
             </div>
             <ul className={click ? 'nav-menu active' : 'nav-menu'}>
               <li className='nav-item'>
-                <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+                <Link to='/home' className='nav-links' onClick={closeMobileMenu}>
                   Home
                 </Link>
               </li>
@@ -52,25 +51,32 @@ function Navbar() {
               </li>
               <li className='nav-item'>
                 <Link
-                  to='/aboutus'
+                  to='/user'
                   className='nav-links'
                   onClick={closeMobileMenu}
                 >
                   About Us
                 </Link>
               </li>
-  
-              <li>
+              <li className='nav-item'>
+                <Link
+                  to='/profile'
+                  className='nav-links'
+                  onClick={closeMobileMenu}
+                >
+                  My Account
+                </Link>
+              </li>
+              <li className='nav-item'>
                 <Link
                   to='/login'
-                  className='nav-links-mobile'
+                  className='nav-links'
                   onClick={closeMobileMenu}
                 >
                   Login
                 </Link>
               </li>
             </ul>
-            {button && <Button buttonStyle='btn--outline'>Login</Button>}
           </div>
         </nav>
       </>

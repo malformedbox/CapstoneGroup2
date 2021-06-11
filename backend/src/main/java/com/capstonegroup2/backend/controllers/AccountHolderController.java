@@ -19,12 +19,6 @@ public class AccountHolderController {
     AccountHolderService accountHolderService;
 
     /* Account Holders ============================================================================================== */
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public AccountHolder addAccountHolder(@Valid @RequestBody AccountHolderDTO accountHolderDTO) {
-        return accountHolderService.addAccountHolder(accountHolderDTO);
-    }
-
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<AccountHolder> getAllAccountHolders() {
@@ -132,15 +126,15 @@ public class AccountHolderController {
     }
 
     /* Transactions ================================================================================================= */
-    @PostMapping("/{id}/transactions")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Transaction addTransaction(@RequestBody TransactionDTO transactionDTO, @PathVariable Long id) {
-        return accountHolderService.addTransaction(transactionDTO, id);
-    }
-
-    @GetMapping("/{id}/transactions")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Transaction> getTransactions(@PathVariable Long id) {
-        return accountHolderService.getTransactions(id);
-    }
+//    @PostMapping("/{id}/transactions")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public Transaction addTransaction(@RequestBody TransactionDTO transactionDTO, @PathVariable Long id) {
+//        return accountHolderService.addTransaction(transactionDTO, id);
+//    }
+//
+//    @GetMapping("/{id}/transactions")
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<Transaction> getTransactions(@PathVariable Long id) {
+//        return accountHolderService.getTransactions(id);
+//    }
 }

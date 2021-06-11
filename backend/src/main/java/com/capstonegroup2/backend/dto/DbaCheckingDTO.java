@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class DbaCheckingDTO {
 
-    private double balance;
+    private String balance;
 
 }

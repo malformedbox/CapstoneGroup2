@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class IraRothDTO {
 
-    private double balance;
+    private String balance;
 
 }

@@ -7,6 +7,6 @@ public class CDOfferingDTO {
 
     private Long id;
     private int term;
-    private double interestRate;
+    private String interestRate;
 
 }

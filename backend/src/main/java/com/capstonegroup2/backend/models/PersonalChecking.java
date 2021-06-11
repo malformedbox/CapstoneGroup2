@@ -5,19 +5,30 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 public class PersonalChecking extends BankAccount{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "checking_account_id")
+    private Long id;
+
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-    public PersonalChecking(double balance) {
-        super(balance, 0.0001);
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "personalChecking")
+    private List<Transaction> transactions = new ArrayList<>();
+
+
+    public PersonalChecking(String balance) {
+        super(balance, "0.0001");
     }
 
     // TODO Override closeAccountResponse

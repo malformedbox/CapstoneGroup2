@@ -11,52 +11,32 @@ import java.util.List;
 @Service
 public class AccountHolderService {
 
+    @Autowired AccountHolderRepository accountHolderRepository;
 
-    @Autowired
-    AccountHolderRepository accountHolderRepository;
+    @Autowired UserCredentialsRepository userCredentialsRepository;
 
-    @Autowired
-    UserCredentialsRepository userCredentialsRepository;
+    @Autowired CDAccountRepository cdAccountRepository;
 
-    @Autowired
-    CDAccountRepository cdAccountRepository;
+    @Autowired CDOfferingRepository cdOfferingRepository;
 
-    @Autowired
-    CDOfferingRepository cdOfferingRepository;
+    @Autowired DbaCheckingRepository dbaCheckingRepository;
 
-    @Autowired
-    DbaCheckingRepository dbaCheckingRepository;
+    @Autowired PersonalCheckingRepository personalCheckingRepository;
 
-    @Autowired
-    PersonalCheckingRepository personalCheckingRepository;
+    @Autowired IraRegularRepository iraRegularRepository;
 
-    @Autowired
-    IraRegularRepository iraRegularRepository;
+    @Autowired IraRolloverRepository iraRolloverRepository;
 
-    @Autowired
-    IraRolloverRepository iraRolloverRepository;
+    @Autowired IraRothRepository iraRothRepository;
 
-    @Autowired
-    IraRothRepository iraRothRepository;
+    @Autowired SavingsAccountRepository savingsAccountRepository;
 
-    @Autowired
-    SavingsAccountRepository savingsAccountRepository;
+    @Autowired TransactionRepository transactionRepository;
 
-    @Autowired
-    TransactionRepository transactionRepository;
 
     /* Account Holders ============================================================================================== */
     public List<AccountHolder> getAllAccounts(){
         return accountHolderRepository.findAll();
-    }
-
-    public AccountHolder addAccountHolder(AccountHolderDTO accountHolderDTO)  {
-
-        UserCredentials user = userCredentialsRepository.findById(accountHolderDTO.getId()).orElse(null);
-
-        AccountHolder newHolder = new AccountHolder(accountHolderDTO.getFirstName(), accountHolderDTO.getMiddleName(),
-                accountHolderDTO.getLastName(), accountHolderDTO.getSsn(), user);
-        return accountHolderRepository.save(newHolder);
     }
 
     public AccountHolder getAccountHolderById(Long id) {
@@ -66,6 +46,7 @@ public class AccountHolderService {
     public List<AccountHolder> getAllAccountHolders() {
         return accountHolderRepository.findAll();
     }
+
 
     /* CD Accounts ================================================================================================== */
     public CDAccount addCDAccount(CDAccountDTO cdAccountDTO, Long id) {
@@ -167,19 +148,58 @@ public class AccountHolderService {
 
 
     /* Transactions ================================================================================================= */
-    public Transaction addTransaction(TransactionDTO transactionDTO, Long id) {
-        AccountHolder accountHolder = getAccountHolderById(id);
-        Transaction transaction = new Transaction(transactionDTO.getAmount(),
-                transactionDTO.getDateOfTransaction(), transactionDTO.getTransactionType());
-        transaction.setAccountHolder(accountHolder);
-        return transactionRepository.save(transaction);
+
+    // I switched the Generation Type for Bank Accounts to AUTO so this should be fine but I'm gonna leave this comment
+    // here until I test it out and am sure it provides no issues
+    public BankAccount getBankAccountById(Long id) {
+        List<CDAccount> cdAccounts = cdAccountRepository.findAll();
+        for (CDAccount cdAccount : cdAccounts) {
+            if (cdAccount.getId() == id) return cdAccount;
+        }
+        List<PersonalChecking> personalCheckingAccounts = personalCheckingRepository.findAll();
+        for (PersonalChecking personalChecking : personalCheckingAccounts) {
+            if (personalChecking.getId() == id) return personalChecking;
+        }
+        List<DbaChecking> dbaCheckingList = dbaCheckingRepository.findAll();
+        for (DbaChecking dbaChecking : dbaCheckingList) {
+            if (dbaChecking.getId() == id) return dbaChecking;
+        }
+        List<IraRegular> iraRegularList = iraRegularRepository.findAll();
+        for (IraRegular iraRegular : iraRegularList) {
+            if (iraRegular.getId() == id) return iraRegular;
+        }
+        List<IraRollover> iraRolloverList = iraRolloverRepository.findAll();
+        for (IraRollover iraRollover : iraRolloverList) {
+            if (iraRollover.getId() == id) return iraRollover;
+        }
+        List<IraRoth> iraRothList = iraRothRepository.findAll();
+        for (IraRoth iraRoth : iraRothList) {
+            if (iraRoth.getId() == id) return iraRoth;
+        }
+        List<SavingsAccount> savingsAccounts = savingsAccountRepository.findAll();
+        for (SavingsAccount savingsAccount : savingsAccounts) {
+            if (savingsAccount.getId() == id) return savingsAccount;
+        }
+        return null;
     }
 
+    // I can no longer call the setBankAccount method and will have to see if I can either
+    // extract the classname and insert it or if each bank account needs their own method
+    // to post transactions
 
-    public List<Transaction> getTransactions(Long id) {
-        AccountHolder accountHolder = getAccountHolderById(id);
-        return transactionRepository.findByAccountHolder(accountHolder);
-    }
+//    public Transaction addTransaction(TransactionDTO transactionDTO, Long id) {
+//        BankAccount bankAccount = getBankAccountById(id);
+//        Transaction transaction = new Transaction(transactionDTO.getAmount(),
+//                transactionDTO.getDateOfTransaction(), transactionDTO.getTransactionType());
+//        transaction.setBankAccount(bankAccount);
+//        return transactionRepository.save(transaction);
+//    }
+//
+//
+//    public List<Transaction> getTransactions(Long id) {
+//        BankAccount bankAccount = getBankAccountById(id);
+//        return transactionRepository.findByBankAccount(bankAccount);
+//    }
 
 //    public Transaction addDepositTransaction(TransactionDTO transactionDTO, Long id) {
 //        BankAccount bankAccount = getBankAccountById(id);

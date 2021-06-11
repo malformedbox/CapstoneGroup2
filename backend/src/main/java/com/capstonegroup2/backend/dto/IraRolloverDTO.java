@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class IraRolloverDTO {
 
-    private double balance;
+    private String balance;
 
 }
