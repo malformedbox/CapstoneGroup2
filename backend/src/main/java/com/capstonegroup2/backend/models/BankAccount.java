@@ -7,29 +7,40 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Random;
 
 @Data
-@MappedSuperclass
+//@MappedSuperclass
+// switch to
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankAccount {
-
+public abstract class BankAccount {
+    //region
     // To use BigDecimal in mathematical operations method calls must be made instead of using operators
     // Ex. balance.subtract(withdrawal);
     // Also numbers should be sent as Strings and not doubles otherwise it would still use floating point calculation
     // At this point I think the easiest way to implement this is to use Strings for numbers and then assign them
     // as BigDecimals in constructors or method calls using the new keyword
+    //endregion
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "account_id")
+    private Long id;
 
     protected long accountNumber;
     protected BigDecimal balance;
     protected BigDecimal interestRate;
-    protected String opendOn;
+    protected String openedOn;
     protected ActiveStatus activeStatus;
+
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "sourceAccount")
+//    private List<Transaction> transactions = new ArrayList<>();
 
 
     public BankAccount(String balance, String interestRate){
@@ -37,7 +48,7 @@ public class BankAccount {
         this.interestRate = new BigDecimal(interestRate);
         this.activeStatus = ActiveStatus.OPEN;
         LocalDateTime date = LocalDateTime.now();
-        this.opendOn = formatDate(date);
+        this.openedOn = formatDate(date);
         this.accountNumber = generateAccountNumber();
     }
 
@@ -47,11 +58,6 @@ public class BankAccount {
         return formattedDate;
     }
 
-    public String formatDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/YYYY");
-        Date date = new Date();
-        return dateFormat.format(date);
-    }
 
     // This method is just an idea of how we can process a transaction based on type
     // It might need to just return the transaction type or be placed in the service

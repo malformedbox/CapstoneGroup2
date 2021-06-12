@@ -1,6 +1,7 @@
 package com.capstonegroup2.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class CDAccount extends BankAccount {
 
     @Id
@@ -27,8 +29,8 @@ public class CDAccount extends BankAccount {
     @JoinColumn(name = "cd_offering_id")
     private CDOffering cdOffering;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cdAccount")
-    private List<Transaction> transactions = new ArrayList<>();
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cdAccount")
+//    private List<Transaction> transactions = new ArrayList<>();
 
 
 
