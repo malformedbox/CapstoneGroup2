@@ -1,13 +1,17 @@
 package com.capstonegroup2.backend.dto;
 
 import com.capstonegroup2.backend.models.AccountHolder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegisterDTO {
 
     @NotBlank
@@ -19,7 +23,6 @@ public class RegisterDTO {
     private String password;
 
     private Set<String> role;
-//    private AccountHolder accountHolder;
     private String firstName;
     private String middleName;
     private String lastName;

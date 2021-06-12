@@ -1,6 +1,7 @@
 package com.capstonegroup2.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 @Table(name = "user_details")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class UserCredentials {
 
     @Id
