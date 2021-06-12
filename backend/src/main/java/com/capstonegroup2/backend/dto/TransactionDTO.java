@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TransactionDTO {
 
-    private double amount;
+    private String amount;
     private long dateOfTransaction;
     private TransactionType transactionType;
     private long sourceAccountNumber;

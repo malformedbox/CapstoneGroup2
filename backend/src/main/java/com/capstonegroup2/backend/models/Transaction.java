@@ -39,12 +39,12 @@ public class Transaction {
     private BankAccount targetAccount;
 
 
-
-    public Transaction(String amount, TransactionType transactionType) {
+    public Transaction(String amount, TransactionType transactionType, BankAccount targetAccount) {
         this.amount = new BigDecimal(amount);
         this.transactionType = transactionType;
         LocalDateTime date = LocalDateTime.now();
         this.dateOfTransaction = formatDate(date);
+        this.targetAccount = targetAccount;
     }
 
     public Transaction(String amount, TransactionType transactionType, BankAccount sourceAccount, BankAccount targetAccount) {

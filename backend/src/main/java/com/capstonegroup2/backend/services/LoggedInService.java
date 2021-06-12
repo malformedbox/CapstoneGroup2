@@ -19,6 +19,8 @@ public class LoggedInService {
 
     @Autowired UserCredentialsRepository userCredentialsRepository;
 
+    @Autowired BankAccountRepository bankAccountRepository;
+
     @Autowired CDAccountRepository cdAccountRepository;
 
     @Autowired PersonalCheckingRepository personalCheckingRepository;
@@ -43,6 +45,12 @@ public class LoggedInService {
         token = token.substring(7);
         UserCredentials user = userCredentialsRepository.findByUsername(jwtTokenCreator.extractUsername(token)).get();
         return accountHolderService.getAccountHolderById(user.getAccountHolder().getId());
+    }
+
+    // TODO Have to test this, hope is that the bankaccount repository will contain all accounts of all types
+    // but that is the only reason I created that repository it so if this doesn't work, it should be deleted
+    public BankAccount getAccountByAccountNumber(long accountNumber) {
+        return bankAccountRepository.findByAccountNumber(accountNumber);
     }
 
     /* CD Accounts ================================================================================================== */
@@ -137,6 +145,11 @@ public class LoggedInService {
     public SavingsAccount getSavingsAccount(AccountHolder accountHolder) throws AccountHolderNotFoundException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
         return savingsAccountRepository.findByAccountHolder(accountHolder);
+    }
+
+    /* Transactions ================================================================================================= */
+    public boolean postDeposit(Transaction transaction) {
+        return false;
     }
 
 
