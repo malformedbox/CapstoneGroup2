@@ -152,7 +152,7 @@ public class LoggedInController {
 
     /* Transactions ================================================================================================= */
 
-    // OPTION A -- Not Working
+    // OPTION A -- This works as well for deposits, just need to test and confirm withdrawl and transfer
     @PostMapping("/transaction")
     public Transaction postTransaction(@RequestHeader(name = "Authorization") String token,
                                        @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
