@@ -60,7 +60,7 @@ public class LoggedInController {
         return loggedInService.getPersonalChecking(accountHolder);
     }
 
-    @GetMapping("/transactions")
+    @GetMapping("/personalchecking/transactions")
     public List<Transaction> getPersonalCheckingTransactions(@RequestHeader(name = "Authorization") String token)
             throws AccountNotFoundException, AccountHolderNotFoundException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
