@@ -46,15 +46,6 @@ public class Transaction {
         this.dateOfTransaction = formatDate(date);
     }
 
-//    public Transaction(String amount, TransactionType transactionType, long sourceAccount, long targetAccount) {
-//        this.amount = new BigDecimal(amount);
-//        this.transactionType = transactionType;
-//        LocalDateTime date = LocalDateTime.now();
-//        this.dateOfTransaction = formatDate(date);
-//        this.sourceAccount = findByAccountNumber(sourceAccount);
-//        this.targetAccount = findByAccountNumber(targetAccount);
-//    }
-
     public Transaction(String amount, TransactionType transactionType, BankAccount sourceAccount, BankAccount targetAccount) {
         this.amount = new BigDecimal(amount);
         this.transactionType = transactionType;
@@ -63,7 +54,6 @@ public class Transaction {
         this.sourceAccount = sourceAccount;
         this.targetAccount = targetAccount;
     }
-
 
     private String formatDate(LocalDateTime date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
