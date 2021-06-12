@@ -151,5 +151,24 @@ public class LoggedInController {
         return loggedInService.postDeposit(transaction);
     }
 
+    @PostMapping("/withdraw")
+    public boolean postWithdrawal(@RequestHeader(name = "Authorization") String token,
+                                  @RequestBody TransactionDTO transactionDTO) {
+        BankAccount bankAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
+        Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
+                bankAccount);
+        return loggedInService.postWithdrawal(transaction);
+    }
+
+    @PostMapping("/transfer")
+    public boolean postTransfer(@RequestHeader(name = "Authorization") String token,
+                                @RequestBody TransactionDTO transactionDTO) {
+        BankAccount sourceAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getSourceAccountNumber());
+        BankAccount targetAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
+        Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
+                sourceAccount, targetAccount);
+        return loggedInService.postTransfer(transaction);
+    }
+
 
 }

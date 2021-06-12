@@ -148,7 +148,18 @@ public class LoggedInService {
     }
 
     /* Transactions ================================================================================================= */
+    // TODO
     public boolean postDeposit(Transaction transaction) {
+        return false;
+    }
+
+    // TODO
+    public boolean postWithdrawal(Transaction transaction) {
+        return false;
+    }
+
+    // TODO
+    public boolean postTransfer(Transaction transaction) {
         return false;
     }
 

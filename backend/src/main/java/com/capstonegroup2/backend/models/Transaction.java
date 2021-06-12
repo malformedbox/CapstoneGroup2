@@ -32,7 +32,6 @@ public class Transaction {
     @JsonIgnore
     private BankAccount sourceAccount;
 
-
     @ManyToOne
     @JoinColumn(name = "target_account_id")
     @JsonIgnore
