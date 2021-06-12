@@ -12,8 +12,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 @Data
-//@MappedSuperclass
-// switch to
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @NoArgsConstructor

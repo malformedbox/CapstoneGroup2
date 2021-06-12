@@ -16,10 +16,10 @@ import java.util.List;
 public class IraRoth extends BankAccount{
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ira_roth_account_id")
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "ira_roth_account_id")
+//    private Long id;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)

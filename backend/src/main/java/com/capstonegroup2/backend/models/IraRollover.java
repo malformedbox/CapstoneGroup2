@@ -15,10 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 public class IraRollover extends BankAccount {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ira_roll_account_id")
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "ira_roll_account_id")
+//    private Long id;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)

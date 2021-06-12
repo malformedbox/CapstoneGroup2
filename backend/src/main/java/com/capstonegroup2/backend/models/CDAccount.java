@@ -15,10 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 public class CDAccount extends BankAccount {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "cd_account_id")
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "cd_account_id")
+//    private Long id;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

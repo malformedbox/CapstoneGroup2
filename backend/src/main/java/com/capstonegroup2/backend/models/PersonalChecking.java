@@ -15,10 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 public class PersonalChecking extends BankAccount{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "checking_account_id")
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "checking_account_id")
+//    private Long id;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
