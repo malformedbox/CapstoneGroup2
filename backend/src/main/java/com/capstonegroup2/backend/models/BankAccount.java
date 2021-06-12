@@ -83,7 +83,7 @@ public abstract class BankAccount {
         return accountNumber;
     }
 
-
+    // TODO can encapsulate the mathematical operations occurring in loggedInService
 //    public boolean withdraw(Transaction withdrawal) {
 //        if (withdrawal.getAmount() > 0 && withdrawal.getAmount() < balance) {
 //            balance -= withdrawal.getAmount();
