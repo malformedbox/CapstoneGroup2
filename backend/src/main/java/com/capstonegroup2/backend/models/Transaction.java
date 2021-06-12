@@ -62,33 +62,4 @@ public class Transaction {
         return formattedDate;
     }
 
-//    public boolean deposit(String depositAmount) {
-//        BigDecimal deposit = new BigDecimal(depositAmount);
-//        BigDecimal balance = this.targetAccount.getBalance();
-//        BigDecimal newBalance = deposit.add(balance);
-//
-//        this.targetAccount.setBalance(newBalance);
-//
-//        return true;
-//    }
-
-//    public BankAccount findByAccountNumber(long accountNumber) {
-//        if (cdAccount.getAccountNumber() == accountNumber) {
-//            return cdAccount;
-//        } else if (dbaChecking.getAccountNumber() == accountNumber) {
-//            return dbaChecking;
-//        } else if (iraRegular.getAccountNumber() == accountNumber) {
-//            return iraRegular;
-//        } else if (iraRollover.getAccountNumber() == accountNumber) {
-//            return iraRollover;
-//        } else if (iraRoth.getAccountNumber() == accountNumber) {
-//            return iraRoth;
-//        } else if (savingsAccount.getAccountNumber() == accountNumber) {
-//            return savingsAccount;
-//        } else if (personalChecking.getAccountNumber() == accountNumber) {
-//            return personalChecking;
-//        }
-//        return null;
-//    }
-
 }
