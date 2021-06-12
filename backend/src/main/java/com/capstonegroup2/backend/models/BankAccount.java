@@ -17,14 +17,11 @@ import java.util.Random;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class BankAccount {
-    //region
     // To use BigDecimal in mathematical operations method calls must be made instead of using operators
     // Ex. balance.subtract(withdrawal);
     // Also numbers should be sent as Strings and not doubles otherwise it would still use floating point calculation
     // At this point I think the easiest way to implement this is to use Strings for numbers and then assign them
     // as BigDecimals in constructors or method calls using the new keyword
-    //endregion
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,9 +33,6 @@ public abstract class BankAccount {
     protected BigDecimal interestRate;
     protected String openedOn;
     protected ActiveStatus activeStatus;
-
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "sourceAccount")
-//    private List<Transaction> transactions = new ArrayList<>();
 
 
     public BankAccount(String balance, String interestRate){

@@ -2,6 +2,7 @@ package com.capstonegroup2.backend.models;
 
 import com.capstonegroup2.backend.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 @Table(name = "transactions")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Transaction {
 
     @Id
@@ -35,42 +37,7 @@ public class Transaction {
     @JsonIgnore
     private BankAccount targetAccount;
 
-    //region
-//    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name = "dba_account_id")
-//    DbaChecking dbaChecking;
-//
-//    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name = "cd_account_id")
-//    CDAccount cdAccount;
-//
-//    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name = "ira_reg_account_id")
-//    IraRegular iraRegular;
-//
-//    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name = "ira_roll_account_id")
-//    IraRollover iraRollover;
-//
-//    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name = "ira_roth_account_id")
-//    IraRoth iraRoth;
-//
-//    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name = "checking_account_id")
-//    PersonalChecking personalChecking;
-//
-//    @JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name = "savings_account_id")
-//    SavingsAccount savingsAccount;
-    //endregion
+
 
     public Transaction(String amount, TransactionType transactionType) {
         this.amount = new BigDecimal(amount);
@@ -93,8 +60,8 @@ public class Transaction {
         this.transactionType = transactionType;
         LocalDateTime date = LocalDateTime.now();
         this.dateOfTransaction = formatDate(date);
-//        this.sourceAccount = sourceAccount;
-//        this.targetAccount = targetAccount;
+        this.sourceAccount = sourceAccount;
+        this.targetAccount = targetAccount;
     }
 
 
