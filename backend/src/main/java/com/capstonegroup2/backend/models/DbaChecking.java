@@ -13,7 +13,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class DbaChecking extends BankAccount {
 
-
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_holder_id")
