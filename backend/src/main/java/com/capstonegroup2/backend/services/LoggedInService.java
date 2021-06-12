@@ -157,6 +157,9 @@ public class LoggedInService {
 
         BigDecimal currentBalance = targetAccount.getBalance();
         BigDecimal depositAmount = transaction.getAmount();
+        if (Double.valueOf(String.valueOf(depositAmount)) < 0) throw new IllegalArgumentException("A deposit amount " +
+                "must be greater than $0.00");
+
         BigDecimal newBalance = currentBalance.add(depositAmount);
 
         targetAccount.setBalance(newBalance);
@@ -171,6 +174,9 @@ public class LoggedInService {
 
         BigDecimal currentBalance = targetAccount.getBalance();
         BigDecimal withdrawalAmount = transaction.getAmount();
+        if (Double.valueOf(String.valueOf(withdrawalAmount)) > Double.valueOf(String.valueOf(currentBalance))) throw new
+                IllegalArgumentException("A withdrawal cannot exceed an accounts available balance");
+
         BigDecimal newBalance = currentBalance.subtract(withdrawalAmount);
 
         targetAccount.setBalance(newBalance);
