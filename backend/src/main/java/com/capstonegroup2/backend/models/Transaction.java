@@ -24,16 +24,16 @@ public class Transaction {
     private String dateOfTransaction;
     private TransactionType transactionType;
 
-//    @ManyToOne
-//    @JoinColumn(name = "source_account_id")
-//    @JsonIgnore
-//    private BankAccount sourceAccount;
-//
-//
-//    @ManyToOne
-//    @JoinColumn(name = "target_account_id")
-//    @JsonIgnore
-//    private BankAccount targetAccount;
+    @ManyToOne
+    @JoinColumn(name = "source_account_id")
+    @JsonIgnore
+    private BankAccount sourceAccount;
+
+
+    @ManyToOne
+    @JoinColumn(name = "target_account_id")
+    @JsonIgnore
+    private BankAccount targetAccount;
 
     //region
 //    @JsonIgnore
