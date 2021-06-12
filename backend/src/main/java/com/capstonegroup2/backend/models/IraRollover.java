@@ -20,10 +20,6 @@ public class IraRollover extends BankAccount {
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "iraRollover")
-//    private List<Transaction> transactions = new ArrayList<>();
-
-
     public IraRollover(String balance) {
         super(balance, "0.08");
     }

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -20,13 +19,9 @@ public class DbaChecking extends BankAccount {
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "dbaChecking")
-//    private List<Transaction> transactions = new ArrayList<>();
-
     public DbaChecking(String balance) {
         super(balance, "0.0005");
     }
-
 
     // TODO Override closeAccountResponse
     @Override

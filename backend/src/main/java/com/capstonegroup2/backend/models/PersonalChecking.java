@@ -20,10 +20,6 @@ public class PersonalChecking extends BankAccount{
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "personalChecking")
-//    private List<Transaction> transactions = new ArrayList<>();
-
-
     public PersonalChecking(String balance) {
         super(balance, "0.0001");
     }

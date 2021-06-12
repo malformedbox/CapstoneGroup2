@@ -9,8 +9,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 public class CDAccount extends BankAccount {
@@ -23,11 +23,6 @@ public class CDAccount extends BankAccount {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cd_offering_id")
     private CDOffering cdOffering;
-
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cdAccount")
-//    private List<Transaction> transactions = new ArrayList<>();
-
-
 
     public CDAccount(String balance, CDOffering cdOffering) {
         super(balance, cdOffering.getInterestRate());

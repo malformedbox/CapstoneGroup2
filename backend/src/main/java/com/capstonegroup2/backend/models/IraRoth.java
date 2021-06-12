@@ -20,10 +20,6 @@ public class IraRoth extends BankAccount{
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "iraRoth")
-//    private List<Transaction> transactions = new ArrayList<>();
-
-
     public IraRoth(String balance) {
         super(balance, "0.08");
     }
