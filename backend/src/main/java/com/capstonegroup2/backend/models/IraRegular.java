@@ -23,10 +23,6 @@ public class IraRegular extends BankAccount {
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "iraRegular")
-//    private List<Transaction> transactions = new ArrayList<>();
-
-
     public IraRegular(String balance) {
         super(balance, MeritBank.IRA_REGULAR_INTEREST_RATE);
     }

@@ -29,10 +29,6 @@ public class CDAccount extends BankAccount {
         this.cdOffering = cdOffering;
     }
 
-//    public static double futureValue(double balance, CDOffering cdOffering) {
-//        return futureValue(balance, cdOffering.getInterestRate(), cdOffering.getTerm());
-//    }
-
     // TODO Override closeAccountResponse
     @Override
     public String closeAccountResponse() {
