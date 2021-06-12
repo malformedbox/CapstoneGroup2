@@ -60,6 +60,14 @@ public class LoggedInController {
         return loggedInService.getPersonalChecking(accountHolder);
     }
 
+    @GetMapping("/transactions")
+    public List<Transaction> getPersonalCheckingTransactions(@RequestHeader(name = "Authorization") String token)
+            throws AccountNotFoundException, AccountHolderNotFoundException {
+        AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
+        PersonalChecking personalChecking = loggedInService.getPersonalChecking(accountHolder);
+        return loggedInService.getAccountTransactions(personalChecking);
+    }
+
     /* DBA Checking Accounts ======================================================================================== */
     @PostMapping("/dbachecking")
     public DbaChecking addDbaChecking(@RequestHeader(name = "Authorization") String token,
@@ -147,7 +155,7 @@ public class LoggedInController {
     // OPTION A
     @PostMapping("/transaction")
     public Transaction postTransaction(@RequestHeader(name = "Authorization") String token,
-                                   @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
+                                       @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
 
         // Constructing and Routing transaction object based on type
         BankAccount targetAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
@@ -205,5 +213,17 @@ public class LoggedInController {
         return loggedInService.postTransfer(transaction);
     }
 
+    // Line 63 in Personal Checking section contains a method by which we can call an account by type from an
+    // account holder, below is a more universal method that will require we pass in the account number of the
+    // account whose transactions we are making a get request on. I think if this works properly that we should
+    // use this method and remove the other as it will require implementation for each account type
+    @GetMapping("/transactions")
+    public List<Transaction> getAccountTransactions(@RequestHeader(name = "Authorization") String token,
+                                                    @RequestBody long accountNumber)
+            throws AccountNotFoundException, AccountHolderNotFoundException {
+        AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
+        BankAccount bankAccount = loggedInService.getAccountByAccountNumber(accountNumber);
+        return loggedInService.getAccountTransactions(bankAccount);
+    }
 
 }

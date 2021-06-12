@@ -206,6 +206,11 @@ public class LoggedInService {
         return transactionRepository.save(transaction);
     }
 
+    public List<Transaction> getAccountTransactions(BankAccount bankAccount) throws AccountNotFoundException {
+        if (bankAccount == null) throw new AccountNotFoundException();
+        return transactionRepository.findByTargetAccount(bankAccount);
+    }
+
 
     // Ignore below, this can be refactored to be a general deposit method that hits whatever
     // bank account we target
