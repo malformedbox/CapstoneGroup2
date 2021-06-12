@@ -15,12 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 public class IraRoth extends BankAccount{
 
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "ira_roth_account_id")
-//    private Long id;
-
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_holder_id")
