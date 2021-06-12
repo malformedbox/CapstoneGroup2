@@ -152,7 +152,7 @@ public class LoggedInController {
 
     /* Transactions ================================================================================================= */
 
-    // OPTION A
+    // OPTION A -- Not Working
     @PostMapping("/transaction")
     public Transaction postTransaction(@RequestHeader(name = "Authorization") String token,
                                        @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
@@ -184,7 +184,7 @@ public class LoggedInController {
         return null;
     }
 
-    // OPTIONS B
+    // OPTIONS B -- Works like a charm
     @PostMapping("/deposit")
     public Transaction postDeposit(@RequestHeader(name = "Authorization") String token,
                                @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
@@ -194,6 +194,7 @@ public class LoggedInController {
         return loggedInService.postDeposit(transaction);
     }
 
+    // TODO Test
     @PostMapping("/withdraw")
     public Transaction postWithdrawal(@RequestHeader(name = "Authorization") String token,
                                   @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
@@ -203,6 +204,7 @@ public class LoggedInController {
         return loggedInService.postWithdrawal(transaction);
     }
 
+    // TODO Test
     @PostMapping("/transfer")
     public Transaction postTransfer(@RequestHeader(name = "Authorization") String token,
                                 @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
