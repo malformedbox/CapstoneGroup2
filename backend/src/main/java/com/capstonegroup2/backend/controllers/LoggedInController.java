@@ -26,6 +26,7 @@ public class LoggedInController {
         return loggedInService.getLoggedInAccountHolder(token);
     }
 
+
     /* CD Accounts ================================================================================================== */
     @PostMapping("/cdaccounts")
     public CDAccount addCDAccount(@RequestHeader(name = "Authorization") String token,
@@ -41,6 +42,7 @@ public class LoggedInController {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         return loggedInService.getCDAccounts(accountHolder);
     }
+
 
     /* Personal Checking Accounts =================================================================================== */
     @PostMapping("/personalchecking")
@@ -59,13 +61,6 @@ public class LoggedInController {
         return loggedInService.getPersonalChecking(accountHolder);
     }
 
-    @GetMapping("/personalchecking/transactions")
-    public List<Transaction> getPersonalCheckingTransactions(@RequestHeader(name = "Authorization") String token)
-            throws AccountNotFoundException, AccountHolderNotFoundException {
-        AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
-        PersonalChecking personalChecking = loggedInService.getPersonalChecking(accountHolder);
-        return loggedInService.getAccountTransactions(personalChecking);
-    }
 
     /* DBA Checking Accounts ======================================================================================== */
     @PostMapping("/dbachecking")
@@ -84,6 +79,7 @@ public class LoggedInController {
         return loggedInService.getDbaChecking(accountHolder);
     }
 
+
     /* IRA Regular Accounts ========================================================================================= */
     @PostMapping("/iraregular")
     public IraRegular addIraRegular(@RequestHeader(name = "Authorization") String token,
@@ -99,6 +95,7 @@ public class LoggedInController {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         return loggedInService.getIraRegular(accountHolder);
     }
+
 
     /* IRA Rollover Accounts ======================================================================================== */
     @PostMapping("/irarollover")
@@ -116,6 +113,7 @@ public class LoggedInController {
         return loggedInService.getIraRollover(accountHolder);
     }
 
+
     /* IRA Roth Accounts ============================================================================================ */
     @PostMapping("/iraroth")
     public IraRoth addIraRoth(@RequestHeader(name = "Authorization") String token,
@@ -131,6 +129,7 @@ public class LoggedInController {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         return loggedInService.getIraRoth(accountHolder);
     }
+
 
     /* Savings Accounts ============================================================================================= */
     @PostMapping("/savings")
@@ -149,14 +148,14 @@ public class LoggedInController {
         return loggedInService.getSavingsAccount(accountHolder);
     }
 
-    /* Transactions ================================================================================================= */
 
-    // OPTION A -- This works as well for deposits, just need to test and confirm withdrawal and transfer
+    /* Transactions ================================================================================================= */
     @PostMapping("/transaction")
     public Transaction postTransaction(@RequestHeader(name = "Authorization") String token,
                                        @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
 
-        // Constructing and Routing transaction object based on type
+    // Constructing and Routing transaction object based on type
+
         BankAccount targetAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
 
         if (transactionDTO.getTransactionType() != TransactionType.TRANSFER) {
@@ -183,42 +182,6 @@ public class LoggedInController {
         return null;
     }
 
-    // OPTIONS B -- Works like a charm but so does the versatile post "/transaction" above
-    // TODO COMMENTING THIS IN BEFORE DELETION IN CASE OF NEED OF RETRIEVAL
-    @PostMapping("/deposit")
-    public Transaction postDeposit(@RequestHeader(name = "Authorization") String token,
-                                   @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
-        BankAccount bankAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
-        Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
-                bankAccount);
-        return loggedInService.postDeposit(transaction);
-    }
-
-    // TODO Test
-    @PostMapping("/withdraw")
-    public Transaction postWithdrawal(@RequestHeader(name = "Authorization") String token,
-                                  @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
-        BankAccount bankAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
-        Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
-                bankAccount);
-        return loggedInService.postWithdrawal(transaction);
-    }
-
-    // TODO Test
-    @PostMapping("/transfer")
-    public Transaction postTransfer(@RequestHeader(name = "Authorization") String token,
-                                @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
-        BankAccount sourceAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getSourceAccountNumber());
-        BankAccount targetAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
-        Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
-                sourceAccount, targetAccount);
-        return loggedInService.postTransfer(transaction);
-    }
-
-    // Line 63 in Personal Checking section contains a method by which we can call an account by type from an
-    // account holder, below is a more universal method that will require we pass in the account number of the
-    // account whose transactions we are making a get request on. I think if this works properly that we should
-    // use this method and remove the other as it will require implementation for each account type
     @GetMapping("/transactions")
     public List<Transaction> getAccountTransactions(@RequestHeader(name = "Authorization") String token,
                                                     @RequestBody long accountNumber)
