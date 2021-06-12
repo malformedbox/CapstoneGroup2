@@ -149,18 +149,25 @@ public class LoggedInService {
 
     /* Transactions ================================================================================================= */
     // TODO
-    public boolean postDeposit(Transaction transaction) {
-        return false;
+    public Transaction postDeposit(Transaction transaction) throws AccountNotFoundException {
+        if (transaction.getTargetAccount() == null) throw new AccountNotFoundException();
+
+        return null;
     }
 
     // TODO
-    public boolean postWithdrawal(Transaction transaction) {
-        return false;
+    public Transaction postWithdrawal(Transaction transaction) throws AccountNotFoundException {
+        if (transaction.getTargetAccount() == null) throw new AccountNotFoundException();
+
+        return null;
     }
 
     // TODO
-    public boolean postTransfer(Transaction transaction) {
-        return false;
+    public Transaction postTransfer(Transaction transaction) throws AccountNotFoundException {
+        if (transaction.getTargetAccount() == null || transaction.getSourceAccount() == null)
+            throw new AccountNotFoundException();
+
+        return null;
     }
 
 

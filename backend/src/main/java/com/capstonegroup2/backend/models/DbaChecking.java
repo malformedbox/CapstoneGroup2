@@ -20,7 +20,7 @@ public class DbaChecking extends BankAccount {
     private AccountHolder accountHolder;
 
     public DbaChecking(String balance) {
-        super(balance, "0.0005");
+        super(balance, MeritBank.DBA_CHECKING_INTEREST_RATE);
     }
 
     // TODO Override closeAccountResponse

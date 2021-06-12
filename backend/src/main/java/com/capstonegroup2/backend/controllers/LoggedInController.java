@@ -1,6 +1,7 @@
 package com.capstonegroup2.backend.controllers;
 
 import com.capstonegroup2.backend.dto.*;
+import com.capstonegroup2.backend.enums.TransactionType;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
 import com.capstonegroup2.backend.models.*;
@@ -142,9 +143,43 @@ public class LoggedInController {
     }
 
     /* Transactions ================================================================================================= */
+
+    // OPTION A
+    @PostMapping("/transaction")
+    public Transaction postTransaction(@RequestHeader(name = "Authorization") String token,
+                                   @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
+
+        // Constructing and Routing transaction object based on type
+        BankAccount targetAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
+
+        if (transactionDTO.getTransactionType() != TransactionType.TRANSFER) {
+
+            Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
+                    targetAccount);
+
+            if (transaction.getTransactionType() == TransactionType.DEPOSIT) {
+                return loggedInService.postDeposit(transaction);
+
+            } else if (transaction.getTransactionType() == TransactionType.WITHDRAWAL) {
+                return loggedInService.postWithdrawal(transaction);
+            }
+
+        } else if (transactionDTO.getTransactionType() == TransactionType.TRANSFER) {
+
+            BankAccount sourceAccount = loggedInService.getAccountByAccountNumber(
+                    transactionDTO.getSourceAccountNumber());
+            Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
+                    sourceAccount, targetAccount);
+
+            return loggedInService.postTransfer(transaction);
+        }
+        return null;
+    }
+
+    // OPTIONS B
     @PostMapping("/deposit")
-    public boolean postDeposit(@RequestHeader(name = "Authorization") String token,
-                               @RequestBody TransactionDTO transactionDTO) {
+    public Transaction postDeposit(@RequestHeader(name = "Authorization") String token,
+                               @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
         BankAccount bankAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
         Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
                 bankAccount);
@@ -152,8 +187,8 @@ public class LoggedInController {
     }
 
     @PostMapping("/withdraw")
-    public boolean postWithdrawal(@RequestHeader(name = "Authorization") String token,
-                                  @RequestBody TransactionDTO transactionDTO) {
+    public Transaction postWithdrawal(@RequestHeader(name = "Authorization") String token,
+                                  @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
         BankAccount bankAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
         Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
                 bankAccount);
@@ -161,8 +196,8 @@ public class LoggedInController {
     }
 
     @PostMapping("/transfer")
-    public boolean postTransfer(@RequestHeader(name = "Authorization") String token,
-                                @RequestBody TransactionDTO transactionDTO) {
+    public Transaction postTransfer(@RequestHeader(name = "Authorization") String token,
+                                @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
         BankAccount sourceAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getSourceAccountNumber());
         BankAccount targetAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
         Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),

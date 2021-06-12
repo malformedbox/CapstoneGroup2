@@ -21,7 +21,7 @@ public class PersonalChecking extends BankAccount{
     private AccountHolder accountHolder;
 
     public PersonalChecking(String balance) {
-        super(balance, "0.0001");
+        super(balance, MeritBank.PERSONAL_CHECKING_INTEREST_RATE);
     }
 
     // TODO Override closeAccountResponse

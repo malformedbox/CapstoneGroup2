@@ -28,7 +28,7 @@ public class IraRegular extends BankAccount {
 
 
     public IraRegular(String balance) {
-        super(balance, "0.65");
+        super(balance, MeritBank.IRA_REGULAR_INTEREST_RATE);
     }
 
     // TODO Override closeAccountResponse

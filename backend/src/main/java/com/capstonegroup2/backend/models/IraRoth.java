@@ -21,7 +21,7 @@ public class IraRoth extends BankAccount{
     private AccountHolder accountHolder;
 
     public IraRoth(String balance) {
-        super(balance, "0.08");
+        super(balance, MeritBank.IRA_ROTH_INTEREST_RATE);
     }
 
     // TODO Override closeAccountResponse

@@ -46,7 +46,8 @@ public class Transaction {
         this.targetAccount = targetAccount;
     }
 
-    public Transaction(String amount, TransactionType transactionType, BankAccount sourceAccount, BankAccount targetAccount) {
+    public Transaction(String amount, TransactionType transactionType, BankAccount sourceAccount,
+                       BankAccount targetAccount) {
         this.amount = new BigDecimal(amount);
         this.transactionType = transactionType;
         LocalDateTime date = LocalDateTime.now();
