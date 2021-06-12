@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -150,16 +151,31 @@ public class LoggedInService {
     /* Transactions ================================================================================================= */
     // TODO
     public Transaction postDeposit(Transaction transaction) throws AccountNotFoundException {
-        if (transaction.getTargetAccount() == null) throw new AccountNotFoundException();
 
-        return null;
+        if (transaction.getTargetAccount() == null) throw new AccountNotFoundException();
+        BankAccount targetAccount = transaction.getTargetAccount();
+
+        BigDecimal currentBalance = targetAccount.getBalance();
+        BigDecimal depositAmount = transaction.getAmount();
+        BigDecimal newBalance = currentBalance.add(depositAmount);
+
+        targetAccount.setBalance(newBalance);
+
+        return transactionRepository.save(transaction);
     }
 
     // TODO
     public Transaction postWithdrawal(Transaction transaction) throws AccountNotFoundException {
         if (transaction.getTargetAccount() == null) throw new AccountNotFoundException();
+        BankAccount targetAccount = transaction.getTargetAccount();
 
-        return null;
+        BigDecimal currentBalance = targetAccount.getBalance();
+        BigDecimal withdrawalAmount = transaction.getAmount();
+        BigDecimal newBalance = currentBalance.subtract(withdrawalAmount);
+
+        targetAccount.setBalance(newBalance);
+
+        return transactionRepository.save(transaction);
     }
 
     // TODO
@@ -167,7 +183,21 @@ public class LoggedInService {
         if (transaction.getTargetAccount() == null || transaction.getSourceAccount() == null)
             throw new AccountNotFoundException();
 
-        return null;
+        BankAccount sourceAccount = transaction.getSourceAccount();
+        BankAccount targetAccount = transaction.getTargetAccount();
+
+        BigDecimal sourceBalance = sourceAccount.getBalance();
+        BigDecimal transferAmount = transaction.getAmount();
+        BigDecimal newSourceBalance = sourceBalance.subtract(transferAmount);
+
+        sourceAccount.setBalance(newSourceBalance);
+
+        BigDecimal targetBalance = targetAccount.getBalance();
+        BigDecimal newTargetBalance = targetBalance.add(transferAmount);
+
+        targetAccount.setBalance(newTargetBalance);
+
+        return transactionRepository.save(transaction);
     }
 
 
