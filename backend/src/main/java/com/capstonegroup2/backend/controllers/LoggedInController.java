@@ -19,7 +19,6 @@ public class LoggedInController {
 
     @Autowired LoggedInService loggedInService;
 
-    @Autowired UserCredentialsRepository userCredentialsRepository;
 
     /* Account Holder ============================================================================================== */
     @GetMapping
@@ -152,7 +151,7 @@ public class LoggedInController {
 
     /* Transactions ================================================================================================= */
 
-    // OPTION A -- This works as well for deposits, just need to test and confirm withdrawl and transfer
+    // OPTION A -- This works as well for deposits, just need to test and confirm withdrawal and transfer
     @PostMapping("/transaction")
     public Transaction postTransaction(@RequestHeader(name = "Authorization") String token,
                                        @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
@@ -184,10 +183,11 @@ public class LoggedInController {
         return null;
     }
 
-    // OPTIONS B -- Works like a charm
+    // OPTIONS B -- Works like a charm but so does the versatile post "/transaction" above
+    // TODO COMMENTING THIS IN BEFORE DELETION IN CASE OF NEED OF RETRIEVAL
     @PostMapping("/deposit")
     public Transaction postDeposit(@RequestHeader(name = "Authorization") String token,
-                               @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
+                                   @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
         BankAccount bankAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
         Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
                 bankAccount);
