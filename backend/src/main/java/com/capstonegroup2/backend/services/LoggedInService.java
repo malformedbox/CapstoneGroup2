@@ -150,54 +150,48 @@ public class LoggedInService {
     public Transaction postDeposit(Transaction transaction) throws AccountNotFoundException {
 
         if (transaction.getTargetAccount() == null) throw new AccountNotFoundException();
+        if (Double.parseDouble(String.valueOf(transaction.getAmount())) < 0) throw new IllegalArgumentException
+                ("A deposit amount must be greater than $0.00");
+
         BankAccount targetAccount = transaction.getTargetAccount();
-
-        BigDecimal currentBalance = targetAccount.getBalance();
-        BigDecimal depositAmount = transaction.getAmount();
-        if (Double.valueOf(String.valueOf(depositAmount)) < 0) throw new IllegalArgumentException("A deposit amount " +
-                "must be greater than $0.00");
-
-        BigDecimal newBalance = currentBalance.add(depositAmount);
-
-        targetAccount.setBalance(newBalance);
+        BigDecimal updatedBalance = targetAccount.deposit(transaction.getAmount());
+        targetAccount.setBalance(updatedBalance);
 
         return transactionRepository.save(transaction);
     }
 
     public Transaction postWithdrawal(Transaction transaction) throws AccountNotFoundException {
-        if (transaction.getTargetAccount() == null) throw new AccountNotFoundException();
+
         BankAccount targetAccount = transaction.getTargetAccount();
 
-        BigDecimal currentBalance = targetAccount.getBalance();
-        BigDecimal withdrawalAmount = transaction.getAmount();
-        if (Double.valueOf(String.valueOf(withdrawalAmount)) > Double.valueOf(String.valueOf(currentBalance))) throw new
+        if (targetAccount == null) throw new AccountNotFoundException();
+        if (Double.parseDouble(String.valueOf(transaction.getAmount())) >
+                Double.parseDouble(String.valueOf(targetAccount.getBalance()))) throw new
                 IllegalArgumentException("A withdrawal cannot exceed an accounts available balance");
 
-        BigDecimal newBalance = currentBalance.subtract(withdrawalAmount);
 
-        targetAccount.setBalance(newBalance);
+        BigDecimal updatedBalance = targetAccount.withdraw(transaction.getAmount());
+        targetAccount.setBalance(updatedBalance);
 
         return transactionRepository.save(transaction);
     }
 
     // TODO Test
     public Transaction postTransfer(Transaction transaction) throws AccountNotFoundException {
-        if (transaction.getTargetAccount() == null || transaction.getSourceAccount() == null)
-            throw new AccountNotFoundException();
 
         BankAccount sourceAccount = transaction.getSourceAccount();
         BankAccount targetAccount = transaction.getTargetAccount();
 
-        BigDecimal sourceBalance = sourceAccount.getBalance();
-        BigDecimal transferAmount = transaction.getAmount();
-        BigDecimal newSourceBalance = sourceBalance.subtract(transferAmount);
+        if (targetAccount == null || sourceAccount == null) throw new AccountNotFoundException();
+        if (Double.parseDouble(String.valueOf(sourceAccount.getBalance())) <
+                Double.parseDouble(String.valueOf(transaction.getAmount()))) throw new IllegalArgumentException
+                ("The source account of a transfer must have a greater balance than the the transfer amount.");
 
-        sourceAccount.setBalance(newSourceBalance);
+        BigDecimal updatedSourceBalance = sourceAccount.withdraw(transaction.getAmount());
+        BigDecimal updatedTargetBalance = targetAccount.deposit(transaction.getAmount());
 
-        BigDecimal targetBalance = targetAccount.getBalance();
-        BigDecimal newTargetBalance = targetBalance.add(transferAmount);
-
-        targetAccount.setBalance(newTargetBalance);
+        sourceAccount.setBalance(updatedSourceBalance);
+        targetAccount.setBalance(updatedTargetBalance);
 
         return transactionRepository.save(transaction);
     }
