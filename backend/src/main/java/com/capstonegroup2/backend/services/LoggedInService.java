@@ -1,6 +1,7 @@
 package com.capstonegroup2.backend.services;
 
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
+import com.capstonegroup2.backend.exceptions.AccountLimitExceededException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
 import com.capstonegroup2.backend.models.*;
 import com.capstonegroup2.backend.repositories.*;
@@ -16,7 +17,8 @@ import java.util.List;
 @Transactional
 public class LoggedInService {
 
-    @Autowired AccountHolderService accountHolderService;
+    @Autowired
+    AdminService adminService;
 
     @Autowired UserCredentialsRepository userCredentialsRepository;
 
@@ -45,7 +47,7 @@ public class LoggedInService {
     public AccountHolder getLoggedInAccountHolder(String token) {
         token = token.substring(7);
         UserCredentials user = userCredentialsRepository.findByUsername(jwtTokenCreator.extractUsername(token)).get();
-        return accountHolderService.getAccountHolderById(user.getAccountHolder().getId());
+        return adminService.getAccountHolderById(user.getAccountHolder().getId());
     }
 
     public BankAccount getAccountByAccountNumber(long accountNumber) {
@@ -69,8 +71,10 @@ public class LoggedInService {
 
     /* Personal Checking Accounts =================================================================================== */
     public PersonalChecking addPersonalChecking(AccountHolder accountHolder, PersonalChecking personalChecking)
-            throws AccountHolderNotFoundException {
+            throws AccountHolderNotFoundException, AccountLimitExceededException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
+        if (accountHolder.getPersonalChecking() != null) throw new AccountLimitExceededException("An account holder" +
+                " may only have one personal checking account.");
         personalChecking.setAccountHolder(accountHolder);
         return personalCheckingRepository.save(personalChecking);
     }
@@ -84,22 +88,30 @@ public class LoggedInService {
     }
 
     /* DBA Checking Accounts ======================================================================================== */
+    // TODO adding validation for number of Dba Accounts - Limit is 3 per holder
     public DbaChecking addDbaChecking(AccountHolder accountHolder, DbaChecking dbaChecking)
-            throws AccountHolderNotFoundException {
+            throws AccountHolderNotFoundException, AccountLimitExceededException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
+
+        int numberOfDbaAccounts = accountHolder.numbertOfHoldersExistingDbaAccounts(accountHolder);
+        if (numberOfDbaAccounts >= 3) throw new AccountLimitExceededException("An account holder may not have more " +
+                "than 3 DBA Checking accounts.");
+
         dbaChecking.setAccountHolder(accountHolder);
         return dbaCheckingRepository.save(dbaChecking);
     }
 
     public List<DbaChecking> getDbaChecking(AccountHolder accountHolder) throws AccountHolderNotFoundException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
-        return accountHolderService.getDbaChecking(accountHolder.getId());
+        return dbaCheckingRepository.findByAccountHolder(accountHolder);
     }
 
     /* IRA Regular Accounts ========================================================================================= */
     public IraRegular addIraRegular(AccountHolder accountHolder, IraRegular iraRegular)
-            throws AccountHolderNotFoundException {
+            throws AccountHolderNotFoundException, AccountLimitExceededException {
         if (accountHolder ==  null) throw new AccountHolderNotFoundException();
+        if (accountHolder.getIraRegular() != null) throw new AccountLimitExceededException("An account holder may not" +
+                "have more than one IRA Regular account.");
         iraRegular.setAccountHolder(accountHolder);
         return iraRegularRepository.save(iraRegular);
     }
@@ -111,8 +123,10 @@ public class LoggedInService {
 
     /* IRA Rollover Accounts ======================================================================================== */
     public IraRollover addIraRollover(AccountHolder accountHolder, IraRollover iraRollover)
-            throws AccountHolderNotFoundException {
+            throws AccountHolderNotFoundException, AccountLimitExceededException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
+        if (accountHolder.getIraRollover() != null) throw new AccountLimitExceededException("An account holder may" +
+                "not have more than one IRA Rollover account.");
         iraRollover.setAccountHolder(accountHolder);
         return iraRolloverRepository.save(iraRollover);
     }
@@ -123,8 +137,10 @@ public class LoggedInService {
     }
 
     /* IRA Roth Accounts ============================================================================================ */
-    public IraRoth addIraRoth(AccountHolder accountHolder, IraRoth iraRoth) throws AccountHolderNotFoundException {
+    public IraRoth addIraRoth(AccountHolder accountHolder, IraRoth iraRoth) throws AccountHolderNotFoundException, AccountLimitExceededException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
+        if (accountHolder.getIraRoth() != null) throw new AccountLimitExceededException("An account holder may not" +
+                "have more than one IRA Roth account.");
         iraRoth.setAccountHolder(accountHolder);
         return iraRothRepository.save(iraRoth);
     }
@@ -135,8 +151,11 @@ public class LoggedInService {
     }
 
     /* Savings Accounts ============================================================================================= */
-    public SavingsAccount addSavingsAccount(AccountHolder accountHolder, SavingsAccount savingsAccount) throws AccountHolderNotFoundException {
+    public SavingsAccount addSavingsAccount(AccountHolder accountHolder, SavingsAccount savingsAccount)
+            throws AccountHolderNotFoundException, AccountLimitExceededException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
+        if (accountHolder.getSavingsAccount() != null) throw new AccountLimitExceededException("An account holder may" +
+                "not have more than one Savings Account.");
         savingsAccount.setAccountHolder(accountHolder);
         return savingsAccountRepository.save(savingsAccount);
     }

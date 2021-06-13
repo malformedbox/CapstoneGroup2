@@ -31,6 +31,7 @@ public class AccountHolder {
     @NotBlank(message = "SSN is a required field")
     private String ssn;
 
+    @Enumerated(EnumType.STRING)
     private ActiveStatus activeStatus;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
@@ -66,4 +67,7 @@ public class AccountHolder {
         this.activeStatus = ActiveStatus.OPEN;
     }
 
+    public int numbertOfHoldersExistingDbaAccounts(AccountHolder accountHolder) {
+        return dbaCheckingList.size();
+    }
 }

@@ -25,6 +25,8 @@ public class Transaction {
 
     private BigDecimal amount;
     private String dateOfTransaction;
+
+    @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
     @ManyToOne

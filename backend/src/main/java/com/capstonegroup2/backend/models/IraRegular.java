@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Data
@@ -15,10 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 public class IraRegular extends BankAccount {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ira_reg_account_id")
-    private Long id;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)

@@ -23,6 +23,7 @@ public abstract class BankAccount {
     // At this point I think the easiest way to implement this is to use Strings for numbers and then assign them
     // as BigDecimals in constructors or method calls using the new keyword
 
+    // I think I should make this protected but I'm gonna leave this comment till I check that it doesn't break anything
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "account_id")
@@ -32,8 +33,9 @@ public abstract class BankAccount {
     protected BigDecimal balance;
     protected BigDecimal interestRate;
     protected String openedOn;
-    protected ActiveStatus activeStatus;
 
+    @Enumerated(EnumType.STRING)
+    protected ActiveStatus activeStatus;
 
     public BankAccount(String balance, String interestRate) {
         this.balance = new BigDecimal(balance);
@@ -64,7 +66,6 @@ public abstract class BankAccount {
         return accountNumber;
     }
 
-    // TODO can encapsulate the mathematical operations occurring in loggedInService
     public BigDecimal deposit(BigDecimal depositAmount) {
         BigDecimal updatedBalance = this.getBalance().add(depositAmount);
         return updatedBalance;
@@ -75,11 +76,10 @@ public abstract class BankAccount {
         return updatedBalance;
     }
 
-
-
     public static double futureValue(double balance, double interestRate, int years) {
         if (years < 1)
-            throw new IllegalArgumentException("To calculate a future value a number of positive years greater than 1 must be entered.");
+            throw new IllegalArgumentException("To calculate a future value a number of positive years " +
+                    "greater than 1 must be entered.");
         if (years == 1) {
             return balance * (interestRate + 1);
         } else {
@@ -89,7 +89,8 @@ public abstract class BankAccount {
 
     public static BigDecimal futureValue(BigDecimal balance, BigDecimal interestRate, int years) {
         if (years < 1)
-            throw new IllegalArgumentException("To calculate a future value a number of positive years greater than 1 must be entered.");
+            throw new IllegalArgumentException("To calculate a future value a number of positive years greater " +
+                    "than 1 must be entered.");
         BigDecimal one = new BigDecimal("1");
         BigDecimal result1 = new BigDecimal(String.valueOf(interestRate.add(one)));
         if (years == 1) {

@@ -3,6 +3,7 @@ package com.capstonegroup2.backend.controllers;
 import com.capstonegroup2.backend.dto.*;
 import com.capstonegroup2.backend.enums.TransactionType;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
+import com.capstonegroup2.backend.exceptions.AccountLimitExceededException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
 import com.capstonegroup2.backend.models.*;
 import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
@@ -48,7 +49,7 @@ public class LoggedInController {
     @PostMapping("/personalchecking")
     public PersonalChecking addPersonalChecking(@RequestHeader(name = "Authorization") String token,
                                                 @RequestBody PersonalCheckingDTO personalCheckingDTO)
-            throws AccountHolderNotFoundException {
+            throws AccountHolderNotFoundException, AccountLimitExceededException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         PersonalChecking personalChecking = new PersonalChecking(personalCheckingDTO.getBalance());
         return loggedInService.addPersonalChecking(accountHolder, personalChecking);
@@ -66,7 +67,7 @@ public class LoggedInController {
     @PostMapping("/dbachecking")
     public DbaChecking addDbaChecking(@RequestHeader(name = "Authorization") String token,
                                       @RequestBody DbaCheckingDTO dbaCheckingDTO)
-            throws AccountHolderNotFoundException {
+            throws AccountHolderNotFoundException, AccountLimitExceededException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         DbaChecking dbaChecking = new DbaChecking(dbaCheckingDTO.getBalance());
         return loggedInService.addDbaChecking(accountHolder, dbaChecking);
@@ -83,7 +84,8 @@ public class LoggedInController {
     /* IRA Regular Accounts ========================================================================================= */
     @PostMapping("/iraregular")
     public IraRegular addIraRegular(@RequestHeader(name = "Authorization") String token,
-                                    @RequestBody IraRegularDTO iraRegularDTO) throws AccountHolderNotFoundException {
+                                    @RequestBody IraRegularDTO iraRegularDTO)
+            throws AccountHolderNotFoundException, AccountLimitExceededException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         IraRegular iraRegular = new IraRegular(iraRegularDTO.getBalance());
         return loggedInService.addIraRegular(accountHolder, iraRegular);
@@ -100,7 +102,8 @@ public class LoggedInController {
     /* IRA Rollover Accounts ======================================================================================== */
     @PostMapping("/irarollover")
     public IraRollover addIraRollover(@RequestHeader(name = "Authorization") String token,
-                                      @RequestBody IraRegularDTO iraRegularDTO) throws AccountHolderNotFoundException {
+                                      @RequestBody IraRegularDTO iraRegularDTO)
+            throws AccountHolderNotFoundException, AccountLimitExceededException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         IraRollover iraRollover = new IraRollover(iraRegularDTO.getBalance());
         return loggedInService.addIraRollover(accountHolder, iraRollover);
@@ -117,7 +120,8 @@ public class LoggedInController {
     /* IRA Roth Accounts ============================================================================================ */
     @PostMapping("/iraroth")
     public IraRoth addIraRoth(@RequestHeader(name = "Authorization") String token,
-                              @RequestBody IraRothDTO iraRothDTO) throws AccountHolderNotFoundException {
+                              @RequestBody IraRothDTO iraRothDTO)
+            throws AccountHolderNotFoundException, AccountLimitExceededException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         IraRoth iraRoth = new IraRoth(iraRothDTO.getBalance());
         return loggedInService.addIraRoth(accountHolder, iraRoth);
@@ -135,7 +139,7 @@ public class LoggedInController {
     @PostMapping("/savings")
     public SavingsAccount addSavingsAccount(@RequestHeader(name = "Authorization") String token,
                                             @RequestBody SavingsAccountDTO savingsAccountDTO)
-            throws AccountHolderNotFoundException {
+            throws AccountHolderNotFoundException, AccountLimitExceededException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         SavingsAccount savingsAccount = new SavingsAccount(savingsAccountDTO.getBalance());
         return loggedInService.addSavingsAccount(accountHolder, savingsAccount);
