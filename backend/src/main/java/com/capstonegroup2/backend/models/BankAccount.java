@@ -50,25 +50,6 @@ public abstract class BankAccount {
         return formattedDate;
     }
 
-
-    // This method is just an idea of how we can process a transaction based on type
-    // It might need to just return the transaction type or be placed in the service
-    // layer to redirect an incoming transaction and route it accordingly to the
-    // correct method based on type
-//    public boolean processTransactionType(Transaction transaction) {
-//        if (transaction.getTransactionType().equals(TransactionType.WITHDRAWAL)) {
-//            withdraw(transaction);
-//            return true;
-//        } else if (transaction.getTransactionType().equals(TransactionType.DEPOSIT)) {
-//            deposit(transaction);
-//            return true;
-//        } else if (transaction.getTransactionType().equals(TransactionType.TRANSFER)) {
-//            transfer(transaction);
-//            return true;
-//        }
-//        return false;
-//    }
-
     // This method will build a string consisting of 10 random numbers generated one at a
     // time and convert it to a long. The length of the account number  could easily be
     // modified by changing the length in the for loop
