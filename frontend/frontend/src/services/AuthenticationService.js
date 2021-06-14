@@ -32,6 +32,7 @@ class AuthenticationService {
     }
 
     getCurrentUser(){
+        console.log(JSON.parse(localStorage.getItem('user')).accessToken);
         return JSON.parse(localStorage.getItem('user'));
     }
 }
