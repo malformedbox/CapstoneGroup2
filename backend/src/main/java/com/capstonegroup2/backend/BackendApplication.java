@@ -2,9 +2,8 @@ package com.capstonegroup2.backend;
 
 // Stupid Comment
 
-import com.capstonegroup2.backend.models.Role;
-import com.capstonegroup2.backend.models.RoleName;
-import com.capstonegroup2.backend.models.UserCredentials;
+import com.capstonegroup2.backend.models.*;
+import com.capstonegroup2.backend.repositories.CDOfferingRepository;
 import com.capstonegroup2.backend.repositories.RoleRepository;
 import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -33,6 +32,16 @@ public class BackendApplication {
 		return (args) -> {
 			repository.save(new Role(RoleName.ROLE_USER));
 			repository.save(new Role(RoleName.ROLE_ADMIN));
+		};
+	}
+
+	@Bean
+	public CommandLineRunner addCDOfferings(CDOfferingRepository repository) {
+		return (args) -> {
+			repository.save(MeritBank.cdOfferings.get(0));
+			repository.save(MeritBank.cdOfferings.get(1));
+			repository.save(MeritBank.cdOfferings.get(2));
+			repository.save(MeritBank.cdOfferings.get(3));
 		};
 	}
 }

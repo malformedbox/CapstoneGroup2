@@ -5,8 +5,9 @@ import com.capstonegroup2.backend.enums.TransactionType;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountLimitExceededException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
+import com.capstonegroup2.backend.exceptions.OfferingNotFoundException;
 import com.capstonegroup2.backend.models.*;
-import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
+import com.capstonegroup2.backend.services.CDOfferingService;
 import com.capstonegroup2.backend.services.LoggedInService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,9 @@ public class LoggedInController {
 
     @Autowired LoggedInService loggedInService;
 
+    @Autowired
+    CDOfferingService cdOfferingService;
+
 
     /* Account Holder ============================================================================================== */
     @GetMapping
@@ -33,11 +37,16 @@ public class LoggedInController {
 
 
     /* CD Accounts ================================================================================================== */
+    // TODO TEST
     @PostMapping("/cdaccounts")
     public CDAccount addCDAccount(@RequestHeader(name = "Authorization") String token,
-                                  @RequestBody CDAccountDTO cdAccountDTO) throws AccountHolderNotFoundException {
+                                  @RequestBody CDAccountDTO cdAccountDTO)
+            throws AccountHolderNotFoundException, OfferingNotFoundException, AccountNotFoundException {
+
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
-        CDAccount cdAccount = new CDAccount(cdAccountDTO.getBalance(), cdAccountDTO.getCdOffering());
+        CDOffering cdOffering = cdOfferingService.getCDOfferingById(cdAccountDTO.getCdOffering().getId());
+        CDAccount cdAccount = new CDAccount(cdAccountDTO.getBalance(), cdOffering);
+
         return loggedInService.addCDAccount(accountHolder, cdAccount);
     }
 

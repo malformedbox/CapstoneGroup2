@@ -3,6 +3,7 @@ package com.capstonegroup2.backend.services;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountLimitExceededException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
+import com.capstonegroup2.backend.exceptions.OfferingNotFoundException;
 import com.capstonegroup2.backend.models.*;
 import com.capstonegroup2.backend.repositories.*;
 import com.capstonegroup2.backend.security.JwtTokenCreator;
@@ -57,10 +58,12 @@ public class LoggedInService {
 
     /* CD Accounts ================================================================================================== */
     public CDAccount addCDAccount(AccountHolder accountHolder, CDAccount cdAccount)
-            throws AccountHolderNotFoundException {
-        if (accountHolder == null) {
-            throw new AccountHolderNotFoundException("Account Holder could not be located : CD Account failed to post");
-        }
+            throws AccountHolderNotFoundException, AccountNotFoundException, OfferingNotFoundException {
+
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
+        if (cdAccount == null) throw new AccountNotFoundException();
+        if (cdAccount.getCdOffering() == null) throw new OfferingNotFoundException();
+
         cdAccount.setAccountHolder(accountHolder);
         return cdAccountRepository.save(cdAccount);
     }
