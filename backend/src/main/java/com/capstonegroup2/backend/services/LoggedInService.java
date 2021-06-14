@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -84,11 +85,12 @@ public class LoggedInService {
         if (accountHolder ==  null) throw new AccountHolderNotFoundException();
         PersonalChecking personalChecking = personalCheckingRepository.findByAccountHolder(accountHolder);
         if (personalChecking == null) throw new AccountNotFoundException();
+        personalChecking.setInterestRate(new BigDecimal(MeritBank.PERSONAL_CHECKING_INTEREST_RATE));
         return personalChecking;
     }
 
+
     /* DBA Checking Accounts ======================================================================================== */
-    // TODO adding validation for number of Dba Accounts - Limit is 3 per holder
     public DbaChecking addDbaChecking(AccountHolder accountHolder, DbaChecking dbaChecking)
             throws AccountHolderNotFoundException, AccountLimitExceededException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
@@ -101,9 +103,16 @@ public class LoggedInService {
         return dbaCheckingRepository.save(dbaChecking);
     }
 
-    public List<DbaChecking> getDbaChecking(AccountHolder accountHolder) throws AccountHolderNotFoundException {
+    public List<DbaChecking> getDbaChecking(AccountHolder accountHolder) throws AccountHolderNotFoundException, AccountNotFoundException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
-        return dbaCheckingRepository.findByAccountHolder(accountHolder);
+
+        List<DbaChecking> dbaCheckingList = dbaCheckingRepository.findByAccountHolder(accountHolder);
+        if (dbaCheckingList.size() < 1) throw new AccountNotFoundException();
+
+        for (DbaChecking dbaChecking : dbaCheckingList) {
+            dbaChecking.setInterestRate(new BigDecimal(MeritBank.DBA_CHECKING_INTEREST_RATE));
+        }
+        return dbaCheckingList;
     }
 
     /* IRA Regular Accounts ========================================================================================= */
@@ -137,7 +146,8 @@ public class LoggedInService {
     }
 
     /* IRA Roth Accounts ============================================================================================ */
-    public IraRoth addIraRoth(AccountHolder accountHolder, IraRoth iraRoth) throws AccountHolderNotFoundException, AccountLimitExceededException {
+    public IraRoth addIraRoth(AccountHolder accountHolder, IraRoth iraRoth)
+            throws AccountHolderNotFoundException, AccountLimitExceededException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
         if (accountHolder.getIraRoth() != null) throw new AccountLimitExceededException("An account holder may not" +
                 " have more than one IRA Roth account.");
@@ -195,7 +205,6 @@ public class LoggedInService {
         return transactionRepository.save(transaction);
     }
 
-    // TODO Test
     public Transaction postTransfer(Transaction transaction) throws AccountNotFoundException {
 
         BankAccount sourceAccount = transaction.getSourceAccount();
@@ -204,7 +213,7 @@ public class LoggedInService {
         if (targetAccount == null || sourceAccount == null) throw new AccountNotFoundException();
         if (Double.parseDouble(String.valueOf(sourceAccount.getBalance())) <
                 Double.parseDouble(String.valueOf(transaction.getAmount()))) throw new IllegalArgumentException
-                ("The source account of a transfer must have a greater balance than the the transfer amount.");
+                ("The source account of a transfer must have a balance greater than the amount being transferred.");
 
         BigDecimal updatedSourceBalance = sourceAccount.withdraw(transaction.getAmount());
         BigDecimal updatedTargetBalance = targetAccount.deposit(transaction.getAmount());
@@ -215,9 +224,20 @@ public class LoggedInService {
         return transactionRepository.save(transaction);
     }
 
+    // TODO Method not working
+    // commented out code didnt work either so the error message in postman must indicate that the method call is fine
+    // but that the JSON isn't getting parsed correctly
     public List<Transaction> getAccountTransactions(BankAccount bankAccount) throws AccountNotFoundException {
         if (bankAccount == null) throw new AccountNotFoundException();
-        return transactionRepository.findByTargetAccount(bankAccount);
+//        List<Transaction> allTransactions = transactionRepository.findAll();
+//        List<Transaction> accountTransactions = new ArrayList<>();
+//        for (Transaction transaction : allTransactions) {
+//            if (transaction.getTargetAccount().getAccountNumber() == bankAccount.getAccountNumber()) {
+//                accountTransactions.add(transaction);
+//            }
+//        }
+//        return accountTransactions;
+        return transactionRepository.findAllByTargetAccount(bankAccount);
     }
 
 }

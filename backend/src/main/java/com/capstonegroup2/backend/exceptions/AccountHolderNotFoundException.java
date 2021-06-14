@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class AccountHolderNotFoundException extends Exception{
 
+    // Default Message
     public AccountHolderNotFoundException() {
         super("Account Holder could not be located.");
     }

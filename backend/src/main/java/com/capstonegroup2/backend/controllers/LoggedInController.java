@@ -8,6 +8,8 @@ import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
 import com.capstonegroup2.backend.models.*;
 import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
 import com.capstonegroup2.backend.services.LoggedInService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class LoggedInController {
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired LoggedInService loggedInService;
 
@@ -75,7 +79,7 @@ public class LoggedInController {
 
     @GetMapping("/dbachecking")
     public List<DbaChecking> getDbaChecking(@RequestHeader(name = "Authorization") String token)
-            throws AccountHolderNotFoundException {
+            throws AccountHolderNotFoundException, AccountNotFoundException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         return loggedInService.getDbaChecking(accountHolder);
     }

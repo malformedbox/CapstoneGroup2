@@ -10,4 +10,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<Transaction> findById(long id);
     List<Transaction> findBySourceAccount(BankAccount sourceAccount);
     List<Transaction> findByTargetAccount(BankAccount targetAccount);
+    List<Transaction> findAllByTargetAccount(BankAccount targetAccount);
 }
