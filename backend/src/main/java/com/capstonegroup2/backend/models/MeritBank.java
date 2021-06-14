@@ -12,7 +12,7 @@ public class MeritBank {
     public static final String IRA_ROLLOVER_INTEREST_RATE = "0.08";
     public static final String IRA_ROTH_INTEREST_RATE = "0.08";
     public static final String SAVINGS_ACCOUNT_INTEREST_RATE = "0.01";
-    public static List<CDOffering> cdOfferings = currentOfferings();
+    public static final List<CDOffering> CDOFFERINGS = currentOfferings();
     public static final double TRANSACTION_LIMIT = 20000.00;
 
 
@@ -29,6 +29,7 @@ public class MeritBank {
         offerings.add(offer2);
         offerings.add(offer3);
         offerings.add(offer4);
+
         return offerings;
     }
 

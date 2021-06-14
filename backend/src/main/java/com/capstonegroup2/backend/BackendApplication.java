@@ -38,10 +38,10 @@ public class BackendApplication {
 	@Bean
 	public CommandLineRunner addCDOfferings(CDOfferingRepository repository) {
 		return (args) -> {
-			repository.save(MeritBank.cdOfferings.get(0));
-			repository.save(MeritBank.cdOfferings.get(1));
-			repository.save(MeritBank.cdOfferings.get(2));
-			repository.save(MeritBank.cdOfferings.get(3));
+			repository.save(MeritBank.CDOFFERINGS.get(0));
+			repository.save(MeritBank.CDOFFERINGS.get(1));
+			repository.save(MeritBank.CDOFFERINGS.get(2));
+			repository.save(MeritBank.CDOFFERINGS.get(3));
 		};
 	}
 }
