@@ -1,7 +1,5 @@
 package com.capstonegroup2.backend;
 
-// Stupid Comment
-
 import com.capstonegroup2.backend.models.*;
 import com.capstonegroup2.backend.repositories.CDOfferingRepository;
 import com.capstonegroup2.backend.repositories.RoleRepository;
@@ -13,8 +11,6 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class BackendApplication {
-
-
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
