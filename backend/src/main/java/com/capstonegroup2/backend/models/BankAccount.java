@@ -94,12 +94,12 @@ public abstract class BankAccount {
             throw new IllegalArgumentException("To calculate a future value a number of positive years greater " +
                     "than 1 must be entered.");
         BigDecimal one = new BigDecimal("1");
-        BigDecimal result1 = new BigDecimal(String.valueOf(interestRate.add(one)));
+        BigDecimal result = new BigDecimal(String.valueOf(interestRate.add(one)));
         if (years == 1) {
 
-            return balance.multiply(result1);
+            return balance.multiply(result);
         } else {
-            return (result1).multiply(futureValue(balance, interestRate, years - 1));
+            return (result).multiply(futureValue(balance, interestRate, years - 1));
         }
     }
 

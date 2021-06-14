@@ -1,6 +1,7 @@
 package com.capstonegroup2.backend.models;
 
 import com.capstonegroup2.backend.enums.ActiveStatus;
+import com.capstonegroup2.backend.enums.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -70,4 +71,31 @@ public class AccountHolder {
     public int numbertOfHoldersExistingDbaAccounts(AccountHolder accountHolder) {
         return dbaCheckingList.size();
     }
+
+    // TODO - Functionality to Close Accounts and Transfer Balance based on business Logic
+    public boolean closeAccount(BankAccount account) {
+        transferBalanceOnAccountClose(account);
+        account.setActiveStatus(ActiveStatus.CLOSED);
+        return true;
+    }
+
+    // TODO - This might be moved to LoggedIn Service
+    private boolean transferBalanceOnAccountClose(BankAccount sourceAccount) {
+
+        // If closing checking account, transfer balance to savings account
+        if (sourceAccount.getClass() == personalChecking.getClass() ||
+                sourceAccount.getClass() == dbaCheckingList.get(0).getClass()) {
+
+            String balance = String.valueOf(sourceAccount.getBalance());
+            Transaction transaction = new Transaction(balance, TransactionType.TRANSFER, sourceAccount, savingsAccount);
+
+            sourceAccount.withdraw(sourceAccount.getBalance());
+            savingsAccount.deposit(sourceAccount.getBalance());
+
+
+
+        }
+        return false;
+    }
+
 }

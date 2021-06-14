@@ -14,7 +14,7 @@ public class MeritBank {
     public static final String IRA_ROTH_INTEREST_RATE = "0.08";
     public static final String SAVINGS_ACCOUNT_INTEREST_RATE = "0.01";
     public static final List<CDOffering> CDOFFERINGS = currentOfferings();
-    public static final double TRANSACTION_LIMIT = 20000.00;
+    public static final double MAX_WITHDRAWAL_LIMIT_ATM = 20000.00;
 
 
     private static List<CDOffering> currentOfferings() {
