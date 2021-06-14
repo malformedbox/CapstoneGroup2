@@ -1,9 +1,11 @@
 package com.capstonegroup2.backend.models;
 
 import com.capstonegroup2.backend.enums.ActiveStatus;
+import com.capstonegroup2.backend.repositories.BankAccountRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

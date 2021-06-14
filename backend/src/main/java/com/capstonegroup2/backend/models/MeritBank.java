@@ -1,5 +1,6 @@
 package com.capstonegroup2.backend.models;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,26 @@ public class MeritBank {
         offerings.add(offer4);
 
         return offerings;
+    }
+
+    // TODO Implement End Point for Users to find best CDOffering
+    public static CDOffering getBestCDOfferingByFutureValue(BigDecimal depositAmount) {
+
+        CDOffering bestCDOffering = null;
+        BigDecimal currentOfferingValue;
+        BigDecimal bestOfferingValue = new BigDecimal("0");
+
+        for (CDOffering offering : CDOFFERINGS) {
+            BigDecimal currentInterestRate = new BigDecimal(offering.getInterestRate());
+            currentOfferingValue = BankAccount.futureValue(depositAmount, currentInterestRate, offering.getTerm());
+
+            if (Double.parseDouble(String.valueOf(currentOfferingValue)) >
+                    Double.parseDouble(String.valueOf(bestOfferingValue))) {
+                bestOfferingValue = currentOfferingValue;
+                bestCDOffering = offering;
+            }
+        }
+        return bestCDOffering;
     }
 
 
