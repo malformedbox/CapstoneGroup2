@@ -35,4 +35,9 @@ public class CDOfferingController {
         return cdOfferingService.getCDOfferings();
     }
 
+    @PostMapping("/seed")
+    public List<CDOffering> currentOfferingsIntializer() {
+        return cdOfferingService.seedCurrentOfferings();
+    }
+
 }
