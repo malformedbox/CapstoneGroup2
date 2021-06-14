@@ -1,5 +1,6 @@
 package com.capstonegroup2.backend.services;
 
+import com.capstonegroup2.backend.enums.TransactionMethod;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountLimitExceededException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
@@ -193,6 +194,15 @@ public class LoggedInService {
     }
 
     public Transaction postWithdrawal(Transaction transaction) throws AccountNotFoundException {
+
+        // TODO Consider implementation
+        // This is a hypothetical validation check if we decide to implement restrictions based on the method of a
+        // transaction(in this case withdrawal through ATM) or limits on amounts based on the method type of transaction
+
+//        if(transaction.getTransactionMethod() == TransactionMethod.ATM &&
+//                Double.parseDouble(String.valueOf(transaction.getAmount())) > MeritBank.MAX_WITHDRAWAL_LIMIT_ATM) {
+//            throw new ExceedsAmountLimit();
+//        }
 
         BankAccount targetAccount = transaction.getTargetAccount();
 
