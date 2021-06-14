@@ -112,4 +112,12 @@ public abstract class BankAccount {
         return true;
     }
 
+    public BigDecimal calculateBalanceAfterIrsTaxOnClose() {
+        // calculate 80 percent of accounts balance
+        BigDecimal currentBalance = this.getBalance();
+        BigDecimal taxAmount = new BigDecimal("0.8");
+
+        BigDecimal updatedBalance = currentBalance.multiply(taxAmount);
+        return updatedBalance;
+    }
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +81,12 @@ public class AccountHolder {
     }
 
     // TODO - This might be moved to LoggedIn Service
+    // b. When closing the checking account, the balance has to be transferred to the savings account
+    //only
+    //c. When closing the IRA account, only 80% of the balance is transferred to the savings or
+    //checking account. 20% is taken away to IRS (provide a note to the user to this effect)
+    //d. When closing CDs balances are transferred to either savings or checking account
+    //e. A savings account can only be closed when the user does not want to have an account. Account records are deleted at this point.
     private boolean transferBalanceOnAccountClose(BankAccount sourceAccount) {
 
         // If closing checking account, transfer balance to savings account
@@ -91,9 +98,29 @@ public class AccountHolder {
 
             sourceAccount.withdraw(sourceAccount.getBalance());
             savingsAccount.deposit(sourceAccount.getBalance());
+        }
 
+        // If closing an IRS Account, deduct 20% for IRS and transfer to personal checking else savings
+        if (sourceAccount.getClass() == iraRegular.getClass() || sourceAccount.getClass() == iraRoth.getClass() ||
+                sourceAccount.getClass() == iraRollover.getClass()) {
 
+            String balance = String.valueOf(sourceAccount.getBalance());
+            BigDecimal balanceToBeTransferred = sourceAccount.calculateBalanceAfterIrsTaxOnClose();
 
+            if (personalChecking != null) {
+                Transaction transaction = new Transaction(balance, TransactionType.TRANSFER, sourceAccount,
+                        personalChecking);
+
+                sourceAccount.withdraw(sourceAccount.getBalance());
+                personalChecking.deposit(balanceToBeTransferred);
+
+            } else {
+                Transaction transaction = new Transaction(balance, TransactionType.TRANSFER, sourceAccount,
+                        savingsAccount);
+
+                sourceAccount.withdraw(sourceAccount.getBalance());
+                savingsAccount.deposit(balanceToBeTransferred);
+            }
         }
         return false;
     }
