@@ -122,7 +122,26 @@ public class AccountHolder {
                 savingsAccount.deposit(balanceToBeTransferred);
             }
         }
-        return false;
+
+        // To close a savings account, all other accounts must already be closed
+        if (sourceAccount.getClass() == savingsAccount.getClass()) {
+            if (personalChecking.getActiveStatus() == ActiveStatus.OPEN
+                    && dbaCheckingList.size() > 1
+                    && iraRegular.getActiveStatus() == ActiveStatus.OPEN
+                    && iraRoth.getActiveStatus() == ActiveStatus.OPEN
+                    && iraRollover.getActiveStatus() == ActiveStatus.OPEN
+                    && cdAccountsList.size() > 1) {
+
+                throw new IllegalArgumentException("To close a savings account, an account holder may not have any " +
+                        "other open accounts.");
+            } else {
+                savingsAccount.withdraw(savingsAccount.getBalance());
+                // If this method moves classes this refers to the Account Holder here
+                this.activeStatus = ActiveStatus.CLOSED;
+
+            }
+        }
+        return true;
     }
 
 }
