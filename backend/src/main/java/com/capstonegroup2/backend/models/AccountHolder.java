@@ -81,12 +81,8 @@ public class AccountHolder {
     }
 
     // TODO - This might be moved to LoggedIn Service
-    // b. When closing the checking account, the balance has to be transferred to the savings account
-    //only
-    //c. When closing the IRA account, only 80% of the balance is transferred to the savings or
-    //checking account. 20% is taken away to IRS (provide a note to the user to this effect)
     //d. When closing CDs balances are transferred to either savings or checking account
-    //e. A savings account can only be closed when the user does not want to have an account. Account records are deleted at this point.
+
     private boolean transferBalanceOnAccountClose(BankAccount sourceAccount) {
 
         // If closing checking account, transfer balance to savings account
@@ -136,7 +132,7 @@ public class AccountHolder {
                         "other open accounts.");
             } else {
                 savingsAccount.withdraw(savingsAccount.getBalance());
-                // If this method moves classes this refers to the Account Holder here
+                // If this method moves classes 'this' refers to the Account Holder here
                 this.activeStatus = ActiveStatus.CLOSED;
 
             }
