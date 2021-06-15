@@ -105,13 +105,14 @@ public class LoggedInService {
 
     // Can switch this to a transaction and move the transaction fron AccountHolder class in
     // transferBalanceOnAccountClose to over here and save them into the transaction repository
-    public String closePersonalChecking(AccountHolder accountHolder)
+    public Transaction closePersonalChecking(AccountHolder accountHolder)
             throws AccountNotFoundException, AccountHolderNotFoundException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
         if (accountHolder.getPersonalChecking() == null) throw new AccountNotFoundException();
-        accountHolder.closeAccount(accountHolder.getPersonalChecking());
+        Transaction transaction = accountHolder.closeAccount(accountHolder.getPersonalChecking());
         personalCheckingRepository.delete(accountHolder.getPersonalChecking());
-        return "Personal Checking account has been closed.";
+        transactionRepository.save(transaction);
+        return transaction;
     }
 
 
@@ -155,12 +156,14 @@ public class LoggedInService {
         return iraRegularRepository.findByAccountHolder(accountHolder);
     }
 
-    public String closeIraRegular(AccountHolder accountHolder) throws AccountNotFoundException, AccountHolderNotFoundException {
+    public Transaction closeIraRegular(AccountHolder accountHolder)
+            throws AccountNotFoundException, AccountHolderNotFoundException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
         if (accountHolder.getIraRegular() == null) throw new AccountNotFoundException();
-        accountHolder.closeAccount(accountHolder.getIraRegular());
+        Transaction transaction = accountHolder.closeAccount(accountHolder.getIraRegular());
         iraRegularRepository.delete(accountHolder.getIraRegular());
-        return "Regular IRA account has been closed.";
+        transactionRepository.save(transaction);
+        return transaction;
     }
 
     /* IRA Rollover Accounts ======================================================================================== */
@@ -218,7 +221,6 @@ public class LoggedInService {
         BankAccount targetAccount = transaction.getTargetAccount();
         BigDecimal updatedBalance = targetAccount.deposit(transaction.getAmount());
         targetAccount.setBalance(updatedBalance);
-
         return transactionRepository.save(transaction);
     }
 

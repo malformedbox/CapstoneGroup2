@@ -74,23 +74,21 @@ public class AccountHolder {
     }
 
     // TODO - Functionality to Close Accounts and Transfer Balance based on business Logic
-    public boolean closeAccount(BankAccount account) {
-        transferBalanceOnAccountClose(account);
+    public Transaction closeAccount(BankAccount account) {
+        Transaction transaction = transferBalanceOnAccountClose(account);
         account.setActiveStatus(ActiveStatus.CLOSED);
-        return true;
+        return transaction;
     }
 
     // TODO TEST
-    // This would probably function better with a switch statement
-    private boolean transferBalanceOnAccountClose(BankAccount sourceAccount) {
+    private Transaction transferBalanceOnAccountClose(BankAccount sourceAccount) {
         // If closing checking account, transfer balance to savings account
         if (sourceAccount.getClass() == personalChecking.getClass() ||
                 sourceAccount.getClass() == dbaCheckingList.get(0).getClass()) {
             String balance = String.valueOf(sourceAccount.getBalance());
-            Transaction transaction = new Transaction(balance, TransactionType.TRANSFER, sourceAccount, savingsAccount);
             sourceAccount.withdraw(sourceAccount.getBalance());
             savingsAccount.deposit(sourceAccount.getBalance());
-            return true;
+            return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER, sourceAccount, savingsAccount);
         }
         // If closing an IRS Account, deduct 20% for IRS and transfer to personal checking else savings
         if (sourceAccount.getClass() == iraRegular.getClass() || sourceAccount.getClass() == iraRoth.getClass() ||
@@ -98,17 +96,15 @@ public class AccountHolder {
             String balance = String.valueOf(sourceAccount.getBalance());
             BigDecimal balanceToBeTransferred = sourceAccount.calculateBalanceAfterIrsTaxOnClose();
             if (personalChecking != null) {
-                Transaction transaction = new Transaction(balance, TransactionType.TRANSFER, sourceAccount,
-                        personalChecking);
                 sourceAccount.withdraw(sourceAccount.getBalance());
                 personalChecking.deposit(balanceToBeTransferred);
-                return true;
+                return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
+                        sourceAccount, personalChecking);
             } else {
-                Transaction transaction = new Transaction(balance, TransactionType.TRANSFER, sourceAccount,
-                        savingsAccount);
                 sourceAccount.withdraw(sourceAccount.getBalance());
                 savingsAccount.deposit(balanceToBeTransferred);
-                return true;
+                return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
+                        sourceAccount, savingsAccount);
             }
         }
         // To close a savings account, all other accounts must already be closed
@@ -125,28 +121,28 @@ public class AccountHolder {
                 savingsAccount.withdraw(savingsAccount.getBalance());
                 // If this method moves classes 'this' refers to the Account Holder here
                 this.activeStatus = ActiveStatus.CLOSED;
-                return true;
+                return new Transaction("0", TransactionType.CLOSE_ACCOUNT_TRANSFER,
+                        new SavingsAccount("0"));
             }
         }
         //If closing CDAccount transfer to personal checking if not transfer to savings account
         if (sourceAccount.getClass() == cdAccountsList.get(0).getClass()) {
             if (personalChecking != null) {
                 String balance = String.valueOf(sourceAccount.getBalance());
-                Transaction transaction = new Transaction(balance, TransactionType.TRANSFER, sourceAccount,
-                        personalChecking);
                 sourceAccount.withdraw(sourceAccount.getBalance());
                 personalChecking.deposit(sourceAccount.getBalance());
-                return true;
+                return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
+                        sourceAccount, personalChecking);
             } else {
                 String balance = String.valueOf(sourceAccount.getBalance());
-                Transaction transaction = new Transaction(balance, TransactionType.TRANSFER, sourceAccount,
-                        savingsAccount);
+
                 sourceAccount.withdraw(sourceAccount.getBalance());
                 savingsAccount.deposit(sourceAccount.getBalance());
-                return true;
+                return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
+                        sourceAccount, savingsAccount);
             }
         }
-        return false;
+        return null;
     }
 
 }

@@ -85,7 +85,7 @@ public class LoggedInController {
 
     // TODO TEST
     @DeleteMapping("/personalchecking")
-    public String closePersonalChecking(@RequestHeader(name = "Authorization") String token)
+    public Transaction closePersonalChecking(@RequestHeader(name = "Authorization") String token)
             throws AccountNotFoundException, AccountHolderNotFoundException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         return loggedInService.closePersonalChecking(accountHolder);
@@ -129,7 +129,7 @@ public class LoggedInController {
 
     // TODO TEST
     @DeleteMapping("/iraregular")
-    public String deletedIraRegular(@RequestHeader(name = "Authorization") String token)
+    public Transaction deletedIraRegular(@RequestHeader(name = "Authorization") String token)
             throws AccountNotFoundException, AccountHolderNotFoundException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         return loggedInService.closeIraRegular(accountHolder);
@@ -199,13 +199,10 @@ public class LoggedInController {
         BankAccount targetAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
 
         if (transactionDTO.getTransactionType() != TransactionType.TRANSFER) {
-
             Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
                     targetAccount);
-
             if (transaction.getTransactionType() == TransactionType.DEPOSIT) {
                 return loggedInService.postDeposit(transaction);
-
             } else if (transaction.getTransactionType() == TransactionType.WITHDRAWAL) {
                 return loggedInService.postWithdrawal(transaction);
             }
