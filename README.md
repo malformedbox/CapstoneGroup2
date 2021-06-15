@@ -22,14 +22,6 @@ To access the API documentation, click the link below.
 
 https://github.com/malformedbox/CapstoneGroup2/blob/Transactions/API%20Documentation/Swagger%20UI.pdf
 
-### Database
-
-Click [here](http://localhost:8080/h2-console/) to access the H2 database used for persistance while the project is running and use the following credentials. 
-
--- | --
------ | ------
-Username | admin
-Password | admin
 
 Click [here](https://dbdiagram.io/d/60b51417b29a09603d17551a) to access the ERD created using dbdiagram.io.
 
