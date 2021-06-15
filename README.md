@@ -16,6 +16,7 @@ $ npm install
 ### High-level Diagram
 ![image of high level](https://github.com/malformedbox/CapstoneGroup2/blob/master/High%20Level%20Architecture%20Diagram/High%20Level%20Architecture%20Diagram.png)
 
+
 ### API
 
 To access the API documentation, click the link below.
@@ -23,10 +24,8 @@ To access the API documentation, click the link below.
 https://github.com/malformedbox/CapstoneGroup2/blob/Transactions/API%20Documentation/Swagger%20UI.pdf
 
 
-Click [here](https://dbdiagram.io/d/60b51417b29a09603d17551a) to access the ERD created using dbdiagram.io.
 
 ### UML Diagrams
-
 
 > Models
 
