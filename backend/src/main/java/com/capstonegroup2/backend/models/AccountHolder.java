@@ -140,7 +140,6 @@ public class AccountHolder {
                         "other open accounts.");
             } else {
                 savingsAccount.withdraw(savingsAccount.getBalance());
-                // If this method moves classes 'this' refers to the Account Holder here
                 this.activeStatus = ActiveStatus.CLOSED;
                 return new Transaction("0", TransactionType.CLOSE_ACCOUNT_TRANSFER,
                         new SavingsAccount("0"));

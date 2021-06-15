@@ -19,13 +19,7 @@ import java.util.Random;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class BankAccount {
-    // To use BigDecimal in mathematical operations method calls must be made instead of using operators
-    // Ex. balance.subtract(withdrawal);
-    // Also numbers should be sent as Strings and not doubles otherwise it would still use floating point calculation
-    // At this point I think the easiest way to implement this is to use Strings for numbers and then assign them
-    // as BigDecimals in constructors or method calls using the new keyword
 
-    // I think I should make this protected but I'm gonna leave this comment till I check that it doesn't break anything
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "account_id")

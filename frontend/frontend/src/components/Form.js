@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Register from './Register';
-import FormSuccess from './FormSuccess';
 import '../css/Form.css';
 
 const Form = () => {

@@ -10,7 +10,6 @@ import AboutUs from './components/pages/AboutUs';
 import Login from './components/pages/Login';
 import Register from './components/pages/Register';
 import Footer from './components/FooterComponent';
-import UserComponent from './components/UserComponent';
 
 function App() {
   return (
