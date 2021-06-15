@@ -33,7 +33,6 @@ public class AdminService {
 
     @Autowired SavingsAccountRepository savingsAccountRepository;
 
-    @Autowired TransactionRepository transactionRepository;
 
 
     /* Account Holders ============================================================================================== */
@@ -126,7 +125,6 @@ public class AdminService {
         return savingsAccountRepository.findByAccountHolder(accountHolder);
     }
 
-    /* Transactions ================================================================================================= */
 
 
 

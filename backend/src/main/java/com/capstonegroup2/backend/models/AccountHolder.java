@@ -80,11 +80,10 @@ public class AccountHolder {
         return true;
     }
 
-    // TODO - This might be moved to LoggedIn Service
+    // TODO
     //d. When closing CDs balances are transferred to either savings or checking account
 
     private boolean transferBalanceOnAccountClose(BankAccount sourceAccount) {
-
         // If closing checking account, transfer balance to savings account
         if (sourceAccount.getClass() == personalChecking.getClass() ||
                 sourceAccount.getClass() == dbaCheckingList.get(0).getClass()) {

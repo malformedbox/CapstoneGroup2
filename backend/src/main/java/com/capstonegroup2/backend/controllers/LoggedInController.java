@@ -25,14 +25,22 @@ public class LoggedInController {
 
     @Autowired LoggedInService loggedInService;
 
-    @Autowired
-    CDOfferingService cdOfferingService;
+    @Autowired CDOfferingService cdOfferingService;
 
 
-    /* Account Holder ============================================================================================== */
+    /* Account Holder =============================================================================================== */
     @GetMapping
     public AccountHolder getLoggedInAccountHolder(@RequestHeader(name = "Authorization") String token) {
         return loggedInService.getLoggedInAccountHolder(token);
+    }
+
+    // TODO TEST
+    @DeleteMapping("/delete")
+    public String deleteLoggedInAccountHolder(@RequestHeader(name = "Authorization") String token)
+            throws AccountHolderNotFoundException {
+        AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
+
+        return loggedInService.deleteLoggedInAccountHolder(accountHolder);
     }
 
 
@@ -75,6 +83,14 @@ public class LoggedInController {
         return loggedInService.getPersonalChecking(accountHolder);
     }
 
+    // TODO TEST
+    @DeleteMapping("/personalchecking")
+    public String closePersonalChecking(@RequestHeader(name = "Authorization") String token)
+            throws AccountNotFoundException, AccountHolderNotFoundException {
+        AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
+        return loggedInService.closePersonalChecking(accountHolder);
+    }
+
 
     /* DBA Checking Accounts ======================================================================================== */
     @PostMapping("/dbachecking")
@@ -111,6 +127,13 @@ public class LoggedInController {
         return loggedInService.getIraRegular(accountHolder);
     }
 
+    // TODO TEST
+    @DeleteMapping("/iraregular")
+    public String deletedIraRegular(@RequestHeader(name = "Authorization") String token)
+            throws AccountNotFoundException, AccountHolderNotFoundException {
+        AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
+        return loggedInService.closeIraRegular(accountHolder);
+    }
 
     /* IRA Rollover Accounts ======================================================================================== */
     @PostMapping("/irarollover")

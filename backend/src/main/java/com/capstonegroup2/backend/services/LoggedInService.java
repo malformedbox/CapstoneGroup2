@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.security.InvalidAlgorithmParameterException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +21,7 @@ import java.util.List;
 @Transactional
 public class LoggedInService {
 
-    @Autowired
-    AdminService adminService;
+    @Autowired AccountHolderRepository accountHolderRepository;
 
     @Autowired UserCredentialsRepository userCredentialsRepository;
 
@@ -50,7 +50,17 @@ public class LoggedInService {
     public AccountHolder getLoggedInAccountHolder(String token) {
         token = token.substring(7);
         UserCredentials user = userCredentialsRepository.findByUsername(jwtTokenCreator.extractUsername(token)).get();
-        return adminService.getAccountHolderById(user.getAccountHolder().getId());
+        return accountHolderRepository.findById(user.getAccountHolder().getId()).orElse(null);
+    }
+
+    public String deleteLoggedInAccountHolder(AccountHolder accountHolder) throws AccountHolderNotFoundException {
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
+        if (accountHolder.getSavingsAccount() != null && accountHolder.getPersonalChecking() != null) {
+            throw new IllegalArgumentException("An account holder must close all their accounts before their records" +
+                    " can be deleted.");
+        }
+        accountHolderRepository.delete(accountHolder);
+        return "The Account Holder has been deleted";
     }
 
     public BankAccount getAccountByAccountNumber(long accountNumber) {
@@ -93,6 +103,17 @@ public class LoggedInService {
         return personalChecking;
     }
 
+    // Can switch this to a transaction and move the transaction fron AccountHolder class in
+    // transferBalanceOnAccountClose to over here and save them into the transaction repository
+    public String closePersonalChecking(AccountHolder accountHolder)
+            throws AccountNotFoundException, AccountHolderNotFoundException {
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
+        if (accountHolder.getPersonalChecking() == null) throw new AccountNotFoundException();
+        accountHolder.closeAccount(accountHolder.getPersonalChecking());
+        personalCheckingRepository.delete(accountHolder.getPersonalChecking());
+        return "Personal Checking account has been closed.";
+    }
+
 
     /* DBA Checking Accounts ======================================================================================== */
     public DbaChecking addDbaChecking(AccountHolder accountHolder, DbaChecking dbaChecking)
@@ -132,6 +153,14 @@ public class LoggedInService {
     public IraRegular getIraRegular(AccountHolder accountHolder) throws AccountHolderNotFoundException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
         return iraRegularRepository.findByAccountHolder(accountHolder);
+    }
+
+    public String closeIraRegular(AccountHolder accountHolder) throws AccountNotFoundException, AccountHolderNotFoundException {
+        if (accountHolder == null) throw new AccountHolderNotFoundException();
+        if (accountHolder.getIraRegular() == null) throw new AccountNotFoundException();
+        accountHolder.closeAccount(accountHolder.getIraRegular());
+        iraRegularRepository.delete(accountHolder.getIraRegular());
+        return "Regular IRA account has been closed.";
     }
 
     /* IRA Rollover Accounts ======================================================================================== */
@@ -252,5 +281,6 @@ public class LoggedInService {
 //        return accountTransactions;
         return transactionRepository.findAllByTargetAccount(bankAccount);
     }
+
 
 }
