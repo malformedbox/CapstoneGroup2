@@ -1,42 +1,59 @@
-import React, {useState, useEffect} from 'react';
+import React, { Component, useState, useEffect} from 'react';
+import AuthenticationService from '../services/AuthenticationService';
 import { Link } from 'react-router-dom';
 import '../css/Navbar.css';
 import meritBankLogo from '../assets/images/meritBankLogo.png';
 
-function Navbar() {
-    const [click, setClick] = useState(false);
-    const [button, setButton] = useState(true);
-  
-    const handleClick = () => setClick(!click);
-    const closeMobileMenu = () => setClick(false);
-  
-    const showButton = () => {
-      if (window.innerWidth <= 960) {
-        setButton(false);
-      } else {
-        setButton(true);
-      }
-    };
+import { withRouter } from 'react-router-dom';
 
-    useEffect(() => {
-        showButton();
-      }, []);
-  
-    window.addEventListener('resize', showButton);
-  
+class Navbar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {isOpen: false};
+    this.toggle = this.toggle.bind(this);
+
+    this.state = {
+      login: false
+    };
+  }
+
+  componentDidMount(){
+    const user = AuthenticationService.getCurrentUser();
+
+    if(user) {
+      this.setState({
+        login: true
+      });
+    }
+  }
+
+  signOut = () => {
+    AuthenticationService.signOut();
+    this.props.history.push('/home');
+    window.location.reload();
+  }
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+
+  render () {
+    
     return (
       <>
         <nav className='navbar'>
           <div className='navbar-container'>
-            <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
+            <Link to='/' className='navbar-logo' >
                 MeritBank
             </Link>
-            <div className='menu-icon' onClick={handleClick}>
-              <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
+            <div className='menu-icon' >
+              <i className='fas fa-times' />
             </div>
-            <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+            <ul className='nav-menu active'>
               <li className='nav-item'>
-                <Link to='/home' className='nav-links' onClick={closeMobileMenu}>
+                <Link to='/home' className='nav-links' >
                   Home
                 </Link>
               </li>
@@ -44,43 +61,57 @@ function Navbar() {
                 <Link
                   to='/services'
                   className='nav-links'
-                  onClick={closeMobileMenu}
+
                 >
                   Services
                 </Link>
               </li>
               <li className='nav-item'>
                 <Link
-                  to='/user'
+                  to='/profile'
                   className='nav-links'
-                  onClick={closeMobileMenu}
+
                 >
                   About Us
                 </Link>
               </li>
               <li className='nav-item'>
                 <Link
-                  to='/profile'
+                  to='/user'
                   className='nav-links'
-                  onClick={closeMobileMenu}
+
                 >
                   My Account
                 </Link>
               </li>
-              <li className='nav-item'>
-                <Link
-                  to='/login'
-                  className='nav-links'
-                  onClick={closeMobileMenu}
-                >
-                  Login
-                </Link>
-              </li>
+              {
+                this.state.login ? (
+                  <li className='nav-item'>
+                    <Link
+                      to='/home'
+                      className='nav-links'
+                      onClick={this.signOut}
+                    >
+                      Sign Out
+                    </Link>
+                  </li>
+                ) : (
+                  <li className='nav-item'>
+                    <Link
+                      to='/login'
+                      className='nav-links'
+                    >
+                      Login
+                    </Link>
+                  </li>
+                )
+              }
             </ul>
           </div>
         </nav>
       </>
-    );
+    )
   }
+}
   
-  export default Navbar;
+  export default withRouter (Navbar);
