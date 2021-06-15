@@ -80,44 +80,37 @@ public class AccountHolder {
         return true;
     }
 
-    // TODO
-    //d. When closing CDs balances are transferred to either savings or checking account
-
+    // TODO TEST
+    // This would probably function better with a switch statement
     private boolean transferBalanceOnAccountClose(BankAccount sourceAccount) {
         // If closing checking account, transfer balance to savings account
         if (sourceAccount.getClass() == personalChecking.getClass() ||
                 sourceAccount.getClass() == dbaCheckingList.get(0).getClass()) {
-
             String balance = String.valueOf(sourceAccount.getBalance());
             Transaction transaction = new Transaction(balance, TransactionType.TRANSFER, sourceAccount, savingsAccount);
-
             sourceAccount.withdraw(sourceAccount.getBalance());
             savingsAccount.deposit(sourceAccount.getBalance());
+            return true;
         }
-
         // If closing an IRS Account, deduct 20% for IRS and transfer to personal checking else savings
         if (sourceAccount.getClass() == iraRegular.getClass() || sourceAccount.getClass() == iraRoth.getClass() ||
                 sourceAccount.getClass() == iraRollover.getClass()) {
-
             String balance = String.valueOf(sourceAccount.getBalance());
             BigDecimal balanceToBeTransferred = sourceAccount.calculateBalanceAfterIrsTaxOnClose();
-
             if (personalChecking != null) {
                 Transaction transaction = new Transaction(balance, TransactionType.TRANSFER, sourceAccount,
                         personalChecking);
-
                 sourceAccount.withdraw(sourceAccount.getBalance());
                 personalChecking.deposit(balanceToBeTransferred);
-
+                return true;
             } else {
                 Transaction transaction = new Transaction(balance, TransactionType.TRANSFER, sourceAccount,
                         savingsAccount);
-
                 sourceAccount.withdraw(sourceAccount.getBalance());
                 savingsAccount.deposit(balanceToBeTransferred);
+                return true;
             }
         }
-
         // To close a savings account, all other accounts must already be closed
         if (sourceAccount.getClass() == savingsAccount.getClass()) {
             if (personalChecking.getActiveStatus() == ActiveStatus.OPEN
@@ -126,17 +119,34 @@ public class AccountHolder {
                     && iraRoth.getActiveStatus() == ActiveStatus.OPEN
                     && iraRollover.getActiveStatus() == ActiveStatus.OPEN
                     && cdAccountsList.size() > 1) {
-
                 throw new IllegalArgumentException("To close a savings account, an account holder may not have any " +
                         "other open accounts.");
             } else {
                 savingsAccount.withdraw(savingsAccount.getBalance());
                 // If this method moves classes 'this' refers to the Account Holder here
                 this.activeStatus = ActiveStatus.CLOSED;
-
+                return true;
             }
         }
-        return true;
+        //If closing CDAccount transfer to personal checking if not transfer to savings account
+        if (sourceAccount.getClass() == cdAccountsList.get(0).getClass()) {
+            if (personalChecking != null) {
+                String balance = String.valueOf(sourceAccount.getBalance());
+                Transaction transaction = new Transaction(balance, TransactionType.TRANSFER, sourceAccount,
+                        personalChecking);
+                sourceAccount.withdraw(sourceAccount.getBalance());
+                personalChecking.deposit(sourceAccount.getBalance());
+                return true;
+            } else {
+                String balance = String.valueOf(sourceAccount.getBalance());
+                Transaction transaction = new Transaction(balance, TransactionType.TRANSFER, sourceAccount,
+                        savingsAccount);
+                sourceAccount.withdraw(sourceAccount.getBalance());
+                savingsAccount.deposit(sourceAccount.getBalance());
+                return true;
+            }
+        }
+        return false;
     }
 
 }
