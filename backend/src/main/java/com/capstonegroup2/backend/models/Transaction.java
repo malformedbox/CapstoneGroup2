@@ -2,72 +2,60 @@ package com.capstonegroup2.backend.models;
 
 import com.capstonegroup2.backend.enums.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @Entity
 @Table(name = "transactions")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "transaction_id")
     private Long id;
 
     private BigDecimal amount;
     private String dateOfTransaction;
+
+    @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
-//    private BankAccount sourceAccount;
-//    private BankAccount targetAccount;
 
-    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "dba_account_id")
-    DbaChecking dbaChecking;
-
+    @JoinColumn(name = "source_account_id")
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "cd_account_id")
-    CDAccount cdAccount;
+    private BankAccount sourceAccount;
 
+    @ManyToOne
+    @JoinColumn(name = "target_account_id")
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "ira_reg_account_id")
-    IraRegular iraRegular;
+    private BankAccount targetAccount;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "ira_roll_account_id")
-    IraRollover iraRollover;
 
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "ira_roth_account_id")
-    IraRoth iraRoth;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "checking_account_id")
-    PersonalChecking personalChecking;
-
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "savings_account_id")
-    SavingsAccount savingsAccount;
-
-    public Transaction(String amount, TransactionType transactionType) {
+    public Transaction(String amount, TransactionType transactionType, BankAccount targetAccount) {
         this.amount = new BigDecimal(amount);
         this.transactionType = transactionType;
         LocalDateTime date = LocalDateTime.now();
         this.dateOfTransaction = formatDate(date);
+        this.targetAccount = targetAccount;
+    }
+
+    public Transaction(String amount, TransactionType transactionType, BankAccount sourceAccount,
+                       BankAccount targetAccount) {
+        this.amount = new BigDecimal(amount);
+        this.transactionType = transactionType;
+        LocalDateTime date = LocalDateTime.now();
+        this.dateOfTransaction = formatDate(date);
+        this.sourceAccount = sourceAccount;
+        this.targetAccount = targetAccount;
     }
 
     private String formatDate(LocalDateTime date) {
@@ -75,15 +63,5 @@ public class Transaction {
         String formattedDate = date.format(formatter);
         return formattedDate;
     }
-
-//    public boolean deposit(String depositAmount) {
-//        BigDecimal deposit = new BigDecimal(depositAmount);
-//        BigDecimal balance = this.targetAccount.getBalance();
-//        BigDecimal newBalance = deposit.add(balance);
-//
-//        this.targetAccount.setBalance(newBalance);
-//
-//        return true;
-//    }
 
 }

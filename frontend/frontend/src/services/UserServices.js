@@ -1,18 +1,21 @@
 import axios from 'axios';
-
-const USERS_REST_API_URL = 'http://localhost:8080/AccountHolders'; //from spring host
+import { USER_ACCOUNTS } from '../constants/constants';
 //Note, on controller do @CrossOrigin(origins = "http://localhost:3000") port being used by react end
 
-const USERS_PERSONAL_CHECKING = 'http://localhost:8080/user/personalchecking';
+//applies to axios calls
+axios.interceptors.request.use( config => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    if(user && user.accessToken){
+        const token = 'Bearer ' + user.accessToken;
+        config.headers.Authorization = token;
+    }
+    return config;
+});
 
 class UserService  {
-
-    getUsers(){
-        return axios.get(USERS_REST_API_URL);
-    }
-
-    getPersonalChecking(){
-        return axios.get(USERS_PERSONAL_CHECKING);
+    getUserAccounts(){
+        return axios.get(USER_ACCOUNTS);
     }
 }
 

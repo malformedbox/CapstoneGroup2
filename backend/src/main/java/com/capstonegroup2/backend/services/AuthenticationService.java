@@ -1,6 +1,6 @@
 package com.capstonegroup2.backend.services;
 
-import com.capstonegroup2.backend.controllers.AccountHolderController;
+import com.capstonegroup2.backend.controllers.AdminController;
 import com.capstonegroup2.backend.dto.LoginDTO;
 import com.capstonegroup2.backend.dto.RegisterDTO;
 import com.capstonegroup2.backend.dto.ResponseMessage;
@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -52,10 +51,10 @@ public class AuthenticationService {
     private UserCredentialsServiceImplementation userCredentialsServiceImplementation;
 
     @Autowired
-    AccountHolderService accountHolderService;
+    AdminService adminService;
 
     @Autowired
-    AccountHolderController accountHolderController;
+    AdminController adminController;
 
 
     //Service method to create a new user, should be assigned an id# upon creation

@@ -69,7 +69,7 @@ function Footer(props) {
           <div class='social-icons'>
             <Link
               class='social-icon-link facebook'
-              to='/'
+              to={{pathname : "https://www.facebook.com/"}}
               target='_blank'
               aria-label='Facebook'
             >
@@ -77,7 +77,7 @@ function Footer(props) {
             </Link>
             <Link
               class='social-icon-link instagram'
-              to='/'
+              to={{pathname : "https://www.instagram.com/"}}
               target='_blank'
               aria-label='Instagram'
             >
@@ -85,7 +85,7 @@ function Footer(props) {
             </Link>
             <Link
               class='social-icon-link youtube'
-              to='/'
+              to={{pathname : "https://www.youtube.com/"}}
               target='_blank'
               aria-label='Youtube'
             >
@@ -93,7 +93,7 @@ function Footer(props) {
             </Link>
             <Link
               class='social-icon-link twitter'
-              to='/'
+              to={{pathname : "https://twitter.com"}}
               target='_blank'
               aria-label='Twitter'
             >
@@ -101,7 +101,7 @@ function Footer(props) {
             </Link>
             <Link
               class='social-icon-link twitter'
-              to='/'
+              to={{pathname : "https://www.linkedin.com"}}
               target='_blank'
               aria-label='LinkedIn'
             >
