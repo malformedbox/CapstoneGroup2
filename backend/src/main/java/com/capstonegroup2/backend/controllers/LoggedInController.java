@@ -12,6 +12,7 @@ import com.capstonegroup2.backend.services.LoggedInService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class LoggedInController {
 
 
     /* Account Holder =============================================================================================== */
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public AccountHolder getLoggedInAccountHolder(@RequestHeader(name = "Authorization") String token) {
         return loggedInService.getLoggedInAccountHolder(token);
@@ -46,6 +48,7 @@ public class LoggedInController {
 
     /* CD Accounts ================================================================================================== */
     // TODO TEST
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/cdaccounts")
     public CDAccount addCDAccount(@RequestHeader(name = "Authorization") String token,
                                   @RequestBody CDAccountDTO cdAccountDTO)
@@ -58,6 +61,7 @@ public class LoggedInController {
         return loggedInService.addCDAccount(accountHolder, cdAccount);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/cdaccounts")
     public List<CDAccount> getCDAccounts(@RequestHeader(name = "Authorization") String token)
             throws AccountHolderNotFoundException {
@@ -67,6 +71,7 @@ public class LoggedInController {
 
 
     /* Personal Checking Accounts =================================================================================== */
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/personalchecking")
     public PersonalChecking addPersonalChecking(@RequestHeader(name = "Authorization") String token,
                                                 @RequestBody PersonalCheckingDTO personalCheckingDTO)
@@ -76,6 +81,7 @@ public class LoggedInController {
         return loggedInService.addPersonalChecking(accountHolder, personalChecking);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/personalchecking")
     public PersonalChecking getPersonalChecking(@RequestHeader(name = "Authorization") String token)
             throws AccountHolderNotFoundException, AccountNotFoundException {
@@ -93,6 +99,7 @@ public class LoggedInController {
 
 
     /* DBA Checking Accounts ======================================================================================== */
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/dbachecking")
     public DbaChecking addDbaChecking(@RequestHeader(name = "Authorization") String token,
                                       @RequestBody DbaCheckingDTO dbaCheckingDTO)
@@ -102,6 +109,7 @@ public class LoggedInController {
         return loggedInService.addDbaChecking(accountHolder, dbaChecking);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/dbachecking")
     public List<DbaChecking> getDbaChecking(@RequestHeader(name = "Authorization") String token)
             throws AccountHolderNotFoundException, AccountNotFoundException {
@@ -111,6 +119,7 @@ public class LoggedInController {
 
 
     /* IRA Regular Accounts ========================================================================================= */
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/iraregular")
     public IraRegular addIraRegular(@RequestHeader(name = "Authorization") String token,
                                     @RequestBody IraRegularDTO iraRegularDTO)
@@ -120,6 +129,7 @@ public class LoggedInController {
         return loggedInService.addIraRegular(accountHolder, iraRegular);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/iraregular")
     public IraRegular getIraRegular(@RequestHeader(name = "Authorization") String token)
             throws AccountHolderNotFoundException {
@@ -136,6 +146,7 @@ public class LoggedInController {
     }
 
     /* IRA Rollover Accounts ======================================================================================== */
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/irarollover")
     public IraRollover addIraRollover(@RequestHeader(name = "Authorization") String token,
                                       @RequestBody IraRegularDTO iraRegularDTO)
@@ -145,6 +156,7 @@ public class LoggedInController {
         return loggedInService.addIraRollover(accountHolder, iraRollover);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/irarollover")
     public IraRollover getIraRollover(@RequestHeader(name = "Authorization") String token)
             throws AccountHolderNotFoundException {
@@ -154,6 +166,7 @@ public class LoggedInController {
 
 
     /* IRA Roth Accounts ============================================================================================ */
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/iraroth")
     public IraRoth addIraRoth(@RequestHeader(name = "Authorization") String token,
                               @RequestBody IraRothDTO iraRothDTO)
@@ -163,6 +176,7 @@ public class LoggedInController {
         return loggedInService.addIraRoth(accountHolder, iraRoth);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/iraroth")
     public IraRoth getIraRoth(@RequestHeader(name = "Authorization") String token)
             throws AccountHolderNotFoundException {
@@ -172,6 +186,7 @@ public class LoggedInController {
 
 
     /* Savings Accounts ============================================================================================= */
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/savings")
     public SavingsAccount addSavingsAccount(@RequestHeader(name = "Authorization") String token,
                                             @RequestBody SavingsAccountDTO savingsAccountDTO)
@@ -181,6 +196,7 @@ public class LoggedInController {
         return loggedInService.addSavingsAccount(accountHolder, savingsAccount);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/savings")
     public SavingsAccount getSavingsAccount(@RequestHeader(name = "Authorization") String token)
             throws AccountHolderNotFoundException {
@@ -190,12 +206,12 @@ public class LoggedInController {
 
 
     /* Transactions ================================================================================================= */
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/transaction")
     public Transaction postTransaction(@RequestHeader(name = "Authorization") String token,
                                        @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
 
     // Constructing and Routing transaction object based on type
-
         BankAccount targetAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
 
         if (transactionDTO.getTransactionType() != TransactionType.TRANSFER) {
@@ -219,9 +235,10 @@ public class LoggedInController {
         return null;
     }
 
-    @GetMapping("/transactions")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/transactions/{accountNumber}")
     public List<Transaction> getAccountTransactions(@RequestHeader(name = "Authorization") String token,
-                                                    @RequestBody long accountNumber)
+                                                    @PathVariable long accountNumber)
             throws AccountNotFoundException, AccountHolderNotFoundException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         BankAccount bankAccount = loggedInService.getAccountByAccountNumber(accountNumber);

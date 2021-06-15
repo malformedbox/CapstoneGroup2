@@ -1,6 +1,5 @@
 package com.capstonegroup2.backend.services;
 
-import com.capstonegroup2.backend.enums.TransactionMethod;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountLimitExceededException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.security.InvalidAlgorithmParameterException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -121,7 +118,7 @@ public class LoggedInService {
             throws AccountHolderNotFoundException, AccountLimitExceededException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
 
-        int numberOfDbaAccounts = accountHolder.numbertOfHoldersExistingDbaAccounts(accountHolder);
+        int numberOfDbaAccounts = accountHolder.numberOfHoldersExistingDbaAccounts(accountHolder);
         if (numberOfDbaAccounts >= 3) throw new AccountLimitExceededException("An account holder may not have more " +
                 "than 3 DBA Checking accounts.");
 
@@ -268,19 +265,10 @@ public class LoggedInService {
         return transactionRepository.save(transaction);
     }
 
-    // TODO Method not working
-    // commented out code didnt work either so the error message in postman must indicate that the method call is fine
-    // but that the JSON isn't getting parsed correctly
+
     public List<Transaction> getAccountTransactions(BankAccount bankAccount) throws AccountNotFoundException {
         if (bankAccount == null) throw new AccountNotFoundException();
-//        List<Transaction> allTransactions = transactionRepository.findAll();
-//        List<Transaction> accountTransactions = new ArrayList<>();
-//        for (Transaction transaction : allTransactions) {
-//            if (transaction.getTargetAccount().getAccountNumber() == bankAccount.getAccountNumber()) {
-//                accountTransactions.add(transaction);
-//            }
-//        }
-//        return accountTransactions;
+
         return transactionRepository.findAllByTargetAccount(bankAccount);
     }
 

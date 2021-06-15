@@ -9,4 +9,6 @@ public class OfferingNotFoundException extends Exception{
     public OfferingNotFoundException() {
         super("The CDOffering could not be located.");
     }
+
+    public OfferingNotFoundException(String message) { super(message); }
 }

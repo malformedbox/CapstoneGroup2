@@ -70,7 +70,7 @@ public class AccountHolder {
         this.activeStatus = ActiveStatus.OPEN;
     }
 
-    public int numbertOfHoldersExistingDbaAccounts(AccountHolder accountHolder) {
+    public int numberOfHoldersExistingDbaAccounts(AccountHolder accountHolder) {
         return dbaCheckingList.size();
     }
 
@@ -110,7 +110,7 @@ public class AccountHolder {
             }
         }
 
-        //If closing CDAccount transfer to personal checking if doesn't exist transfer to savings account
+        // If closing CDAccount transfer to personal checking if doesn't exist transfer to savings account
         if (sourceAccount.getClass() == cdAccountsList.get(0).getClass()) {
             if (personalChecking != null) {
                 String balance = String.valueOf(sourceAccount.getBalance());
