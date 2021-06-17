@@ -12,8 +12,9 @@ $ npm install
 
 # Wireframes
 
-### High-level Diagram
+### Home Page
 ![wireframe_home_page](https://github.com/malformedbox/CapstoneGroup2/blob/master/WireFraming/HomePage.png)
+### User Page
 ![wireframe_logged_in](https://github.com/malformedbox/CapstoneGroup2/blob/master/WireFraming/LoggedInUser.png)
 
 
