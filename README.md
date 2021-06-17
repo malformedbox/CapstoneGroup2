@@ -10,6 +10,13 @@ To install the neccessary dependencies for React, open the frontend in your term
 $ npm install
 ```
 
+# Wireframes
+
+### High-level Diagram
+![wireframe_home_page](https://github.com/malformedbox/CapstoneGroup2/blob/master/WireFraming/HomePage.png)
+![wireframe_logged_in](https://github.com/malformedbox/CapstoneGroup2/blob/master/WireFraming/LoggedInUser.png)
+
+
 
 # Documentation
 
