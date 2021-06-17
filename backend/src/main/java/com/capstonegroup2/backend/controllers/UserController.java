@@ -1,6 +1,6 @@
 package com.capstonegroup2.backend.controllers;
 
-import com.capstonegroup2.backend.dto.UserCredentialsDTO;
+import com.capstonegroup2.backend.dto.LoginDTO;
 import com.capstonegroup2.backend.models.UserCredentials;
 import com.capstonegroup2.backend.services.UserCredentialsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +32,8 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserCredentials addAccountHoldersContactDetails(@RequestBody UserCredentialsDTO userCredentialsDTO) {
-        return userCredentialsService.addAccountHoldersUserDetails(userCredentialsDTO);
+    public UserCredentials addAccountHoldersContactDetails(@RequestBody LoginDTO loginDTO) {
+        return userCredentialsService.addAccountHoldersUserDetails(loginDTO);
     }
 
 }

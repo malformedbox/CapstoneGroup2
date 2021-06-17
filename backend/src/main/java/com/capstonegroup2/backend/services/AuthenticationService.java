@@ -1,9 +1,11 @@
 package com.capstonegroup2.backend.services;
 
-import com.capstonegroup2.backend.controllers.AccountHolderController;
+import com.capstonegroup2.backend.controllers.AdminController;
+import com.capstonegroup2.backend.dto.LoginDTO;
+import com.capstonegroup2.backend.dto.RegisterDTO;
 import com.capstonegroup2.backend.dto.ResponseMessage;
-import com.capstonegroup2.backend.dto.UserCreationDTO;
-import com.capstonegroup2.backend.dto.UserCredentialsDTO;
+
+import com.capstonegroup2.backend.models.AccountHolder;
 import com.capstonegroup2.backend.models.RoleName;
 import com.capstonegroup2.backend.models.Role;
 import com.capstonegroup2.backend.models.UserCredentials;
@@ -25,7 +27,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -50,28 +51,29 @@ public class AuthenticationService {
     private UserCredentialsServiceImplementation userCredentialsServiceImplementation;
 
     @Autowired
-    AccountHolderService accountHolderService;
+    AdminService adminService;
 
     @Autowired
-    AccountHolderController accountHolderController;
+    AdminController adminController;
 
 
     //Service method to create a new user, should be assigned an id# upon creation
-    public ResponseEntity<?> createUser(UserCreationDTO userCreationDTO) {
-        if (userCredentialsRepository.existsByUsername(userCreationDTO.getUsername())) {
+    public ResponseEntity<?> createUser(RegisterDTO registerDTO) {
+        if (userCredentialsRepository.existsByUsername(registerDTO.getUsername())) {
             return new ResponseEntity<>(new ResponseMessage("Fail -> Username already exists!"),
                     HttpStatus.BAD_REQUEST);
         }
 
         // Creating user's account
-        UserCredentials user = new UserCredentials(userCreationDTO.getUsername(), passwordEncoder.encode(userCreationDTO.getPassword()));
+        UserCredentials user = new UserCredentials(registerDTO.getUsername(), passwordEncoder.encode(registerDTO.getPassword()));
 
         Set<Role> roles = new HashSet<>();
-        if(userCreationDTO.getRole() != null) {
-            Set<String> strRoles = userCreationDTO.getRole();
+        if(registerDTO.getRole() != null) {
+            Set<String> strRoles = registerDTO.getRole();
 
             strRoles.forEach(role -> {
                 switch (role) {
+
                     case "admin":
                         Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Admin Role not find."));
@@ -87,24 +89,26 @@ public class AuthenticationService {
             });
         } else {
             // default mode : User register
-            List<Role> rolez = roleRepository.findAll();
             Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Default User Role not find."));
             roles.add(userRole);
         }
 
         user.setRoles(roles);
-        user.setAccountHolder(userCreationDTO.getAccountHolder());
+        AccountHolder accountHolder = new AccountHolder(registerDTO.getFirstName(), registerDTO.getMiddleName(), registerDTO.getLastName(),
+                registerDTO.getSsn(), user);
+        user.setAccountHolder(accountHolder);
+//        user.setAccountHolder(registerDTO.getAccountHolder());
         userCredentialsRepository.save(user);
 
-        return new ResponseEntity<>(new ResponseMessage("Account for "+ userCreationDTO.getAccountHolder().getFirstName() + ", is registered successfully!"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage("Account for "+ registerDTO.getFirstName() + ", is registered successfully!"), HttpStatus.OK);
     }
 
     //Service method that should take user's credentials (username + password in body)
     //Should return a jwt token
-    public ResponseEntity<?> authenticateUser(UserCredentialsDTO userCredentialsDTO) throws Exception{
+    public ResponseEntity<?> authenticateUser(LoginDTO loginDTO) throws Exception{
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userCredentialsDTO.getUsername(), userCredentialsDTO.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

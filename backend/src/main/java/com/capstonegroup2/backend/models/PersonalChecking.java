@@ -1,33 +1,26 @@
 package com.capstonegroup2.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+
 
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class PersonalChecking extends BankAccount{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "checking_account_id")
-    private Long id;
 
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "personalChecking")
-    private List<Transaction> transactions;
-
-
-    public PersonalChecking(double balance) {
-        super(balance, 0.0001);
+    public PersonalChecking(String balance) {
+        super(balance, MeritBank.PERSONAL_CHECKING_INTEREST_RATE);
     }
 
     // TODO Override closeAccountResponse

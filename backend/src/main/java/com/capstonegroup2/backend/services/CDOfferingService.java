@@ -6,6 +6,7 @@ import com.capstonegroup2.backend.repositories.CDOfferingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,6 +17,10 @@ public class CDOfferingService {
 
     public CDOffering addCDOffering(CDOfferingDTO cdOfferingDTO) {
         CDOffering cdOffering = new CDOffering(cdOfferingDTO.getTerm(), cdOfferingDTO.getInterestRate());
+        return cdOfferingRepository.save(cdOffering);
+    }
+
+    public CDOffering addCDOffering(CDOffering cdOffering) {
         return cdOfferingRepository.save(cdOffering);
     }
 

@@ -2,6 +2,7 @@ package com.capstonegroup2.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class CDOffering {
 
     @Id
@@ -20,14 +22,14 @@ public class CDOffering {
     @Column(name = "cdAccounts_id")
     private Long id;
 
-    private double interestRate;
+    private String interestRate;
     private int term;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cdOffering")
     private List<CDAccount> cdAccounts;
 
-    public CDOffering(int term, double interestRate) {
+    public CDOffering(int term, String interestRate) {
         this.interestRate = interestRate;
         this.term = term;
     }

@@ -1,16 +1,23 @@
-.tableHeader{
-    font-size: 1rem;
+.tableHeader {
+  font-size: 1rem;
 }
 
 .cardsContainer {
-    display: flex;
-    flex-flow: column;
-    align-items: left;
-    max-width: 90%;
-    width: 100%;
-    margin: 0 auto;
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
+  display: flex;
+  flex-flow: column;
+  align-items: left;
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
 }
 
-  
+.account-holder-name {
+  font-size: 2rem;
+}
+
+.td-transaction td-transaction-withdraw {
+  color: red;
+}

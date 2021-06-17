@@ -1,15 +1,18 @@
 package com.capstonegroup2.backend.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class SavingsAccount extends BankAccount{
 
     @Id
@@ -22,12 +25,8 @@ public class SavingsAccount extends BankAccount{
     @JoinColumn(name = "account_holder_id")
     private AccountHolder accountHolder;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "savingsAccount")
-    private List<Transaction> transactions;
-
-
-    public SavingsAccount(double balance) {
-        super(balance, 0.01);
+    public SavingsAccount(String balance) {
+        super(balance, MeritBank.SAVINGS_ACCOUNT_INTEREST_RATE);
     }
 
     // TODO Override closeAccountResponse

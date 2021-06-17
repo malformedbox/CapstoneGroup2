@@ -11,10 +11,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-/*
-    Please note that implmenting UserDetails class requires override of method
-    String getUsername() which has a lowercase n. In our UserCredentials class, we use capital N on userName.
- */
 public class UserCredentialsImplementation implements UserDetails {
 
     private Long id;

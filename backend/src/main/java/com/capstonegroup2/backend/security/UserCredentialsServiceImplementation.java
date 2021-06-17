@@ -9,12 +9,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.nio.file.attribute.UserPrincipal;
 
 @Service
 public class UserCredentialsServiceImplementation implements UserDetailsService {
-    @Autowired
-    UserCredentialsRepository userCredentialsRepository;
+
+    @Autowired UserCredentialsRepository userCredentialsRepository;
 
     @Override
     @Transactional

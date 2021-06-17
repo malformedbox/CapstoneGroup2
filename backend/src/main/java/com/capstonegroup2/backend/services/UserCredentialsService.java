@@ -1,6 +1,6 @@
 package com.capstonegroup2.backend.services;
 
-import com.capstonegroup2.backend.dto.UserCredentialsDTO;
+import com.capstonegroup2.backend.dto.LoginDTO;
 import com.capstonegroup2.backend.models.UserCredentials;
 import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,8 @@ public class UserCredentialsService {
         return userCredentialsRepository.findById(id).orElse(null);
     }
 
-    public UserCredentials addAccountHoldersUserDetails(UserCredentialsDTO userCredentialsDTO) {
-        UserCredentials userCredentials = new UserCredentials(userCredentialsDTO.getUsername(), userCredentialsDTO.getPassword());
+    public UserCredentials addAccountHoldersUserDetails(LoginDTO loginDTO) {
+        UserCredentials userCredentials = new UserCredentials(loginDTO.getUsername(), loginDTO.getPassword());
         return userCredentialsRepository.save(userCredentials);
     }
 
