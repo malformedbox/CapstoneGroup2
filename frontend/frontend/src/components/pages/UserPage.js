@@ -1,185 +1,145 @@
-import React from 'react';
-import { Card } from 'reactstrap';
-import UserServices from '../../services/UserServices';
-import AccountCards from '../AccountCards';
-import UserPageCSS from '../../css/UserPage.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Card, CardBody, CardText, CardTitle } from "reactstrap";
+import UserServices from "../../services/UserServices";
+import CDAccount from "../accounts/CDAccount";
+import DbaChecking from "../accounts/DbaChecking";
+import IraRegular from "../accounts/IraRegular";
+import IraRollover from "../accounts/IraRollover";
+import IraRoth from "../accounts/IraRoth";
+import PersonalChecking from "../accounts/PersonalChecking";
+import SavingsAccount from "../accounts/SavingsAccount";
 
 class UserPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: [],
+      cdAccountsList: [],
+      dbaCheckingList: [],
+      iraRegular: "",
+      iraRollover: "",
+      iraRoth: "",
+      personalChecking: "",
+      savingsAccount: "",
+      userCredentials: "",
+    };
+  }
+  //gets loaded every time page loaded
+  componentDidMount() {
+    UserServices.getUserAccounts().then((response) => {
+      this.setState({
+        users: response.data,
+        cdAccountsList: response.data.cdAccountsList,
+        dbaCheckingList: response.data.dbaCheckingList,
+        iraRegular: response.data.iraRegular,
+        iraRollover: response.data.iraRollover,
+        iraRoth: response.data.iraRoth,
+        personalChecking: response.data.personalChecking,
+        savingsAccount: response.data.savingsAccount,
+        userCredentials: response.data.userCredentials,
+      });
+    });
+  }
 
-    constructor(props){
-        super(props)
-        this.state = {
-            users:[],
-            cdAccountsList:"",
-            dbaCheckingList:[],
-            iraRegular:"",
-            iraRollover:"",
-            personalChecking:"",
-            savingsAccount:"",
-            userCredentials:""
-        }
-    }
-    //gets loaded every time page loaded
-    componentDidMount(){
-        UserServices.getUserAccounts().then((response) => {
-            console.log(response);
-            this.setState({ 
-                users: response.data, 
-                cdAccountsList: response.data.cdAccountsList,
-                dbaCheckingList: response.data.dbaCheckingList,
-                iraRegular: response.data.iraRegular,
-                iraRollover: response.data.iraRollover,
-                personalChecking: response.data.personalChecking,
-                savingsAccount: response.data.savingsAccount,
-                userCredentials: response.data.userCredentials
-            })
-        });
-         console.log('user cred', this.state.users);
-    }
-   
-    render (){
-        console.log('check if personal checking exists', this.personalChecking);
-        return (
-            <div>
-                <h1 className="account-holder-name">Welcome 
-                    back, {this.state.users.firstName}
-                </h1>
-                {/* <h1 className="text-center"> 
-                    {this.state.userCredentials.username}
-                's Accounts       
-                </h1> */}
-
-                <div className="container">
-                    <div className="col-8">
-                        {this.state.dbaCheckingList != [] ? (
-                            <Card className="cardsContainer">
-                                <h2>DBA Checking</h2>
-                                <table className="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <td className="tableHeader"> Account Number</td>
-                                            <td> Interest Rate</td>
-                                            <td> Opened On</td>
-                                            <td> Balance</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            this.state.dbaCheckingList.map(dbaChecking => 
-                                            <tr key={dbaChecking.accountNumber}>
-                                                <td> {dbaChecking.accountNumber}</td>
-                                                <td> {dbaChecking.interestRate}</td>
-                                                <td> {dbaChecking.openedOn}</td>
-                                                <td> {dbaChecking.balance}</td>
-                                            </tr>
-                                            )
-                                        }
-                                    </tbody>
-                                </table>
-                                <table className="table table-striped">
-                                    <h2>DBA Checking Transactions</h2>
-                                    <tbody>
-                                        <tr>
-                                            <td> Date</td>
-                                            <td> Type of Transaction</td>
-                                            <td> Amount</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </Card> 
-                            ) : <AccountCards
-                                title='DBA Checking'
-                                body='Click to open a DBA checking account.'
-                                /> 
-                        }
-
-                        {this.state.personalChecking != null ? (
-                            <Card className="cardsContainer">
-                                <h2>Personal Checking</h2>
-                                <table className="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <td className="tableHeader"> Account Number</td>
-                                            <td> Interest Rate</td>
-                                            <td> Opened On</td>
-                                            <td> Balance</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td> {this.state.personalChecking.accountNumber}</td>
-                                            <td> {this.state.personalChecking.interestRate}</td>
-                                            <td> {this.state.personalChecking.openedOn}</td>
-                                            <td> {this.state.personalChecking.balance}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table className="table table-striped">
-                                    <h2>Personal Checking Transactions</h2>
-                                    <tbody>
-                                        <tr>
-                                            <td> Date</td>
-                                            <td> Type of Transaction</td>
-                                            <td> Amount</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </Card> 
-                            ) : <AccountCards
-                                title='Personal Checking'
-                                body='Click to open a personal checking account.'
-                                /> 
-                        }
-
-                        {this.state.savingsAccount != null ? (
-                            <Card className="cardsContainer">
-                                <h2>Savings</h2>
-                                <table className="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <td> Account Number</td>
-                                            <td> Interest Rate</td>
-                                            <td> Opened On</td>
-                                            <td> Balance</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td> {this.state.savingsAccount.accountNumber}</td>
-                                            <td> {this.state.savingsAccount.interestRate}</td>
-                                            <td> {this.state.savingsAccount.openedOn}</td>
-                                            <td> {this.state.savingsAccount.balance}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table className="table table-striped">
-                                    <h2>Savings Transactions</h2>
-                                    <tbody>
-                                        <tr>
-                                            <td> Date</td>
-                                            <td> Type of Transaction</td>
-                                            <td> Amount</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </Card> 
-                            ) : <AccountCards
-                                path='/home'
-                                title='Savings Account'
-                                body='Click to open a savings account.'
-                                /> 
-                        }
-                    </div>
-                    <div className="col-sm">
-                        <Card>
-                            filler box
-                        </Card>
-                    </div>
-                </div>
-                
+  render() {
+    return (
+      <div>
+        <div className="container">
+          <div className="row">
+            <div className="col-8">
+              <CDAccount cdAccountsList={this.state.cdAccountsList} />
+              <DbaChecking dbaCheckingList={this.state.dbaCheckingList} />
+              <IraRegular iraRegular={this.state.iraRegular} />
+              <IraRollover iraRollover={this.state.iraRollover} />
+              <IraRoth iraRoth={this.state.iraRoth} />
+              <PersonalChecking
+                personalChecking={this.state.personalChecking}
+              />
+              <SavingsAccount savingsAccount={this.state.savingsAccount} />
             </div>
-        )
-    }
+            <div className="col-4">
+              <Card>
+                <CardBody>
+                  <CardTitle className="account-holder-name">
+                    Welcome back, {this.state.users.firstName}
+                  </CardTitle>
+                  <CardText>
+                    Your Accounts
+                    <ul>
+                      <li>
+                        {this.state.cdAccountsList !== [] &&
+                        this.state.cdAccountsList.accountNumber != null ? (
+                          <p>CD Account</p>
+                        ) : (
+                          <Link to="home">Click to open a CD account.</Link>
+                        )}
+                      </li>
+                      <li>
+                        {this.state.dbaCheckingList !== [] &&
+                        this.state.dbaCheckingList.accountNumber != null ? (
+                          <p>Dba Checking</p>
+                        ) : (
+                          <Link to="home">
+                            Click to open a DBA checking account.
+                          </Link>
+                        )}
+                      </li>
+                      <li>
+                        {this.state.iraRegular != null ? (
+                          <p>Ira Regular</p>
+                        ) : (
+                          <Link to="/createiraregular">
+                            Click to open a IRA Regular account.
+                          </Link>
+                        )}
+                      </li>
+                      <li>
+                        {this.state.iraRollover != null ? (
+                          <p>Ira Rollover</p>
+                        ) : (
+                          <Link to="/createirarollover">
+                            Click to open a IRA Rollover account.
+                          </Link>
+                        )}
+                      </li>
+                      <li>
+                        {this.state.iraRoth != null ? (
+                          <p>Ira Roth</p>
+                        ) : (
+                          <Link to="/createiraroth">
+                            Click to open a IRA Roth account.
+                          </Link>
+                        )}
+                      </li>
+                      <li>
+                        {this.state.personalChecking != null ? (
+                          <p>Personal Checking</p>
+                        ) : (
+                          <Link to="home">
+                            Click to open a personal checking account.
+                          </Link>
+                        )}
+                      </li>
+                      <li>
+                        {this.state.savingsAccount != null ? (
+                          <p>Savings</p>
+                        ) : (
+                          <Link to="home">
+                            Click to open a savings account.
+                          </Link>
+                        )}
+                      </li>
+                    </ul>
+                  </CardText>
+                </CardBody>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default UserPage;
