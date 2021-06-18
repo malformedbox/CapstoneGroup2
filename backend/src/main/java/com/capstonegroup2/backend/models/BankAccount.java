@@ -11,6 +11,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Data
@@ -32,6 +34,9 @@ public abstract class BankAccount {
 
     @Enumerated(EnumType.STRING)
     protected ActiveStatus activeStatus;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "targetAccount")
+    protected List<Transaction> transactions = new ArrayList<>();
 
     public BankAccount(String balance, String interestRate) {
         this.balance = new BigDecimal(balance);
