@@ -119,7 +119,7 @@ public class LoggedInService {
             throws AccountHolderNotFoundException, AccountLimitExceededException {
         if (accountHolder == null) throw new AccountHolderNotFoundException();
 
-        int numberOfDbaAccounts = accountHolder.numberOfHoldersExistingDbaAccounts(accountHolder);
+        int numberOfDbaAccounts = accountHolder.numberOfHoldersExistingDbaAccounts();
         if (numberOfDbaAccounts >= 3) throw new AccountLimitExceededException("An account holder may not have more " +
                 "than 3 DBA Checking accounts.");
 

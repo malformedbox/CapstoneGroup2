@@ -71,7 +71,7 @@ public class AccountHolder {
         this.activeStatus = ActiveStatus.OPEN;
     }
 
-    public int numberOfHoldersExistingDbaAccounts(AccountHolder accountHolder) {
+    public int numberOfHoldersExistingDbaAccounts() {
         return dbaCheckingList.size();
     }
 
@@ -93,7 +93,7 @@ public class AccountHolder {
             return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER, sourceAccount, savingsAccount);
         }
 
-        // If closing an IRS Account, deduct 20% for IRS and transfer to personal checking else savings
+        // If closing an IRS Account, deduct 20% for IRS and transfer to personal checking if exist else savings
         if (sourceAccount.getClass() == iraRegular.getClass() || sourceAccount.getClass() == iraRoth.getClass() ||
                 sourceAccount.getClass() == iraRollover.getClass()) {
             String balance = String.valueOf(sourceAccount.getBalance());
@@ -119,7 +119,7 @@ public class AccountHolder {
                 personalChecking.deposit(sourceAccount.getBalance());
                 return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
                         sourceAccount, personalChecking);
-            } else if (savingsAccount != null) {
+            } else if (savingsAccount.getActiveStatus() == ActiveStatus.OPEN) {
                 String balance = String.valueOf(sourceAccount.getBalance());
 
                 sourceAccount.withdraw(sourceAccount.getBalance());
@@ -145,7 +145,7 @@ public class AccountHolder {
                 return new Transaction("0", TransactionType.CLOSE_ACCOUNT_TRANSFER,
                         new SavingsAccount("0"));
             }
-        }  else if (savingsAccount == null) throw new AccountNotFoundException();
+        }  else if (this.savingsAccount == null) throw new AccountNotFoundException();
 
         return null;
     }
