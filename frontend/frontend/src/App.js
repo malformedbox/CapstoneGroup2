@@ -12,6 +12,9 @@ import Register from "./components/pages/Register";
 import CreateIraRegular from "./createAccounts/CreateIraRegular";
 import CreateIraRollover from "./createAccounts/CreateIraRollover";
 import CreateIraRoth from "./createAccounts/CreateIraRoth";
+import CreatePersonalChecking from "./createAccounts/CreatePersonalChecking";
+import TransactionDW from "./components/pages/TransactionDW";
+import TransactionT from "./components/pages/TransactionT";
 import Footer from "./components/FooterComponent";
 
 function App() {
@@ -31,6 +34,12 @@ function App() {
           <Route path="/createiraregular" component={CreateIraRegular} />
           <Route path="/createirarollover" component={CreateIraRollover} />
           <Route path="/createiraroth" component={CreateIraRoth} />
+          <Route
+            path="/createpersonalchecking"
+            component={CreatePersonalChecking}
+          />
+          <Route path="/transactiondw" component={TransactionDW} />
+          <Route path="/transactiont" component={TransactionT} />
         </Switch>
         <Footer />
       </Router>

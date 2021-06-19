@@ -9,6 +9,7 @@ import IraRollover from "../accounts/IraRollover";
 import IraRoth from "../accounts/IraRoth";
 import PersonalChecking from "../accounts/PersonalChecking";
 import SavingsAccount from "../accounts/SavingsAccount";
+import "../../css/UserPage.css";
 
 class UserPage extends React.Component {
   constructor(props) {
@@ -61,8 +62,10 @@ class UserPage extends React.Component {
             <div className="col-4">
               <Card>
                 <CardBody>
-                  <CardTitle className="account-holder-name">
-                    Welcome back, {this.state.users.firstName}
+                  <CardTitle>
+                    <div className="account-holder-name">
+                      Welcome back, {this.state.users.firstName}
+                    </div>
                   </CardTitle>
                   <CardText>
                     Your Accounts
@@ -86,7 +89,8 @@ class UserPage extends React.Component {
                         )}
                       </li>
                       <li>
-                        {this.state.iraRegular != null ? (
+                        {this.state.iraRegular != null &&
+                        this.state.iraRegular.accountNumber != null ? (
                           <p>Ira Regular</p>
                         ) : (
                           <Link to="/createiraregular">
@@ -95,7 +99,8 @@ class UserPage extends React.Component {
                         )}
                       </li>
                       <li>
-                        {this.state.iraRollover != null ? (
+                        {this.state.iraRollover != null &&
+                        this.state.iraRegular.accountNumber != null ? (
                           <p>Ira Rollover</p>
                         ) : (
                           <Link to="/createirarollover">
@@ -104,7 +109,8 @@ class UserPage extends React.Component {
                         )}
                       </li>
                       <li>
-                        {this.state.iraRoth != null ? (
+                        {this.state.iraRoth != null &&
+                        this.state.iraRoth.accountNumber != null ? (
                           <p>Ira Roth</p>
                         ) : (
                           <Link to="/createiraroth">
@@ -113,16 +119,18 @@ class UserPage extends React.Component {
                         )}
                       </li>
                       <li>
-                        {this.state.personalChecking != null ? (
+                        {this.state.personalChecking != null &&
+                        this.state.personalChecking.accountNumber != null ? (
                           <p>Personal Checking</p>
                         ) : (
-                          <Link to="home">
+                          <Link to="/createpersonalchecking">
                             Click to open a personal checking account.
                           </Link>
                         )}
                       </li>
                       <li>
-                        {this.state.savingsAccount != null ? (
+                        {this.state.savingsAccount != null &&
+                        this.state.savingsAccount.accountNumber != null ? (
                           <p>Savings</p>
                         ) : (
                           <Link to="home">

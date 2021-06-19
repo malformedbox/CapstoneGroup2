@@ -1,5 +1,6 @@
 .tableHeader {
   font-size: 1rem;
+  font-weight: bold;
 }
 
 .cardsContainer {
@@ -14,10 +15,26 @@
   padding-bottom: 2rem;
 }
 
+/* td {
+  max-width: 100px;
+} */
+
+.tableHeader-date {
+  width: 200px;
+  font-weight: bold;
+}
+
 .account-holder-name {
   font-size: 2rem;
 }
 
-.td-transaction td-transaction-withdraw {
+.transaction-withdraw {
   color: red;
+}
+.transaction-deposit {
+  color: green;
+}
+
+.dropdown {
+  width: 100px;
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button } from "./Button";
 import "../css/Footer.css";
 
 function Footer(props) {

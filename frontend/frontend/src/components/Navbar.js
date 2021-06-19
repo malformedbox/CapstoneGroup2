@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import AuthenticationService from "../services/AuthenticationService";
 import { Link } from "react-router-dom";
 import "../css/Navbar.css";
-import meritBankLogo from "../assets/images/meritBankLogo.png";
 
 import { withRouter } from "react-router-dom";
 
