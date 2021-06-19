@@ -1,7 +1,6 @@
 package com.capstonegroup2.backend.controllers;
 
 import com.capstonegroup2.backend.dto.*;
-import com.capstonegroup2.backend.enums.TransactionType;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountLimitExceededException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
@@ -91,7 +90,7 @@ public class LoggedInController {
 
     // TODO FIX - currently deletes everything related to the account holder
     @DeleteMapping("/personalchecking")
-    public Transaction closePersonalChecking(@RequestHeader(name = "Authorization") String token)
+    public Transaction deletePersonalChecking(@RequestHeader(name = "Authorization") String token)
             throws AccountNotFoundException, AccountHolderNotFoundException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         return loggedInService.closePersonalChecking(accountHolder);
@@ -139,7 +138,7 @@ public class LoggedInController {
 
     // TODO TEST
     @DeleteMapping("/iraregular")
-    public Transaction deletedIraRegular(@RequestHeader(name = "Authorization") String token)
+    public Transaction deleteIraRegular(@RequestHeader(name = "Authorization") String token)
             throws AccountNotFoundException, AccountHolderNotFoundException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         return loggedInService.closeIraRegular(accountHolder);
@@ -240,7 +239,7 @@ public class LoggedInController {
     @GetMapping("/transactions/{accountNumber}")
     public List<Transaction> getAccountTransactions(@RequestHeader(name = "Authorization") String token,
                                                     @PathVariable long accountNumber)
-            throws AccountNotFoundException, AccountHolderNotFoundException {
+            throws AccountNotFoundException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         BankAccount bankAccount = loggedInService.getAccountByAccountNumber(accountNumber);
         return loggedInService.getAccountTransactions(bankAccount);

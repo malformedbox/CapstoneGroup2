@@ -22,10 +22,4 @@ public class DbaChecking extends BankAccount {
     public DbaChecking(String balance) {
         super(balance, MeritBank.DBA_CHECKING_INTEREST_RATE, AccountType.CHECKING);
     }
-
-    // TODO Override closeAccountResponse
-    @Override
-    public String closeAccountResponse() {
-        return super.closeAccountResponse();
-    }
 }

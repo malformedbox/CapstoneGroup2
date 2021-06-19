@@ -24,9 +24,4 @@ public class IraRollover extends BankAccount {
         super(balance, MeritBank.IRA_ROLLOVER_INTEREST_RATE, AccountType.IRA);
     }
 
-    // TODO Override closeAccountResponse
-    @Override
-    public String closeAccountResponse() {
-        return super.closeAccountResponse();
-    }
 }

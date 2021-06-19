@@ -104,10 +104,6 @@ public abstract class BankAccount {
         }
     }
 
-    public String closeAccountResponse() {
-        return "Account closed, balance transferred to x account";
-    }
-
     public boolean closeAccount(BankAccount account) {
         account.activeStatus = ActiveStatus.CLOSED;
         return true;

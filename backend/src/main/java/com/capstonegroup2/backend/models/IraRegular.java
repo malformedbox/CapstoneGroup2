@@ -24,9 +24,4 @@ public class IraRegular extends BankAccount {
         super(balance, MeritBank.IRA_REGULAR_INTEREST_RATE, AccountType.IRA);
     }
 
-    // TODO Override closeAccountResponse
-    @Override
-    public String closeAccountResponse() {
-        return super.closeAccountResponse();
-    }
 }

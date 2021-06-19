@@ -29,10 +29,4 @@ public class SavingsAccount extends BankAccount{
     public SavingsAccount(String balance) {
         super(balance, MeritBank.SAVINGS_ACCOUNT_INTEREST_RATE, AccountType.SAVINGS);
     }
-
-    // TODO Override closeAccountResponse
-    @Override
-    public String closeAccountResponse() {
-        return super.closeAccountResponse();
-    }
 }

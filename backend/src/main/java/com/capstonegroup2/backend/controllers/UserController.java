@@ -20,20 +20,20 @@ public class UserController {
     /* User Details ================================================================================================= */
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<UserCredentials> getAllUserDetails(){
-        return userCredentialsService.getAllUserDetails();
+    public List<UserCredentials> getAllUserCredentials(){
+        return userCredentialsService.getAllUserCredentials();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserCredentials getAccountHoldersUserDetails(@PathVariable Long id) {
-        return userCredentialsService.getAccountHoldersUserDetailsById(id);
+    public UserCredentials getUserCredentialsById(@PathVariable Long id) {
+        return userCredentialsService.getUserCredentialsById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserCredentials addAccountHoldersContactDetails(@RequestBody LoginDTO loginDTO) {
-        return userCredentialsService.addAccountHoldersUserDetails(loginDTO);
+    public UserCredentials addUserCredentials(@RequestBody LoginDTO loginDTO) {
+        return userCredentialsService.addUserCredentials(loginDTO);
     }
 
 }

@@ -30,11 +30,4 @@ public class CDAccount extends BankAccount {
         super(balance, cdOffering.getInterestRate(), AccountType.CD);
         this.cdOffering = cdOffering;
     }
-
-    // TODO Override closeAccountResponse
-    @Override
-    public String closeAccountResponse() {
-        return super.closeAccountResponse();
-    }
-
 }
