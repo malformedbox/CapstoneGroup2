@@ -1,5 +1,6 @@
 package com.capstonegroup2.backend.models;
 
+import com.capstonegroup2.backend.enums.AccountType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class IraRollover extends BankAccount {
     private AccountHolder accountHolder;
 
     public IraRollover(String balance) {
-        super(balance, MeritBank.IRA_ROLLOVER_INTEREST_RATE);
+        super(balance, MeritBank.IRA_ROLLOVER_INTEREST_RATE, AccountType.IRA);
     }
 
     // TODO Override closeAccountResponse

@@ -1,5 +1,6 @@
 package com.capstonegroup2.backend.models;
 
+import com.capstonegroup2.backend.enums.AccountType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class DbaChecking extends BankAccount {
     private AccountHolder accountHolder;
 
     public DbaChecking(String balance) {
-        super(balance, MeritBank.DBA_CHECKING_INTEREST_RATE);
+        super(balance, MeritBank.DBA_CHECKING_INTEREST_RATE, AccountType.CHECKING);
     }
 
     // TODO Override closeAccountResponse

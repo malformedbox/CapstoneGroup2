@@ -1,5 +1,6 @@
 package com.capstonegroup2.backend.models;
 
+import com.capstonegroup2.backend.enums.AccountType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class SavingsAccount extends BankAccount{
     private AccountHolder accountHolder;
 
     public SavingsAccount(String balance) {
-        super(balance, MeritBank.SAVINGS_ACCOUNT_INTEREST_RATE);
+        super(balance, MeritBank.SAVINGS_ACCOUNT_INTEREST_RATE, AccountType.SAVINGS);
     }
 
     // TODO Override closeAccountResponse
