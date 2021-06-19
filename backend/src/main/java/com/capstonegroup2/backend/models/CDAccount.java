@@ -11,6 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "CD_Account")
 @NoArgsConstructor
 @AllArgsConstructor
 public class CDAccount extends BankAccount {

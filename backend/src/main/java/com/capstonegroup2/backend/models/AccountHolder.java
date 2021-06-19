@@ -71,17 +71,6 @@ public class AccountHolder {
         this.activeStatus = ActiveStatus.OPEN;
     }
 
-    public AccountHolder(String firstName, String middleName, String lastName, String ssn,
-                         UserCredentials userCredentials, PersonalChecking personalChecking) {
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.ssn = ssn;
-        this.userCredentials = userCredentials;
-        this.activeStatus = ActiveStatus.OPEN;
-        this.personalChecking = personalChecking;
-    }
-
     public int numberOfHoldersExistingDbaAccounts(AccountHolder accountHolder) {
         return dbaCheckingList.size();
     }
@@ -114,7 +103,7 @@ public class AccountHolder {
                 personalChecking.deposit(balanceToBeTransferred);
                 return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
                         sourceAccount, personalChecking);
-            } else {
+            } else if (savingsAccount != null) {
                 sourceAccount.withdraw(sourceAccount.getBalance());
                 savingsAccount.deposit(balanceToBeTransferred);
                 return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER,

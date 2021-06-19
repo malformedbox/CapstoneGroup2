@@ -19,7 +19,7 @@ public class CDOffering {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cdAccounts_id")
+    @Column(name = "cd_offering_id")
     private Long id;
 
     private String interestRate;
