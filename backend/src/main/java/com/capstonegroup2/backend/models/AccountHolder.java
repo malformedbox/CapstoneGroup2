@@ -126,6 +126,7 @@ public class AccountHolder {
                                 sourceAccount, savingsAccount);
                     }
                 }
+
             case SAVINGS:  // To close a savings account, all other accounts must already be closed
                 if (personalChecking.getActiveStatus() == ActiveStatus.OPEN
                         && dbaCheckingList.size() > 1
@@ -133,8 +134,8 @@ public class AccountHolder {
                         && iraRoth.getActiveStatus() == ActiveStatus.OPEN
                         && iraRollover.getActiveStatus() == ActiveStatus.OPEN
                         && cdAccountsList.size() > 1) {
-                    throw new IllegalArgumentException("To close a savings account, an account holder may not have any " +
-                            "other open accounts.");
+                    throw new IllegalArgumentException("To close a savings account, an account holder may not have " +
+                            "any other open accounts.");
                 } else {
                     savingsAccount.withdraw(savingsAccount.getBalance());
                     this.activeStatus = ActiveStatus.CLOSED;

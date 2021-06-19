@@ -89,7 +89,7 @@ public class LoggedInController {
         return loggedInService.getPersonalChecking(accountHolder);
     }
 
-    // TODO TEST
+    // TODO FIX - currently deletes everything related to the account holder
     @DeleteMapping("/personalchecking")
     public Transaction closePersonalChecking(@RequestHeader(name = "Authorization") String token)
             throws AccountNotFoundException, AccountHolderNotFoundException {
@@ -214,23 +214,24 @@ public class LoggedInController {
     // Constructing and Routing transaction object based on type
         BankAccount targetAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
 
-        if (transactionDTO.getTransactionType() != TransactionType.TRANSFER) {
-            Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
-                    targetAccount);
-            if (transaction.getTransactionType() == TransactionType.DEPOSIT) {
-                return loggedInService.postDeposit(transaction);
-            } else if (transaction.getTransactionType() == TransactionType.WITHDRAWAL) {
-                return loggedInService.postWithdrawal(transaction);
-            }
+        switch (transactionDTO.getTransactionType()) {
+            case DEPOSIT:
+                Transaction depositTransaction = new Transaction(transactionDTO.getAmount(),
+                        transactionDTO.getTransactionType(), targetAccount);
+                return loggedInService.postDeposit(depositTransaction);
 
-        } else if (transactionDTO.getTransactionType() == TransactionType.TRANSFER) {
+            case WITHDRAWAL:
+                Transaction withdrawalTransaction = new Transaction(transactionDTO.getAmount(),
+                        transactionDTO.getTransactionType(), targetAccount);
+                return loggedInService.postWithdrawal(withdrawalTransaction);
 
-            BankAccount sourceAccount = loggedInService.getAccountByAccountNumber(
-                    transactionDTO.getSourceAccountNumber());
-            Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
-                    sourceAccount, targetAccount);
+            case TRANSFER:
+                BankAccount sourceAccount = loggedInService.getAccountByAccountNumber(
+                        transactionDTO.getSourceAccountNumber());
+                Transaction transaction = new Transaction(transactionDTO.getAmount(),
+                        transactionDTO.getTransactionType(), sourceAccount, targetAccount);
 
-            return loggedInService.postTransfer(transaction);
+                return loggedInService.postTransfer(transaction);
         }
         return null;
     }
