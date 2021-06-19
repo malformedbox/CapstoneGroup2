@@ -61,13 +61,25 @@ public class AccountHolder {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CDAccount> cdAccountsList = new ArrayList<>();
 
-    public AccountHolder(String firstName, String middleName, String lastName, String ssn, UserCredentials userCredentials) {
+    public AccountHolder(String firstName, String middleName, String lastName,
+                         String ssn, UserCredentials userCredentials) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.ssn = ssn;
         this.userCredentials = userCredentials;
         this.activeStatus = ActiveStatus.OPEN;
+    }
+
+    public AccountHolder(String firstName, String middleName, String lastName, String ssn,
+                         UserCredentials userCredentials, PersonalChecking personalChecking) {
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.ssn = ssn;
+        this.userCredentials = userCredentials;
+        this.activeStatus = ActiveStatus.OPEN;
+        this.personalChecking = personalChecking;
     }
 
     public int numberOfHoldersExistingDbaAccounts(AccountHolder accountHolder) {

@@ -14,7 +14,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class IraRegular extends BankAccount {
 
-
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_holder_id")
