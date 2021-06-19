@@ -7,8 +7,8 @@ import java.util.List;
 public class MeritBank {
 
 
-    public static final String DBA_CHECKING_INTEREST_RATE = "0.0005";
-    public static final String PERSONAL_CHECKING_INTEREST_RATE = ".0003";
+    public static final String DBA_CHECKING_INTEREST_RATE = "0.02";
+    public static final String PERSONAL_CHECKING_INTEREST_RATE = "0.01";
     public static final String IRA_REGULAR_INTEREST_RATE = "0.65";
     public static final String IRA_ROLLOVER_INTEREST_RATE = "0.08";
     public static final String IRA_ROTH_INTEREST_RATE = "0.08";

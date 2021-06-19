@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -268,8 +269,13 @@ public class LoggedInService {
 
     public List<Transaction> getAccountTransactions(BankAccount bankAccount) throws AccountNotFoundException {
         if (bankAccount == null) throw new AccountNotFoundException();
+        List<Transaction> transactionsAsSource = transactionRepository.findAllBySourceAccount(bankAccount);
+        List<Transaction> transactionsAsTarget = transactionRepository.findAllByTargetAccount(bankAccount);
+        List<Transaction> allTransactions = new ArrayList<>();
+        allTransactions.addAll(transactionsAsSource);
+        allTransactions.addAll(transactionsAsTarget);
 
-        return transactionRepository.findAllByTargetAccount(bankAccount);
+        return allTransactions;
     }
 
 

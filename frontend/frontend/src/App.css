@@ -2,39 +2,85 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'PT Sans', sans-serif;
+  font-family: Optimist, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
-.home,
-.aboutus,
-.myaccount {
-  display: flex;
-  height: 90vh;
+.jumbotron {
+  background-image: url("./assets/images/homePageBank.jpg");
+  background-repeat: no-repeat, repeat;
+  background-position: center;
+  background-size: cover;
+  padding-top: 50px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: rgb(26, 25, 25) 0.1em 0.1em 0.2em;
+  padding: 100px;
+  /* border-radius: 20px; This would give a rounded look on the jumbotron's edges*/
+  /* box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75); */
+}
+
+.jumbotronContainer {
+  background-color: #35353573;
+  padding: 50px;
+}
+
+.jumbotronHeader {
+  font-size: 4rem;
+}
+
+.jumbotronText {
+  font-size: 2rem;
+}
+
+.wrapper {
+  display: grid;
+  background-color: #e4e4e4;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-content: center;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
-}
-
-.jumbotron-text {
-  align-items: center;
   text-align: center;
-  font-size: 20px;
 }
 
-.aboutus {
+.wrapper-container {
+  justify-content: center;
+  font-size: 2rem;
+}
+
+.clipArt {
+  width: 200px;
+  height: 200px;
+  padding: 5px;
+  object-fit: contain;
+}
+
+.wrapper-title {
+  font-family: Optimist, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+.wrapper-container-text {
+  font-size: 1.2rem;
+  font-family: Optimist, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
+.wrapper-container-link {
+  font-size: 1rem;
+}
+
+/* .aboutus {
   background-image: linear-gradient(rgb(105, 0, 0), rgb(112, 112, 119));
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   color: #000;
   font-size: 100px;
-}
+} */
 
-.myaccount {
+/* .myaccount {
   background-image: linear-gradient(rgb(105, 0, 0), rgb(112, 112, 119));
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   color: #000;
   font-size: 100px;
-}
+} */

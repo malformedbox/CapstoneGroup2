@@ -1,16 +1,40 @@
-.tableHeader{
-    font-size: 1rem;
+.tableHeader {
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .cardsContainer {
-    display: flex;
-    flex-flow: column;
-    align-items: left;
-    max-width: 90%;
-    width: 100%;
-    margin: 0 auto;
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
+  display: flex;
+  flex-flow: column;
+  align-items: left;
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
 }
 
-  
+/* td {
+  max-width: 100px;
+} */
+
+.tableHeader-date {
+  width: 200px;
+  font-weight: bold;
+}
+
+.account-holder-name {
+  font-size: 2rem;
+}
+
+.transaction-withdraw {
+  color: red;
+}
+.transaction-deposit {
+  color: green;
+}
+
+.dropdown {
+  width: 100px;
+}

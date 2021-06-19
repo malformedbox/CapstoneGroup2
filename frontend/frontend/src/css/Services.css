@@ -1,0 +1,31 @@
+.account {
+    width: 100%;
+    padding: 2%;
+}
+
+.jumbotronService {
+    background-image: url("../assets/images/notebook.jpg");
+    background-repeat: no-repeat, repeat;
+    background-position: center;
+    background-size: cover;
+    padding-top: 50px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: rgb(26, 25, 25) 0.1em 0.1em 0.2em;
+    padding: 100px;
+    /* border-radius: 20px; This would give a rounded look on the jumbotron's edges*/
+    /* box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75); */
+  }
+  
+  .jumbotronContainerService {
+    background-color: #35353573;
+    padding: 50px;
+  }
+  
+  .jumbotronHeaderService {
+    font-size: 4rem;
+  }
+  
+  .jumbotronTextService {
+    font-size: 2rem;
+  }
