@@ -1,7 +1,6 @@
 import React from 'react';
 import '../../App.css';
 import '../../css/Services.css';
-import { Card, CardTitle, CardText} from 'reactstrap';
 
 
 function Services() {

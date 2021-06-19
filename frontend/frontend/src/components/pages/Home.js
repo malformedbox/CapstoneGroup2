@@ -16,7 +16,7 @@ function Home() {
             We offer many accounts. Choose one that fits your needs.
           </p>
           <p>
-            <Link to="/login">
+            <Link to="/services">
               <Button variant="jumbotron-primary">Get Started</Button>
             </Link>
           </p>

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Card } from "reactstrap";
-import AccountCards from "../AccountCards";
 
 class DbaChecking extends Component {
   constructor(props) {
@@ -48,11 +47,7 @@ class DbaChecking extends Component {
               </tbody>
             </table>
           </Card>
-        ) : // <AccountCards
-        //   title="DBA Checking"
-        //   body="Click to open a DBA checking account."
-        // />
-        null}
+        ) : null}
       </div>
     );
   }

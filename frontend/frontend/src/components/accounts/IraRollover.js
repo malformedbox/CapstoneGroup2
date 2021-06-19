@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Card } from "reactstrap";
-import AccountCards from "../AccountCards";
 
 class IraRollover extends Component {
   constructor(props) {
@@ -21,9 +20,9 @@ class IraRollover extends Component {
               <thead>
                 <tr>
                   <td className="tableHeader"> Account Number</td>
-                  <td> Interest Rate</td>
-                  <td> Opened On</td>
-                  <td> Balance</td>
+                  <td className="tableHeader"> Interest Rate</td>
+                  <td className="tableHeader"> Opened On</td>
+                  <td className="tableHeader"> Balance</td>
                 </tr>
               </thead>
               <tbody>
@@ -39,18 +38,14 @@ class IraRollover extends Component {
               <h2>IRA Rollover Transactions</h2>
               <tbody>
                 <tr>
-                  <td> Date</td>
-                  <td> Type of Transaction</td>
-                  <td> Amount</td>
+                  <td className="tableHeader"> Date</td>
+                  <td className="tableHeader"> Type of Transaction</td>
+                  <td className="tableHeader"> Amount</td>
                 </tr>
               </tbody>
             </table>
           </Card>
-        ) : // <AccountCards
-        //   title="IRA Rollover"
-        //   body="Click to open an IRA Rollover account."
-        // />
-        null}
+        ) : null}
       </div>
     );
   }

@@ -1,10 +1,7 @@
 package com.capstonegroup2.backend;
 
 import com.capstonegroup2.backend.models.*;
-import com.capstonegroup2.backend.repositories.AccountHolderRepository;
-import com.capstonegroup2.backend.repositories.CDOfferingRepository;
-import com.capstonegroup2.backend.repositories.RoleRepository;
-import com.capstonegroup2.backend.repositories.UserCredentialsRepository;
+import com.capstonegroup2.backend.repositories.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +19,8 @@ public class BackendApplication {
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
-
+	// The methods below are being used to seed the database for demonstrational purposes, if you would like
+	// to start with an empty database, comment or delete them out.
 	@Bean
 	public CommandLineRunner addRoles(RoleRepository repository) {
 		return (args) -> {
@@ -42,8 +40,12 @@ public class BackendApplication {
 	}
 
 	@Bean
-	public CommandLineRunner addUsers(UserCredentialsRepository userRepository, RoleRepository roleRepository,
-									  AccountHolderRepository accountHolderRepository) {
+	public CommandLineRunner seedDatabase(UserCredentialsRepository userRepository,
+										  RoleRepository roleRepository,
+										  AccountHolderRepository accountHolderRepository,
+										  IraRegularRepository iraRegularRepository,
+										  PersonalCheckingRepository personalCheckingRepository,
+										  TransactionRepository transactionRepository) {
 		return (args) -> {
 
 			PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

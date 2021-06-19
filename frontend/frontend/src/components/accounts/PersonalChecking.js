@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Card } from "reactstrap";
-import AccountCards from "../AccountCards";
+import TransactionButton from "../../TransactionButton";
+import "../../css/UserPage.css";
 
 class PersonalChecking extends Component {
   constructor(props) {
@@ -11,19 +12,23 @@ class PersonalChecking extends Component {
   }
 
   render() {
+    console.log("data", this.props.personalChecking);
     return (
       <div>
         {this.props.personalChecking != null &&
         this.props.personalChecking.accountNumber != null ? (
           <Card className="cardsContainer">
             <h2>Personal Checking</h2>
+            <div className="dropdown">
+              <TransactionButton className="dropdown"></TransactionButton>
+            </div>
             <table className="table table-striped">
               <thead>
                 <tr>
                   <td className="tableHeader"> Account Number</td>
-                  <td> Interest Rate</td>
-                  <td> Opened On</td>
-                  <td> Balance</td>
+                  <td className="tableHeader"> Interest Rate</td>
+                  <td className="tableHeader"> Opened On</td>
+                  <td className="tableHeader"> Balance</td>
                 </tr>
               </thead>
               <tbody>
@@ -37,27 +42,39 @@ class PersonalChecking extends Component {
             </table>
             <h2>Personal Checking Transactions</h2>
             <table className="table table-striped">
-              <thead>
-                <tr>
-                  <td> Date</td>
-                  <td> Type of Transaction</td>
-                  <td> Amount</td>
-                </tr>
-              </thead>
               <tbody>
                 <tr>
-                  <td> No history of transactions </td>
-                  <td> </td>
-                  <td> </td>
+                  <td className="tableHeader-date"> Date</td>
+                  <td className="tableHeader"> Type of Transaction</td>
+                  <td className="tableHeader"> Amount</td>
                 </tr>
+              </tbody>
+              <tbody>
+                {this.props.personalChecking.transactions.map(
+                  (personalCheckingTransactions) => (
+                    <tr key={personalCheckingTransactions.accountNumber}>
+                      <td> {personalCheckingTransactions.dateOfTransaction}</td>
+                      <td> {personalCheckingTransactions.transactionType}</td>
+                      {personalCheckingTransactions.transactionType ===
+                      "TRANSFER" ? (
+                        <td>{personalCheckingTransactions.amount}</td>
+                      ) : personalCheckingTransactions.transactionType ===
+                        "WITHDRAWAL" ? (
+                        <td className="transaction-withdraw">
+                          -${personalCheckingTransactions.amount}
+                        </td>
+                      ) : (
+                        <td className="transaction-deposit">
+                          ${personalCheckingTransactions.amount}
+                        </td>
+                      )}
+                    </tr>
+                  )
+                )}
               </tbody>
             </table>
           </Card>
-        ) : // <AccountCards
-        //   title="Personal Checking"
-        //   body="Click to open a personal checking account."
-        // />
-        null}
+        ) : null}
       </div>
     );
   }
