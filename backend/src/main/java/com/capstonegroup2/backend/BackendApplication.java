@@ -45,9 +45,7 @@ public class BackendApplication {
 										  RoleRepository roleRepository,
 										  AccountHolderRepository accountHolderRepository,
 										  IraRegularRepository iraRegularRepository,
-										  IraRothRepository iraRothRepository,
 										  PersonalCheckingRepository personalCheckingRepository,
-										  SavingsAccountRepository savingsAccountRepository,
 										  TransactionRepository transactionRepository) {
 		return (args) -> {
 
@@ -66,8 +64,6 @@ public class BackendApplication {
 
 			PersonalChecking personalChecking1 = new PersonalChecking("15000");
 			IraRegular iraRegular1 = new IraRegular("40000");
-			IraRoth iraRoth1 = new IraRoth("60000");
-			SavingsAccount savingsAccount1 = new SavingsAccount("35000");
 
 			Transaction transaction1 = new Transaction("630.45", TransactionType.WITHDRAWAL, personalChecking1);
 			Transaction transaction2 = new Transaction("2500", TransactionType.DEPOSIT, personalChecking1);
@@ -75,6 +71,7 @@ public class BackendApplication {
 					personalChecking1, iraRegular1);
 			Transaction transaction4 = new Transaction("45.60", TransactionType.WITHDRAWAL, personalChecking1);
 			Transaction transaction5 = new Transaction("340.56", TransactionType.WITHDRAWAL, personalChecking1);
+			Transaction transaction6 = new Transaction("25000", TransactionType.DEPOSIT, iraRegular1);
 
 			UserCredentials user2 = new UserCredentials
 					("BobFishes01", passwordEncoder.encode("bobLikesFish"));
@@ -87,32 +84,30 @@ public class BackendApplication {
 
 			user1.setRoles(roles);
 			user1.setAccountHolder(accountHolder1);
-
 			accountHolder1.setPersonalChecking(personalChecking1);
 			accountHolder1.setIraRegular(iraRegular1);
-			accountHolder1.setIraRoth(iraRoth1);
-			accountHolder1.setSavingsAccount(savingsAccount1);
-
 			personalChecking1.setAccountHolder(accountHolder1);
 			iraRegular1.setAccountHolder(accountHolder1);
-			iraRoth1.setAccountHolder(accountHolder1);
-			savingsAccount1.setAccountHolder(accountHolder1);
+			personalChecking1.setBalance(personalChecking1.getBalance().subtract(transaction1.getAmount()));
+			personalChecking1.setBalance(personalChecking1.getBalance().add(transaction2.getAmount()));
+			personalChecking1.setBalance(personalChecking1.getBalance().subtract(transaction3.getAmount()));
+			iraRegular1.setBalance(iraRegular1.getBalance().add(transaction3.getAmount()));
+			personalChecking1.setBalance(personalChecking1.getBalance().subtract(transaction4.getAmount()));
+			personalChecking1.setBalance(personalChecking1.getBalance().subtract(transaction5.getAmount()));
+			iraRegular1.setBalance(iraRegular1.getBalance().add(transaction6.getAmount()));
+
 
 			userRepository.save(user1);
 			accountHolderRepository.save(accountHolder1);
 			personalCheckingRepository.save(personalChecking1);
-			iraRothRepository.save(iraRoth1);
 			iraRegularRepository.save(iraRegular1);
-			savingsAccountRepository.save(savingsAccount1);
-
-			Transaction closeAccount1 = accountHolder1.closeAccount(personalChecking1);
 
 			transactionRepository.save(transaction1);
 			transactionRepository.save(transaction2);
 			transactionRepository.save(transaction3);
 			transactionRepository.save(transaction4);
 			transactionRepository.save(transaction5);
-			transactionRepository.save(closeAccount1);
+			transactionRepository.save(transaction6);
 
 			user2.setRoles(roles);
 			user2.setAccountHolder(accountHolder2);
@@ -123,12 +118,10 @@ public class BackendApplication {
 			iraRegular2.setAccountHolder(accountHolder2);
 			iraRoth2.setAccountHolder(accountHolder2);
 
-
 			userRepository.save(user2);
 			accountHolderRepository.save(accountHolder2);
 			personalCheckingRepository.save(personalChecking2);
 			iraRegularRepository.save(iraRegular2);
-			iraRothRepository.save(iraRoth2);
 		};
 	}
 }

@@ -8,8 +8,6 @@ import com.capstonegroup2.backend.exceptions.OfferingNotFoundException;
 import com.capstonegroup2.backend.models.*;
 import com.capstonegroup2.backend.services.CDOfferingService;
 import com.capstonegroup2.backend.services.LoggedInService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class LoggedInController {
-
-    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired LoggedInService loggedInService;
 
@@ -210,7 +206,8 @@ public class LoggedInController {
     public Transaction postTransaction(@RequestHeader(name = "Authorization") String token,
                                        @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
 
-    // Constructing and Routing transaction object based on type
+        // Constructing and Routing transaction object based on type
+
         BankAccount targetAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
 
         switch (transactionDTO.getTransactionType()) {
