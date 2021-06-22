@@ -48,6 +48,13 @@ https://github.com/malformedbox/CapstoneGroup2/blob/Transactions/API%20Documenta
 ![package Security](https://github.com/malformedbox/CapstoneGroup2/blob/master/UML/CapstoneGroup2Security.png)
 
 
+### Postman Collection
+
+Use this collection as a starter for making post, get and delete requests to the API.
+
+https://www.getpostman.com/collections/37429ebb68be99b25804
+
+
 
 ## Contributing
 This is a student project, pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
