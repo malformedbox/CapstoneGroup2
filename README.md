@@ -32,9 +32,9 @@ To get started, open the backend folder in your IDE and run BackendApplication.
 # Wireframes
 
 ### Home Page
-![wireframe_home_page](https://github.com/malformedbox/CapstoneGroup2/blob/master/WireFraming/HomePage.png)
+![wireframe_home_page](https://github.com/malformedbox/CapstoneGroup2/blob/master/WireFraming/Wireframe_-_Home_Page.png)
 ### User Page
-![wireframe_logged_in](https://github.com/malformedbox/CapstoneGroup2/blob/master/WireFraming/LoggedInUser.png)
+![wireframe_logged_in](https://github.com/malformedbox/CapstoneGroup2/blob/master/WireFraming/Wireframe_-_Logged_In.png)
 
 
 
