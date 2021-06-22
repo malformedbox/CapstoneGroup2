@@ -2,13 +2,32 @@
 
 Merit Bank is a full stack banking application utilizing React on the frontend and Java and Spring Boot on the backend.
 
-## Installation
+## Installation / Get Started
+
+### Front End
 
 To install the neccessary dependencies for React, open the frontend in your terminal and run
 
 ```bash
 $ npm install
 ```
+Then to start the React application run
+
+```bash
+$ npm start
+```
+
+### Back End
+
+The backend comes seeded with a demonstration user whose credentials can be used log in and explore the user experience.
+
+-- | --
+----- | ------
+Username | DemoUser00
+Password | password00
+
+To get started, open the backend folder in your IDE and run BackendApplication.
+
 
 # Wireframes
 
