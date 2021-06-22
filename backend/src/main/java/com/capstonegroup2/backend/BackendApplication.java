@@ -57,7 +57,7 @@ public class BackendApplication {
 
 
 			UserCredentials user1 = new UserCredentials
-					("Damateau00", passwordEncoder.encode("password00"));
+					("DemoUser00", passwordEncoder.encode("password00"));
 			AccountHolder accountHolder1 = new AccountHolder
 					("David", "Michael", "Amateau", "123456789",
 							user1);
@@ -67,20 +67,11 @@ public class BackendApplication {
 
 			Transaction transaction1 = new Transaction("630.45", TransactionType.WITHDRAWAL, personalChecking1);
 			Transaction transaction2 = new Transaction("2500", TransactionType.DEPOSIT, personalChecking1);
-			Transaction transaction3 = new Transaction("400", TransactionType.TRANSFER,
+			Transaction transaction3 = new Transaction("400.65", TransactionType.TRANSFER,
 					personalChecking1, iraRegular1);
-			Transaction transaction4 = new Transaction("45.60", TransactionType.WITHDRAWAL, personalChecking1);
+			Transaction transaction4 = new Transaction("45.61", TransactionType.WITHDRAWAL, personalChecking1);
 			Transaction transaction5 = new Transaction("340.56", TransactionType.WITHDRAWAL, personalChecking1);
 			Transaction transaction6 = new Transaction("25000", TransactionType.DEPOSIT, iraRegular1);
-
-			UserCredentials user2 = new UserCredentials
-					("BobFishes01", passwordEncoder.encode("bobLikesFish"));
-			AccountHolder accountHolder2 = new AccountHolder
-					("Bob", "Sands", "Fisherman", "012345678", user2);
-			PersonalChecking personalChecking2 = new PersonalChecking("20000");
-			IraRegular iraRegular2 = new IraRegular("75000");
-			IraRoth iraRoth2 = new IraRoth("100000");
-
 
 			user1.setRoles(roles);
 			user1.setAccountHolder(accountHolder1);
@@ -108,20 +99,6 @@ public class BackendApplication {
 			transactionRepository.save(transaction4);
 			transactionRepository.save(transaction5);
 			transactionRepository.save(transaction6);
-
-			user2.setRoles(roles);
-			user2.setAccountHolder(accountHolder2);
-			accountHolder2.setPersonalChecking(personalChecking2);
-			accountHolder2.setIraRegular(iraRegular2);
-			accountHolder2.setIraRoth(iraRoth2);
-			personalChecking2.setAccountHolder(accountHolder2);
-			iraRegular2.setAccountHolder(accountHolder2);
-			iraRoth2.setAccountHolder(accountHolder2);
-
-			userRepository.save(user2);
-			accountHolderRepository.save(accountHolder2);
-			personalCheckingRepository.save(personalChecking2);
-			iraRegularRepository.save(iraRegular2);
 		};
 	}
 }
