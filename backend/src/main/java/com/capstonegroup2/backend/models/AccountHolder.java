@@ -2,7 +2,6 @@ package com.capstonegroup2.backend.models;
 
 import com.capstonegroup2.backend.enums.ActiveStatus;
 import com.capstonegroup2.backend.enums.TransactionType;
-import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -61,7 +60,8 @@ public class AccountHolder {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "accountHolder")
     private List<CDAccount> cdAccountsList = new ArrayList<>();
 
-    public AccountHolder(String firstName, String middleName, String lastName, String ssn, UserCredentials userCredentials) {
+    public AccountHolder(String firstName, String middleName, String lastName,
+                         String ssn, UserCredentials userCredentials) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -70,83 +70,90 @@ public class AccountHolder {
         this.activeStatus = ActiveStatus.OPEN;
     }
 
-    public int numberOfHoldersExistingDbaAccounts(AccountHolder accountHolder) {
+    public int numberOfHoldersExistingDbaAccounts() {
         return dbaCheckingList.size();
     }
 
     // TODO - Functionality to Close Accounts and Transfer Balance based on business Logic
-    public Transaction closeAccount(BankAccount account) throws AccountNotFoundException {
+    public Transaction closeAccount(BankAccount account) {
         Transaction transaction = transferBalanceOnAccountClose(account);
         account.setActiveStatus(ActiveStatus.CLOSED);
         return transaction;
     }
 
     // TODO TEST
-    private Transaction transferBalanceOnAccountClose(BankAccount sourceAccount) throws AccountNotFoundException {
-        // If closing checking account, transfer balance to savings account
-        if (sourceAccount.getClass() == personalChecking.getClass() ||
-                sourceAccount.getClass() == dbaCheckingList.get(0).getClass()) {
-            String balance = String.valueOf(sourceAccount.getBalance());
-            sourceAccount.withdraw(sourceAccount.getBalance());
-            savingsAccount.deposit(sourceAccount.getBalance());
-            return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER, sourceAccount, savingsAccount);
-        }
+    private Transaction transferBalanceOnAccountClose(BankAccount sourceAccount) {
 
-        // If closing an IRS Account, deduct 20% for IRS and transfer to personal checking else savings
-        if (sourceAccount.getClass() == iraRegular.getClass() || sourceAccount.getClass() == iraRoth.getClass() ||
-                sourceAccount.getClass() == iraRollover.getClass()) {
-            String balance = String.valueOf(sourceAccount.getBalance());
-            BigDecimal balanceToBeTransferred = sourceAccount.calculateBalanceAfterIrsTaxOnClose();
-            if (personalChecking != null) {
-                sourceAccount.withdraw(sourceAccount.getBalance());
-                personalChecking.deposit(balanceToBeTransferred);
-                return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
-                        sourceAccount, personalChecking);
-            } else {
-                sourceAccount.withdraw(sourceAccount.getBalance());
-                savingsAccount.deposit(balanceToBeTransferred);
-                return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
-                        sourceAccount, savingsAccount);
-            }
-        }
+        switch (sourceAccount.getAccountType()) {
 
-        // If closing CDAccount transfer to personal checking if doesn't exist transfer to savings account
-        if (sourceAccount.getClass() == cdAccountsList.get(0).getClass()) {
-            if (personalChecking != null) {
-                String balance = String.valueOf(sourceAccount.getBalance());
-                sourceAccount.withdraw(sourceAccount.getBalance());
-                personalChecking.deposit(sourceAccount.getBalance());
-                return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
-                        sourceAccount, personalChecking);
-            } else if (savingsAccount != null) {
-                String balance = String.valueOf(sourceAccount.getBalance());
-
+            case CHECKING:  // If closing checking account, transfer balance to savings account
+                String checkingBalance = String.valueOf(sourceAccount.getBalance());
                 sourceAccount.withdraw(sourceAccount.getBalance());
                 savingsAccount.deposit(sourceAccount.getBalance());
-                return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
-                        sourceAccount, savingsAccount);
-            }
+                return new Transaction
+                        (checkingBalance, TransactionType.CLOSE_ACCOUNT_TRANSFER, sourceAccount, savingsAccount);
+
+            case IRA:  // If closing an IRS Account, deduct 20% for IRS and transfer to personal checking else savings
+                String iraBalance = String.valueOf(sourceAccount.getBalance());
+                BigDecimal balanceToBeTransferred = sourceAccount.calculateBalanceAfterIrsTaxOnClose();
+                if (personalChecking != null) {
+                    sourceAccount.withdraw(sourceAccount.getBalance());
+                    personalChecking.deposit(balanceToBeTransferred);
+                    return new Transaction(iraBalance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
+                            sourceAccount, personalChecking);
+                } else if (savingsAccount != null) {
+                    sourceAccount.withdraw(sourceAccount.getBalance());
+                    savingsAccount.deposit(balanceToBeTransferred);
+                    return new Transaction(iraBalance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
+                            sourceAccount, savingsAccount);
+                }
+
+            case CD:  // If closing CDAccount transfer to personal checking if doesn't exist transfer to savings account
+                if (personalChecking != null) {
+                    String balance = String.valueOf(sourceAccount.getBalance());
+                    sourceAccount.withdraw(sourceAccount.getBalance());
+                    personalChecking.deposit(sourceAccount.getBalance());
+                    return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
+                            sourceAccount, personalChecking);
+                } else {
+                    assert savingsAccount != null;
+                    if (savingsAccount.getActiveStatus() == ActiveStatus.OPEN) {
+                        String balance = String.valueOf(sourceAccount.getBalance());
+
+                        sourceAccount.withdraw(sourceAccount.getBalance());
+                        savingsAccount.deposit(sourceAccount.getBalance());
+                        return new Transaction(balance, TransactionType.CLOSE_ACCOUNT_TRANSFER,
+                                sourceAccount, savingsAccount);
+                    }
+                }
+
+            case SAVINGS:  // To close a savings account, all other accounts must already be closed
+                if (personalChecking.getActiveStatus() == ActiveStatus.OPEN
+                        && dbaCheckingList.size() > 1
+                        && iraRegular.getActiveStatus() == ActiveStatus.OPEN
+                        && iraRoth.getActiveStatus() == ActiveStatus.OPEN
+                        && iraRollover.getActiveStatus() == ActiveStatus.OPEN
+                        && cdAccountsList.size() > 1) {
+                    throw new IllegalArgumentException("To close a savings account, an account holder may not have " +
+                            "any other open accounts.");
+                } else {
+                    savingsAccount.withdraw(savingsAccount.getBalance());
+                    this.activeStatus = ActiveStatus.CLOSED;
+                    return new Transaction("0", TransactionType.CLOSE_ACCOUNT_TRANSFER,
+                            new SavingsAccount("0"));
+                }
+
         }
-
-        // To close a savings account, all other accounts must already be closed
-        if (sourceAccount.getClass() == savingsAccount.getClass()) {
-            if (personalChecking.getActiveStatus() == ActiveStatus.OPEN
-                    && dbaCheckingList.size() > 1
-                    && iraRegular.getActiveStatus() == ActiveStatus.OPEN
-                    && iraRoth.getActiveStatus() == ActiveStatus.OPEN
-                    && iraRollover.getActiveStatus() == ActiveStatus.OPEN
-                    && cdAccountsList.size() > 1) {
-                throw new IllegalArgumentException("To close a savings account, an account holder may not have any " +
-                        "other open accounts.");
-            } else {
-                savingsAccount.withdraw(savingsAccount.getBalance());
-                this.activeStatus = ActiveStatus.CLOSED;
-                return new Transaction("0", TransactionType.CLOSE_ACCOUNT_TRANSFER,
-                        new SavingsAccount("0"));
-            }
-        }  else if (savingsAccount == null) throw new AccountNotFoundException();
-
         return null;
     }
+
+
+
+
+
+
+
+
+
 
 }

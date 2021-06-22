@@ -1,7 +1,6 @@
 package com.capstonegroup2.backend.controllers;
 
 import com.capstonegroup2.backend.dto.*;
-import com.capstonegroup2.backend.enums.TransactionType;
 import com.capstonegroup2.backend.exceptions.AccountHolderNotFoundException;
 import com.capstonegroup2.backend.exceptions.AccountLimitExceededException;
 import com.capstonegroup2.backend.exceptions.AccountNotFoundException;
@@ -9,8 +8,6 @@ import com.capstonegroup2.backend.exceptions.OfferingNotFoundException;
 import com.capstonegroup2.backend.models.*;
 import com.capstonegroup2.backend.services.CDOfferingService;
 import com.capstonegroup2.backend.services.LoggedInService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class LoggedInController {
-
-    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired LoggedInService loggedInService;
 
@@ -89,9 +84,9 @@ public class LoggedInController {
         return loggedInService.getPersonalChecking(accountHolder);
     }
 
-    // TODO TEST
+    // TODO FIX - currently deletes everything related to the account holder
     @DeleteMapping("/personalchecking")
-    public Transaction closePersonalChecking(@RequestHeader(name = "Authorization") String token)
+    public Transaction deletePersonalChecking(@RequestHeader(name = "Authorization") String token)
             throws AccountNotFoundException, AccountHolderNotFoundException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         return loggedInService.closePersonalChecking(accountHolder);
@@ -139,7 +134,7 @@ public class LoggedInController {
 
     // TODO TEST
     @DeleteMapping("/iraregular")
-    public Transaction deletedIraRegular(@RequestHeader(name = "Authorization") String token)
+    public Transaction deleteIraRegular(@RequestHeader(name = "Authorization") String token)
             throws AccountNotFoundException, AccountHolderNotFoundException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         return loggedInService.closeIraRegular(accountHolder);
@@ -211,26 +206,28 @@ public class LoggedInController {
     public Transaction postTransaction(@RequestHeader(name = "Authorization") String token,
                                        @RequestBody TransactionDTO transactionDTO) throws AccountNotFoundException {
 
-    // Constructing and Routing transaction object based on type
+        // Constructing and Routing transaction object based on type
+
         BankAccount targetAccount = loggedInService.getAccountByAccountNumber(transactionDTO.getTargetAccountNumber());
 
-        if (transactionDTO.getTransactionType() != TransactionType.TRANSFER) {
-            Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
-                    targetAccount);
-            if (transaction.getTransactionType() == TransactionType.DEPOSIT) {
-                return loggedInService.postDeposit(transaction);
-            } else if (transaction.getTransactionType() == TransactionType.WITHDRAWAL) {
-                return loggedInService.postWithdrawal(transaction);
-            }
+        switch (transactionDTO.getTransactionType()) {
+            case DEPOSIT:
+                Transaction depositTransaction = new Transaction(transactionDTO.getAmount(),
+                        transactionDTO.getTransactionType(), targetAccount);
+                return loggedInService.postDeposit(depositTransaction);
 
-        } else if (transactionDTO.getTransactionType() == TransactionType.TRANSFER) {
+            case WITHDRAWAL:
+                Transaction withdrawalTransaction = new Transaction(transactionDTO.getAmount(),
+                        transactionDTO.getTransactionType(), targetAccount);
+                return loggedInService.postWithdrawal(withdrawalTransaction);
 
-            BankAccount sourceAccount = loggedInService.getAccountByAccountNumber(
-                    transactionDTO.getSourceAccountNumber());
-            Transaction transaction = new Transaction(transactionDTO.getAmount(), transactionDTO.getTransactionType(),
-                    sourceAccount, targetAccount);
+            case TRANSFER:
+                BankAccount sourceAccount = loggedInService.getAccountByAccountNumber(
+                        transactionDTO.getSourceAccountNumber());
+                Transaction transaction = new Transaction(transactionDTO.getAmount(),
+                        transactionDTO.getTransactionType(), sourceAccount, targetAccount);
 
-            return loggedInService.postTransfer(transaction);
+                return loggedInService.postTransfer(transaction);
         }
         return null;
     }
@@ -239,7 +236,7 @@ public class LoggedInController {
     @GetMapping("/transactions/{accountNumber}")
     public List<Transaction> getAccountTransactions(@RequestHeader(name = "Authorization") String token,
                                                     @PathVariable long accountNumber)
-            throws AccountNotFoundException, AccountHolderNotFoundException {
+            throws AccountNotFoundException {
         AccountHolder accountHolder = loggedInService.getLoggedInAccountHolder(token);
         BankAccount bankAccount = loggedInService.getAccountByAccountNumber(accountNumber);
         return loggedInService.getAccountTransactions(bankAccount);

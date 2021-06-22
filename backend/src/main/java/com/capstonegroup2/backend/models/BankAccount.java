@@ -1,5 +1,6 @@
 package com.capstonegroup2.backend.models;
 
+import com.capstonegroup2.backend.enums.AccountType;
 import com.capstonegroup2.backend.enums.ActiveStatus;
 import com.capstonegroup2.backend.repositories.BankAccountRepository;
 import lombok.AllArgsConstructor;
@@ -33,18 +34,22 @@ public abstract class BankAccount {
     protected String openedOn;
 
     @Enumerated(EnumType.STRING)
+    protected AccountType accountType;
+
+    @Enumerated(EnumType.STRING)
     protected ActiveStatus activeStatus;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "targetAccount")
     protected List<Transaction> transactions = new ArrayList<>();
 
-    public BankAccount(String balance, String interestRate) {
+    public BankAccount(String balance, String interestRate, AccountType accountType) {
         this.balance = new BigDecimal(balance);
         this.interestRate = new BigDecimal(interestRate);
         this.activeStatus = ActiveStatus.OPEN;
         LocalDateTime date = LocalDateTime.now();
         this.openedOn = formatDate(date);
         this.accountNumber = generateAccountNumber();
+        this.accountType = accountType;
     }
 
     public String formatDate(LocalDateTime date) {
@@ -97,10 +102,6 @@ public abstract class BankAccount {
         } else {
             return (result).multiply(futureValue(balance, interestRate, years - 1));
         }
-    }
-
-    public String closeAccountResponse() {
-        return "Account closed, balance transferred to x account";
     }
 
     public boolean closeAccount(BankAccount account) {

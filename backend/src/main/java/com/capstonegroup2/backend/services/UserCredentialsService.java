@@ -14,15 +14,15 @@ public class UserCredentialsService {
     @Autowired
     UserCredentialsRepository userCredentialsRepository;
 
-    public List<UserCredentials> getAllUserDetails() {
+    public List<UserCredentials> getAllUserCredentials() {
         return userCredentialsRepository.findAll();
     }
 
-    public UserCredentials getAccountHoldersUserDetailsById(Long id) {
+    public UserCredentials getUserCredentialsById(Long id) {
         return userCredentialsRepository.findById(id).orElse(null);
     }
 
-    public UserCredentials addAccountHoldersUserDetails(LoginDTO loginDTO) {
+    public UserCredentials addUserCredentials(LoginDTO loginDTO) {
         UserCredentials userCredentials = new UserCredentials(loginDTO.getUsername(), loginDTO.getPassword());
         return userCredentialsRepository.save(userCredentials);
     }
